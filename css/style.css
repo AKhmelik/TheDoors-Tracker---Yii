@@ -1,0 +1,200 @@
+body {
+    background-color: rgba(177, 195, 255, 0);
+    margin: 0px;
+    overflow: scroll;
+}
+
+.topbar{
+    background: #000000;
+    max-width: 100%;
+    text-align: center;
+    box-shadow: -6px -12px 21px 23px #000000;;
+}
+
+.enter-field
+{
+    text-align: center;
+    max-width: 850px;
+    margin: 0 auto;
+}
+.moover
+{
+    width: 190px;
+    left: 0;
+    margin: auto;
+}
+.fll
+{
+    float: left;
+}
+
+.centred
+{
+    margin:0 auto;
+}
+
+/*
+Инпуты
+*/
+
+.worldside-size
+{
+    width: 40px!important;
+}
+.grads-size
+{
+    width: 50px!important;
+}
+
+.mins-size
+{
+    width: 100px!important;
+}
+
+.input-font-size
+{
+    font-size: 22px;
+}
+
+.input-font-text-size
+{
+    font-size: 20px;
+}
+
+.main-wrapper{
+    width: 850px;
+    margin:0 auto;
+    background: #FFFFFF;
+    box-shadow: 3px 10px 93px -8px #000000;
+}
+
+.map-size
+{
+    width: 850px!important;
+    height: 720px!important;
+}
+
+.yandex-image-size
+{
+
+}
+
+
+
+
+/*отступы*/
+.pb-10 {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.pl-10{
+    padding-left: 10px;
+    padding-bottom: 10px;
+}
+
+.spacer {
+    clear: both;
+    height: 0px;
+}
+
+.show-for-small{
+    display: none;
+}
+
+.border-class{
+    border: 1px solid red;
+}
+
+
+
+
+/*MEDIA SCREEN SPECIALS*/
+@media screen and (max-width: 850px) {
+.main-wrapper{
+    width: 650px;
+    margin:0 auto;
+    background: #FFFFFF;
+}
+
+.map-size
+{
+    width: 650px!important;
+    height: 450px!important;
+}
+}
+
+@media screen and (max-width: 650px) {
+    .main-wrapper{
+        width: 500px;
+        margin:0 auto;
+        background: #FFFFFF;
+    }
+
+    .map-size
+    {
+        width: 500px!important;
+        height: 400px!important;
+    }
+}
+
+
+@media screen and (max-width: 650px) {
+    .main-wrapper{
+        width: 500px;
+        margin:0 auto;
+        background: #FFFFFF;
+    }
+
+    .map-size
+    {
+        width: 500px!important;
+        height: 400px!important;
+    }
+}
+
+@media screen and (max-width: 1000px) {
+    .main-wrapper{
+        width: 320px;
+        margin:0 auto;
+        background: #FFFFFF;
+    }
+
+    .map-size
+    {
+        width: 320px!important;
+        height: 280px!important;
+    }
+
+    .navbar.navbar-fixed-top{
+        margin-bottom: 0px;
+    }
+
+    body{
+        padding: 0;
+    }
+
+    .row-fluid #map{
+        height: 600px!important;
+    }
+
+
+}
+@media screen and (max-width: 600px) {
+    .navbar.navbar-fixed-top{
+        display:none;
+    }
+}
+
+
+.row-fluid #map {
+    width: 100%;
+    height: 768px;
+    margin: 0;
+    padding: 0;
+}
+
+.main-wraper{
+    margin: 0 7px 0 7px;
+}
+
