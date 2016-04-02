@@ -231,7 +231,7 @@ class User extends CActiveRecord
 
             return array('hash' => null, 'is_reg' => 3, 'error_message'=>$errorMessage);
         } else {
-            return array('hash' => null, 'is_reg' => 2);
+            return array('hash' => null, 'is_reg' => 2, 'error_message'=>'');
         }
     }
 
@@ -252,7 +252,7 @@ class User extends CActiveRecord
                 $halogin->loginProviderIdentifier = $params['oauth'];
                 $halogin->loginProvider = $params['loginProviderIdentifier'];
                 $halogin->save();
-                return array('hash' => $this->generateApiHash(), 'is_reg' => 1);
+                return array('hash' => $this->generateApiHash(), 'is_reg' => 1, 'error_message'=>'');
             }
             $errorMessage='';
             foreach( $this->getErrors() as $error){
