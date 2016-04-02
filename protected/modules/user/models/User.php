@@ -22,6 +22,7 @@ class User extends CActiveRecord
 	 * @var integer $status
      * @var timestamp $create_at
      * @var timestamp $lastvisit_at
+     * @var string $api_hash
 	 */
 
 	/**
@@ -130,7 +131,7 @@ class User extends CActiveRecord
     {
         return CMap::mergeArray(Yii::app()->getModule('user')->defaultScope,array(
             'alias'=>'user',
-            'select' => 'user.id, user.username, user.email, user.create_at, user.lastvisit_at, user.superuser, user.status',
+            'select' => 'user.id, user.username, user.api_hash, user.email, user.create_at, user.lastvisit_at, user.superuser, user.status',
         ));
     }
 	
@@ -164,6 +165,7 @@ class User extends CActiveRecord
         $criteria=new CDbCriteria;
         
         $criteria->compare('id',$this->id);
+        $criteria->compare('api_hash',$this->api_hash);
         $criteria->compare('username',$this->username,true);
         $criteria->compare('password',$this->password);
         $criteria->compare('email',$this->email,true);
@@ -195,5 +197,95 @@ class User extends CActiveRecord
 
     public function setLastvisit($value) {
         $this->lastvisit_at=date('Y-m-d H:i:s',$value);
+    }
+
+    public function getHashByOauth($params)
+    {
+        Yii::import('application.modules.hybridauth.models.HaLogin');
+        $user = HaLogin::getUser($params['loginProviderIdentifier'], $params['oauth']);
+
+        if ($user) {
+            $hash = $this->getHash();
+            return array('hash' => $hash, 'is_reg' => 1);
+        } elseif (isset($params['username']) && isset($params['email'])) {
+            //reg by oauth
+            $user = new User();
+            $user->username = $params['username'];
+            $user->email = $params['email'];
+            $user->status = 1;
+            if ($user->save()) {
+                $profile = new Profile();
+                $profile->user_id = $user->id;
+                $profile->save();
+                $halogin = new HaLogin();
+                $halogin->userId = $user->id;
+                $halogin->loginProviderIdentifier = $params['oauth'];
+                $halogin->loginProvider = $params['loginProviderIdentifier'];
+                $halogin->save();
+                return array('hash' => $user->generateApiHash(), 'is_reg' => 1);
+            }
+            $errorMessage='';
+            foreach( $user->getErrors() as $error){
+                $errorMessage.=implode(', ', $error);
+            }
+
+            return array('hash' => null, 'is_reg' => 3, 'error_message'=>$errorMessage);
+        } else {
+            return array('hash' => null, 'is_reg' => 2);
+        }
+    }
+
+    public function getHashByUsername($params, $isNew=false){
+        Yii::import('application.modules.hybridauth.models.HaLogin');
+        //API registration
+        if($isNew){
+            $this->username = $params['username'];
+            $this->email = $params['email'];
+            $this->password = UserModule::encrypting($params['password']);
+            $this->status = 1;
+            if ($this->save()) {
+                $profile = new Profile();
+                $profile->user_id = $this->id;
+                $profile->save();
+                $halogin = new HaLogin();
+                $halogin->userId = $this->id;
+                $halogin->loginProviderIdentifier = $params['oauth'];
+                $halogin->loginProvider = $params['loginProviderIdentifier'];
+                $halogin->save();
+                return array('hash' => $this->generateApiHash(), 'is_reg' => 1);
+            }
+            $errorMessage='';
+            foreach( $this->getErrors() as $error){
+                $errorMessage.=implode(', ', $error);
+            }
+
+            return array('hash' => null, 'is_reg' => 3, 'error_message'=>$errorMessage);
+        }
+        else{
+            $modelLogin=new UserLogin;
+            $modelLogin->attributes=$params;
+            if($modelLogin->validate()){
+                $userLogin = Yii::app()->user;
+                $user = User::model()->findByPk($userLogin->getId());
+                return array('hash' => $user->getHash(), 'is_reg' => 1);
+            }
+            else{
+                $errorMessage='';
+                foreach( $modelLogin->getErrors() as $error){
+                    $errorMessage.=implode(', ', $error);
+                }
+                return array('hash' => null, 'is_reg' => 3, 'error_message'=>$errorMessage);
+            }
+        }
+    }
+
+    public function generateApiHash(){
+        $this->api_hash= md5($this->id+time());
+        $this->save(false);
+        return $this->api_hash;
+    }
+
+    public function getHash(){
+        return (empty($this->api_hash)) ? $this->generateApiHash() : $this->api_hash;
     }
 }
