@@ -63,7 +63,7 @@ class ApiController extends Controller
     public function actionLogin(){
 
 
-        //$this->_checkAuth();
+        $this->_checkAuth();
         $users = new User();
         $this->_sendResponse(200, $this->_getObjectEncoded($_GET['model'], $users->getHashByUsername($_POST)) );
         exit;
