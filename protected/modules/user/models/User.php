@@ -213,6 +213,9 @@ class User extends CActiveRecord
             $user->username = $params['username'];
             $user->email = $params['email'];
             $user->status = 1;
+            if($this->isUserExistsValidation()){
+                return array('hash' => "GUEST", 'is_reg' => 3, 'error_message'=>'current user is already exists!');
+            }
             if ($user->save()) {
                 $profile = new Profile();
                 $profile->user_id = $user->id;
@@ -243,13 +246,8 @@ class User extends CActiveRecord
             $this->email = $params['email'];
             $this->password = UserModule::encrypting($params['password']);
             $this->status = 1;
-            if(!$this->validate()){
-                $errorMessage='';
-                foreach( $this->getErrors() as $error){
-                    $errorMessage.=implode(', ', $error);
-                }
-
-                return array('hash' => "GUEST", 'is_reg' => 3, 'error_message'=>$errorMessage);
+            if($this->isUserExistsValidation()){
+                return array('hash' => "GUEST", 'is_reg' => 3, 'error_message'=>'current user is already exists!');
             }
 
             if ($this->save()) {
@@ -291,5 +289,18 @@ class User extends CActiveRecord
 
     public function getHash(){
         return (empty($this->api_hash)) ? $this->generateApiHash() : $this->api_hash;
+    }
+
+    public function isUserExistsValidation(){
+
+        $criteria = new CDbCriteria;
+        $criteria->condition = 'username = :username OR email = :email';
+        $criteria->params =  array(
+            ':username' => $this->username,
+            ':email' => $this->email,
+        );
+
+        $models = self::model()->findAll($criteria);
+        return $models;
     }
 }
