@@ -243,6 +243,15 @@ class User extends CActiveRecord
             $this->email = $params['email'];
             $this->password = UserModule::encrypting($params['password']);
             $this->status = 1;
+            if(!$this->validate()){
+                $errorMessage='';
+                foreach( $this->getErrors() as $error){
+                    $errorMessage.=implode(', ', $error);
+                }
+
+                return array('hash' => "GUEST", 'is_reg' => 3, 'error_message'=>$errorMessage);
+            }
+
             if ($this->save()) {
                 $profile = new Profile();
                 $profile->user_id = $this->id;
@@ -254,12 +263,7 @@ class User extends CActiveRecord
                 $halogin->save();
                 return array('hash' => $this->generateApiHash(), 'is_reg' => 1, 'error_message'=>'');
             }
-            $errorMessage='';
-            foreach( $this->getErrors() as $error){
-                $errorMessage.=implode(', ', $error);
-            }
 
-            return array('hash' => "GUEST", 'is_reg' => 3, 'error_message'=>$errorMessage);
         }
         else{
             $modelLogin=new UserLogin;
