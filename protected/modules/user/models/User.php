@@ -229,9 +229,9 @@ class User extends CActiveRecord
                 $errorMessage.=implode(', ', $error);
             }
 
-            return array('hash' => null, 'is_reg' => 3, 'error_message'=>$errorMessage);
+            return array('hash' => "", 'is_reg' => 3, 'error_message'=>$errorMessage);
         } else {
-            return array('hash' => null, 'is_reg' => 2, 'error_message'=>'');
+            return array('hash' => "", 'is_reg' => 2, 'error_message'=>'');
         }
     }
 
@@ -259,7 +259,7 @@ class User extends CActiveRecord
                 $errorMessage.=implode(', ', $error);
             }
 
-            return array('hash' => null, 'is_reg' => 3, 'error_message'=>$errorMessage);
+            return array('hash' => "", 'is_reg' => 3, 'error_message'=>$errorMessage);
         }
         else{
             $modelLogin=new UserLogin;
@@ -274,7 +274,7 @@ class User extends CActiveRecord
                 foreach( $modelLogin->getErrors() as $error){
                     $errorMessage.=implode(', ', $error);
                 }
-                return array('hash' => null, 'is_reg' => 3, 'error_message'=>$errorMessage);
+                return array('hash' => "", 'is_reg' => 3, 'error_message'=>$errorMessage);
             }
         }
     }
