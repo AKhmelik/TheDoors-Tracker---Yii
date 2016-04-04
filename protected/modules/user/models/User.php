@@ -205,7 +205,7 @@ class User extends CActiveRecord
         $user = HaLogin::getUser($params['loginProviderIdentifier'], $params['oauth']);
 
         if ($user) {
-            $hash = $this->getHash();
+            $hash = $user->getHash();
             return array('hash' => $hash, 'is_reg' => 1);
         } elseif (isset($params['username']) && isset($params['email'])) {
             //reg by oauth
