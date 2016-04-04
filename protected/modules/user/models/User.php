@@ -213,7 +213,7 @@ class User extends CActiveRecord
             $user->username = $params['username'];
             $user->email = $params['email'];
             $user->status = 1;
-            if($this->isUserExistsValidation()){
+            if($user->isUserExistsValidation()){
                 return array('hash' => "GUEST", 'is_reg' => 3, 'error_message'=>'current user is already exists!');
             }
             if ($user->save()) {
