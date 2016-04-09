@@ -46,7 +46,7 @@ class ApiController extends Controller
                 exit;
                 break;
             case 'user':
-                if(isset($params['username']) && isset($params['pass']) && isset($params['email'])){
+                if(isset($params['username']) && isset($params['password']) && isset($params['email'])){
                     $users = new User();
                     $this->_sendResponse(200, $this->_getObjectEncoded($_GET['model'], $users->getHashByUsername($params,true)) );
                     exit;
