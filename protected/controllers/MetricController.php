@@ -3,192 +3,127 @@
 class MetricController extends Controller
 {
 
+    public function filters()
+    {
+        return array( 'accessControl' ); // perform access control for CRUD operations
+    }
+
+    public function accessRules()
+    {
+        return array(
+            array('allow', // allow authenticated users to access all actions
+                'users'=>array('@'),
+            ),
+            array('deny'),
+        );
+    }
+
     public function actionIndex()
     {
 
+        $userId = Yii::app()->user->getId();
+        $user = User::model()->findByPk($userId);
+        $team = $user->getTeam();
 
         if(Yii::app()->request->isPostRequest)
         {
-            $geo=GeoOptions::getParm('metric_core');
-            $geo->parameter=Yii::app()->request->getParam('cores', 0);
-            $geo->update();
-            GeoUnique::model()->updateAll(array('main'=>0));
-            GeoUnique::model()->updateAll(array('main'=>1),'user_id="'.Yii::app()->request->getParam('mainPoint', 0).'"');
+            $codes = Yii::app()->request->getParam('cores', 0);
+            $mainUserId = Yii::app()->request->getParam('mainPoint', 0);
 
-        }
-        //$this->layout = false;
-        $criteria = new CDbCriteria;
-        $criteria->group = 'user_id';
-        $criteria->order = 'time DESC';
+            if($team->is_private == TblTeam::TYPE_PRIVATE){
+                $team->end_point_name =$codes;
+                $team->save(false);
 
-        $geolocal = GeoUnique::model()->findAll($criteria);
-        $geoPoints=GeoPoints::model()->findAll();
-        $this->render('index', array('model' => $geolocal, 'geoPoints'=>$geoPoints));
+            }
+            else{
+                $team->end_point_name =$codes;
+                if($team->getUserIdArray()){
+                    if(in_array($mainUserId, $team->getUserIdArray())){
+                        $team->user_host_id =$mainUserId;
+                    }
+                }
+                $team->save(false);
+            }
+
+}
+
+        $geoPoints=GeoPoints::model()->findAllByAttributes(array('team_id'=>$team->id));
+        $this->render('index', array('model' => array(), 'geoPoints'=>$geoPoints));
 
     }
 
+    /**
+     * updated geo coordinates of mobile API
+     *
+     * returned end point coordinate data and team points
+     *
+     * @throws CDbException
+     * @throws CException
+     *
+     */
     public function actionGetData()
     {
 
-        //set data if geoCore EXISTS
+
         {
             if(Yii::app()->request->getParam('mid') && Yii::app()->request->getParam('latitude') && Yii::app()->request->getParam('longitude')){
-                $geoLog = new GeoLog();
-                $geoLog->longitude =Yii::app()->request->getParam('longitude');
-                $geoLog->latitude = Yii::app()->request->getParam('latitude');
-                $geoLog->user_id =Yii::app()->request->getParam('mid');
-                $geoLog->time = time();
-                $geoLog->insert();
+               $hash = null;
+                if(Yii::app()->request->getParam('hash')){
+                    Yii::import('application.modules.user.models.User');
+                    $user = User::getUserByHash(Yii::app()->request->getParam('hash'));
+                    if($user){
 
-                $geoUser = GeoUnique::model()->findAll('user_id="' . Yii::app()->request->getParam('mid') . '"');
-                if (isset($geoUser)) {
-                    foreach ($geoUser as $userData) {
-                        $userData->delete();
+                        $geoLog = new GeoLog();
+                        $geoLog->longitude =Yii::app()->request->getParam('longitude');
+                        $geoLog->latitude = Yii::app()->request->getParam('latitude');
+                        $geoLog->user_id =Yii::app()->request->getParam('mid');
+                        $geoLog->user_api_id =$user->id;
+                        $geoLog->time = time();
+                        $geoLog->insert();
+
+                        GeoUnique::model()->deleteAllByAttributes(array('user_api_id'=>$user->id));
+
+                        $geoUser = new GeoUnique();
+                        $geoUser->longitude = Yii::app()->request->getParam('longitude');
+                        $geoUser->latitude = Yii::app()->request->getParam('latitude');
+                        $geoUser->user_id = Yii::app()->request->getParam('mid');
+                        $geoUser->user_api_id = $user->id;
+                        $geoUser->time = time();
+                        $geoUser->insert();
+
+                        $data = $user->getPointsData();
+
+                        echo json_encode($data);
+                       exit;
                     }
                 }
-                $geoUser = new GeoUnique();
-                $geoUser->longitude = Yii::app()->request->getParam('longitude');
-                $geoUser->latitude = Yii::app()->request->getParam('latitude');
-                $geoUser->user_id = Yii::app()->request->getParam('mid');
-                $geoUser->time = time();
-                $geoUser->insert();
             }
         }
 
 
-
-        $data = array();
-
-
-            $geo=GeoOptions::getParm('metric_core');
-            if($geo){
-                $data['request'] = $geo->parameter;
-            }
-
-        //get endpoint core
-        {
-            $data['endPointCoreLat'] = 0;
-            $data['endPointCoreLng'] = 0;
-
-            $geo=GeoOptions::getParm('endPointCoreLat');
-            if($geo){
-                $data['endPointCoreLat'] = $geo->parameter;
-            }
-
-            $geo=GeoOptions::getParm('endPointCoreLng');
-            if($geo){
-                $data['endPointCoreLng'] = $geo->parameter;
-            }
-        }
-
-        //prepare markers
-       $currentMid = Yii::app()->request->getParam('mid');
-        if($currentMid){
-            $data['point'] = GeoUnique::getTeamPoints($currentMid);
-
-        }
-
-        $result[]=$data;
-        echo json_encode($result);
-
-    }
-
-
-    public function actionAjaxbackend()
-    {
-        if (Yii::app()->request->isAjaxRequest) {
-
-
-            $h_ua = str_replace('windows ce', '', strtolower($_SERVER['HTTP_USER_AGENT']));
-            if (
-                !$h_ua ||
-                strpos($h_ua, 'windows') !== false
-            ) {
-                // it's computer - not show counter
-            } else {
-
-
-                $geoLog = new GeoLog();
-                $geoLog->longitude = $_POST['longitude'];
-                $geoLog->latitude = $_POST['latitude'];
-                $geoLog->user_id = $_POST['user_id'];
-                $geoLog->time = time();
-                $geoLog->insert();
-
-                $geoUser = GeoUnique::model()->findAll('user_id="' . $_POST['user_id'] . '"');
-                if (isset($geoUser)) {
-                    foreach ($geoUser as $userData) {
-                        $userData->delete();
-                    }
-                }
-                $geoUser = new GeoUnique();
-                $geoUser->longitude = $_POST['longitude'];
-                $geoUser->latitude = $_POST['latitude'];
-                $geoUser->user_id = $_POST['user_id'];
-                $geoUser->time = time();
-                $geoUser->insert();
-            }
-        }
+          echo json_encode(array());
 
     }
 
 
 
-
-    public function actionAjaxb()
-    {
-
-
-
-            $h_ua = str_replace('windows ce', '', strtolower($_SERVER['HTTP_USER_AGENT']));
-            if (
-                !$h_ua ||
-                strpos($h_ua, 'windows') !== false
-            ) {
-                // it's computer - not show counter
-            } else {
-
-
-                $geoLog = new GeoLog();
-                $geoLog->longitude = $_POST['lon'];
-                $geoLog->latitude = $_POST['lat'];
-                $geoLog->user_id = $_POST['imei'];
-                $geoLog->time = time();
-                $geoLog->insert();
-
-                $geoUser = GeoUnique::model()->findAll('user_id="' . $_POST['imei'] . '"');
-                if (isset($geoUser)) {
-                    foreach ($geoUser as $userData) {
-                        $userData->delete();
-                    }
-                }
-                $geoUser = new GeoUnique();
-                $geoUser->longitude = $_POST['lon'];
-                $geoUser->latitude = $_POST['lat'];
-                $geoUser->user_id = $_POST['trackid'];
-                $geoUser->time = time();
-                $geoUser->insert();
-            }
-
-
-    }
-
-
+    /**
+     * Displays Lead Point
+     *
+     */
 
     public function actionGetCores()
     {
         if (Yii::app()->request->isAjaxRequest) {
-            $geolocal = GeoUnique::model()->find('main = 1');
-            if(!$geolocal){
-                $criteria = new CDbCriteria;
-                $criteria->group = 'user_id';
-                $criteria->order = 'time DESC';
-                $geolocal = GeoUnique::model()->find($criteria);
-            }
+
+            $userId = Yii::app()->user->getId();
+            $user = User::model()->findByPk($userId);
+            $team = $user->getTeam();
+
+            $geolocal =GeoUnique::getByUserId($team->user_host_id);
 
             $geos['start']=array($geolocal->latitude,$geolocal->longitude );
-            $geos['end']='';
-            $geos['end']=(preg_match('/[а-я]/', GeoOptions::getParm('metric_core')->parameter))?'Харьков '. GeoOptions::getParm('metric_core')->parameter:GeoOptions::getParm('metric_core')->parameter;
+            $geos['end']=$team->end_point_name;
 
             $geos['icocolor']=$this->getColor($geolocal->time);
             $geos['corecolor']=$this->getCoreColor($geolocal->time);
@@ -197,30 +132,32 @@ class MetricController extends Controller
 
 
             echo json_encode($geos, 1);
-//            echo $geolocal->latitude.', '.$geolocal->longitude ;
-//            if ($geolocal) {
-//                foreach ($geolocal as $geo) {
-//                    $geosp[$geo->user_id]['latitude'] = $geo->latitude;
-//                    $geosp[$geo->user_id]['longitude'] = $geo->longitude;
-//                }
-//            }
 
         }
-//        echo json_encode($geosp, 1);
     }
 
+    /**
+     * returns poins from team (not include lead)
+     */
     public function actionGetAnotherPoints(){
         if (Yii::app()->request->isAjaxRequest) {
-            $geos = array();
-            $geolocals = GeoUnique::model()->findAll('main = 0');
-            foreach ($geolocals as $geoLocal) {
-                $geos[$geoLocal->user_id]['updated'] = 'Updated ' . (time() - $geoLocal->time) . ' secs ago!';
-                $geos[$geoLocal->user_id]['cores'] = array($geoLocal->latitude, $geoLocal->longitude);
-                $geos[$geoLocal->user_id]['title'] = $geoLocal->user_id;
-                $geos[$geoLocal->user_id]['icocolor']=$this->getColor($geoLocal->time);
-                $geos[$geoLocal->user_id]['corecolor']=$this->getCoreColor($geoLocal->time);
-            }
 
+            $geos = array();
+            $userId = Yii::app()->user->getId();
+            $user = User::model()->findByPk($userId);
+            $team = $user->getTeam();
+            $usersIds = $team->getUserIdArray();
+
+            foreach ($usersIds as $userId) {
+                if($team->user_host_id !=$userId){
+                    $geoLocal = GeoUnique::getByUserId($userId);
+                    $geos[$geoLocal->user_id]['updated'] = 'Updated ' . (time() - $geoLocal->time) . ' secs ago!';
+                    $geos[$geoLocal->user_id]['cores'] = array($geoLocal->latitude, $geoLocal->longitude);
+                    $geos[$geoLocal->user_id]['title'] = User::getUserIdentityById($userId);
+                    $geos[$geoLocal->user_id]['icocolor']=$this->getColor($geoLocal->time);
+                    $geos[$geoLocal->user_id]['corecolor']=$this->getCoreColor($geoLocal->time);
+                }
+            }
             echo json_encode($geos, 1);
         }
     }
@@ -255,31 +192,18 @@ class MetricController extends Controller
         }
     }
 
+
     public function actionSetendpoint(){
         if (Yii::app()->request->isAjaxRequest) {
             $endPointCoreLat = Yii::app()->request->getParam('endPointCoreLat');
             $endPointCoreLng = Yii::app()->request->getParam('endPointCoreLng');
 
-            $geo=GeoOptions::getParm('endPointCoreLat');
-            if(!$geo){
-                $geo = new GeoOptions;
-                $geo->data="endPointCoreLat";
-                $geo->parameter=$endPointCoreLat;
-                $geo->insert(false);
-            }
-            $geo->parameter=$endPointCoreLat;
-            $geo->save(false);
-
-            $geo=GeoOptions::getParm('endPointCoreLng');
-            if(!$geo){
-                $geo = new GeoOptions;
-                $geo->data="endPointCoreLng";
-                $geo->parameter=$endPointCoreLng;
-                $geo->insert(false);
-            }
-            $geo->parameter=$endPointCoreLng;
-            $geo->save(false);
-
+            $userId = Yii::app()->user->getId();
+            $user = User::model()->findByPk($userId);
+            $team = $user->getTeam();
+            $team->end_point_lat = $endPointCoreLat;
+            $team->end_point_lng = $endPointCoreLng;
+            $team->save(false);
         }
     }
 
@@ -307,6 +231,10 @@ class MetricController extends Controller
 
     public function actionAddMarker()
     {
+        $userId = Yii::app()->user->getId();
+        $user = User::model()->findByPk($userId);
+        $team = $user->getTeam();
+
         $isNew = false;
         if (Yii::app()->request->getParam('markerLat') && Yii::app()->request->getParam('markerLng')) {
             $isDeleted = Yii::app()->request->getParam('isDeleted');
@@ -321,6 +249,7 @@ class MetricController extends Controller
             $geoPoint->display = (Yii::app()->request->getParam('markerType') && Yii::app()->request->getParam('markerType') == 1) ? 1 : 0;
             $geoPoint->house = Yii::app()->request->getParam('markerNumb');
             $geoPoint->comments = Yii::app()->request->getParam('markerName');
+            $geoPoint->team_id = $team->id;
             if($isDeleted == "true"){
                 $geoPoint->delete();
             }

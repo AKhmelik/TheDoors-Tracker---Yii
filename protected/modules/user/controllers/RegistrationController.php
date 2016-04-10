@@ -47,6 +47,8 @@ class RegistrationController extends Controller
 						$model->status=((Yii::app()->controller->module->activeAfterRegister)?User::STATUS_ACTIVE:User::STATUS_NOACTIVE);
 						
 						if ($model->save()) {
+
+                            TblTeamUsers::addUserToTeam($model->id);
 							$profile->user_id=$model->id;
 							$profile->save();
 							if (Yii::app()->controller->module->sendActivationMail) {

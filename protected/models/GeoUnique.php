@@ -21,15 +21,22 @@ class GeoUnique extends CActiveRecord
 	}
 
     public static function getSelectPoint(){
-        $html= array();
-          $uniquePoints =   GeoUnique::model()->findAll();
-        foreach ($uniquePoints as $point) {
-            $selected= '';
-            if($point->main==1){
-                $selected='selected="selected"';
+        $html = '';
+        $userId = Yii::app()->user->getId();
+        $user = User::model()->findByPk($userId);
+        $team = $user->getTeam();
+        $userArray = $team->getUserIdArray();
+        if($userArray){
+            foreach ($userArray as $userId) {
+                $selected= '';
+                if($userId == $team->user_host_id){
+                    $selected='selected="selected"';
+                }
+
+                $html.='<option '.$selected.'value="'.$userId.'">'.User::getUserIdentityById($userId).'</option>';
             }
-            $html.='<option '.$selected.'value="'.$point->user_id.'">'.$point->user_id.'</option>';
         }
+
         return $html;
     }
 
@@ -116,24 +123,30 @@ class GeoUnique extends CActiveRecord
 		return parent::model($className);
 	}
 
-    public static function getTeamPoints($currentMid){
+    public static function getTeamPoints($userIdArray, $excludeId =0){
+
 
         $arrayPoint = array();
-        $criteria = new CDbCriteria;
-        $criteria->condition = "user_id !=:user_id and time > ".strtotime('-60 minutes', time());
-        $criteria->params = array(':user_id' => $currentMid);
+        if($userIdArray){
+            $criteria = new CDbCriteria;
+            $criteria->condition = "user_api_id !=:user_api_id and time > ".strtotime('-60 minutes', time());
+            $criteria->params = array(':user_api_id' => $excludeId);
+            $criteria->addInCondition('user_api_id', $userIdArray);
+            $points = self::model()->findAll($criteria);
 
-        $points = self::model()->findAll($criteria);
-
-        foreach ($points as $key => $point) {
-            /**
-             * @var $point GeoUnique
-             */
-            $arrayPoint[$key]['latitude']= $point->latitude;
-            $arrayPoint[$key]['longitude']= $point->longitude;
-            $arrayPoint[$key]['id']= $point->user_id;
+            foreach ($points as $key => $point) {
+                /**
+                 * @var $point GeoUnique
+                 */
+                $arrayPoint[$key]['latitude']= $point->latitude;
+                $arrayPoint[$key]['longitude']= $point->longitude;
+                $arrayPoint[$key]['id']=  User::getUserIdentityById($point->user_api_id);
+            }
         }
-
         return $arrayPoint;
+    }
+
+    public static function getByUserId($userId){
+        return self::model()->findByAttributes(array('user_api_id'=>$userId));
     }
 }

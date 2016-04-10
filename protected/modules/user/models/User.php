@@ -81,6 +81,9 @@ class User extends CActiveRecord
         $relations = Yii::app()->getModule('user')->relations;
         if (!isset($relations['profile']))
             $relations['profile'] = array(self::HAS_ONE, 'Profile', 'user_id');
+         $relations['teams'] =array(self::HAS_MANY, 'Team', 'owner_id');
+        $relations['tblTeams'] =array(self::MANY_MANY, 'Team', '{{team_users}}(user_id, team_id)');
+
         return $relations;
 	}
 
@@ -217,6 +220,7 @@ class User extends CActiveRecord
                 return array('hash' => "GUEST", 'is_reg' => 3, 'error_message'=>'current user is already exists!');
             }
             if ($user->save()) {
+                TblTeamUsers::addUserToTeam($user->id);
                 $profile = new Profile();
                 $profile->user_id = $user->id;
                 $profile->save();
@@ -251,6 +255,7 @@ class User extends CActiveRecord
             }
 
             if ($this->save()) {
+                TblTeamUsers::addUserToTeam($this->id);
                 $profile = new Profile();
                 $profile->user_id = $this->id;
                 $profile->save();
@@ -303,4 +308,60 @@ class User extends CActiveRecord
         $models = self::model()->findAll($criteria);
         return $models;
     }
+
+    public static function getUserByHash($hash){
+        return self::model()->findByAttributes(array('api_hash'=>$hash));
+    }
+
+    public function getPrivateTeam(){
+       $team = TblTeam::model()->findByAttributes(array('is_private'=>TblTeam::TYPE_PRIVATE, 'owner_id'=>$this->id));
+       if($team){
+           return $team;
+       }
+        $team = new TblTeam();
+        $team->owner_id = $this->id;
+        $team->is_private = TblTeam::TYPE_PRIVATE;
+        $team->user_host_id= $this->id;
+        $team->save();
+        return $team;
+    }
+
+    public function getPublicTeam(){
+        $teamUser = TblTeamUsers::model()->findByAttributes(array('user_id'=>$this->id, 'status'=>TblTeamUsers::STATUS_IN_TEAM));
+        if($teamUser){
+            return TblTeam::model()->findByPk($teamUser->team_id);
+        }
+        return null;
+    }
+
+    public function getTeam(){
+       $team = $this->getPublicTeam();
+       if(!$team){
+           $team = $this->getPrivateTeam();
+       }
+      return $team;
+    }
+
+
+    public function getPointsData(){
+
+        $team = $this->getTeam();
+        $data = array();
+        $data['point'] = GeoUnique::getTeamPoints($team->getUserIdArray(), $this->id);
+
+        $data['request'] = $team->end_point_name;
+        $data['endPointCoreLat'] = $team->end_point_lat;
+        $data['endPointCoreLng'] = $team->end_point_lng;
+        return $data;
+
+    }
+
+    public static function getUserIdentityById($id){
+        $user = self::model()->findByPk($id);
+        if($user->profile->first_name){
+            return $user->profile->first_name ." ".$user->profile->last_name ;
+        }
+        return $user->username;
+    }
+
 }

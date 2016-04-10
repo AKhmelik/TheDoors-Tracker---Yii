@@ -69,13 +69,14 @@ class DefaultController extends Controller {
 
 					if ($user->validate() && $user->save()) {
 						if ($this->module->withYiiUser == true) {
+                            TblTeamUsers::addUserToTeam($user->id);
 							$profile = new Profile();
 							$profile->first_name='firstname';
 							$profile->last_name='lastname';
 							$profile->user_id=$user->id;
 							$profile->save();
+
 						}
-						
 						$identity->id = $user->id;
 						$identity->username = $user->username;
 						$this->_linkProvider($identity);

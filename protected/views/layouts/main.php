@@ -25,13 +25,18 @@
 
 
     <?php
-
+    $userId = Yii::app()->user->getId();
+    $endPointName = '';
+    if($userId){
+        $user = User::model()->findByPk($userId);
+        $team = $user->getTeam();
+        $endPointName = $team->end_point_name;
+    }
     $customForm = (Yii::app()->controller->id == 'metric') ? '
                               <form class="navbar-search pull-left" method="post">
-                                  <input type="text" name="cores" id="search-query-main" class="search-query" value="' . GeoOptions::getParm('metric_core')->parameter . '" placeholder="Aдрес / Координаты">
+                                  <input type="text" name="cores" id="search-query-main" class="search-query" value="' . $endPointName . '" placeholder="Aдрес / Координаты">
                                   <select  name="mainPoint">'.GeoUnique::getSelectPoint().'</select>
                                   <input class="btn" type="submit" name="sub" value="Построить маршрут">
-                                   <input class="btn" type="submit" name="sub" value="Удалить">
                               </form>' : '';
 
     echo CHtml::openTag('div', array('class' => 'bs-navbar-top-example'));
