@@ -14,6 +14,10 @@ class MetricController extends Controller
             array('allow', // allow authenticated users to access all actions
                 'users'=>array('@'),
             ),
+            array('allow',  // allow all users to perform 'list' and 'show' actions
+                'actions'=>array('getdata'),
+                'users'=>array('*'),
+            ),
             array('deny'),
         );
     }
