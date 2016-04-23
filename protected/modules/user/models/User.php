@@ -82,7 +82,7 @@ class User extends CActiveRecord
         if (!isset($relations['profile']))
             $relations['profile'] = array(self::HAS_ONE, 'Profile', 'user_id');
          $relations['teams'] =array(self::HAS_MANY, 'Team', 'owner_id');
-        $relations['tblTeams'] =array(self::MANY_MANY, 'Team', '{{team_users}}(user_id, team_id)');
+        $relations['Teams'] =array(self::MANY_MANY, 'Team', '{{team_users}}(user_id, team_id)');
 
         return $relations;
 	}
@@ -220,7 +220,7 @@ class User extends CActiveRecord
                 return array('hash' => "GUEST", 'is_reg' => 3, 'error_message'=>'current user is already exists!');
             }
             if ($user->save()) {
-                TblTeamUsers::addUserToTeam($user->id);
+                TeamUsers::addUserToTeam($user->id);
                 $profile = new Profile();
                 $profile->user_id = $user->id;
                 $profile->save();
@@ -255,7 +255,7 @@ class User extends CActiveRecord
             }
 
             if ($this->save()) {
-                TblTeamUsers::addUserToTeam($this->id);
+                TeamUsers::addUserToTeam($this->id);
                 $profile = new Profile();
                 $profile->user_id = $this->id;
                 $profile->save();
@@ -314,22 +314,22 @@ class User extends CActiveRecord
     }
 
     public function getPrivateTeam(){
-       $team = TblTeam::model()->findByAttributes(array('is_private'=>TblTeam::TYPE_PRIVATE, 'owner_id'=>$this->id));
+       $team = Team::model()->findByAttributes(array('is_private'=>Team::TYPE_PRIVATE, 'owner_id'=>$this->id));
        if($team){
            return $team;
        }
-        $team = new TblTeam();
+        $team = new Team();
         $team->owner_id = $this->id;
-        $team->is_private = TblTeam::TYPE_PRIVATE;
+        $team->is_private = Team::TYPE_PRIVATE;
         $team->user_host_id= $this->id;
         $team->save();
         return $team;
     }
 
     public function getPublicTeam(){
-        $teamUser = TblTeamUsers::model()->findByAttributes(array('user_id'=>$this->id, 'status'=>TblTeamUsers::STATUS_IN_TEAM));
+        $teamUser = TeamUsers::model()->findByAttributes(array('user_id'=>$this->id, 'status'=>TeamUsers::STATUS_IN_TEAM));
         if($teamUser){
-            return TblTeam::model()->findByPk($teamUser->team_id);
+            return Team::model()->findByPk($teamUser->team_id);
         }
         return null;
     }

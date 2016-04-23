@@ -16,7 +16,7 @@
  * @property Users $owner
  * @property Users[] $tblUsers
  */
-class TblTeam extends CActiveRecord
+class Team extends CActiveRecord
 {
 
     const TYPE_PRIVATE = 1;
@@ -38,6 +38,7 @@ class TblTeam extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
+            array('name','required'),
 			array('owner_id', 'numerical', 'integerOnly'=>true),
 			array('end_point_lat, end_point_lng', 'numerical'),
 			array('is_private', 'length', 'max'=>1),
@@ -112,7 +113,7 @@ class TblTeam extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return TblTeam the static model class
+	 * @return Team the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
@@ -121,7 +122,7 @@ class TblTeam extends CActiveRecord
 
     public function getUserIdArray(){
 
-        $users = TblTeamUsers::model()->findAllByAttributes(array('team_id'=>$this->id, 'status'=>TblTeamUsers::STATUS_IN_TEAM));
+        $users = TeamUsers::model()->findAllByAttributes(array('team_id'=>$this->id, 'status'=>TeamUsers::STATUS_IN_TEAM));
         $userIds = null;
         if($users && !empty($users)){
             foreach($users as $teamUser){
@@ -129,5 +130,11 @@ class TblTeam extends CActiveRecord
             }
         }
         return $userIds;
+    }
+
+    public function getTeam(){
+        $userId = Yii::app()->user->getId();
+        $user = User::model()->findByPk($userId);
+        return $user->getTeam();
     }
 }

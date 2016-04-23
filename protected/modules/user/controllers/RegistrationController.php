@@ -48,7 +48,7 @@ class RegistrationController extends Controller
 						
 						if ($model->save()) {
 
-                            TblTeamUsers::addUserToTeam($model->id);
+                            TeamUsers::addUserToTeam($model->id);
 							$profile->user_id=$model->id;
 							$profile->save();
 							if (Yii::app()->controller->module->sendActivationMail) {

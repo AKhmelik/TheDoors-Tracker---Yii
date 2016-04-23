@@ -32,6 +32,22 @@
         $team = $user->getTeam();
         $endPointName = $team->end_point_name;
     }
+
+    $this->widget('bootstrap.widgets.TbAlert', array(
+        'fade' => true,
+        'closeText' => '&times;', // false equals no close link
+        'events' => array(),
+        'htmlOptions' => array(),
+        'userComponentId' => 'user',
+        'alerts' => array( // configurations per alert type
+            // success, info, warning, error or danger
+            'success' => array('closeText' => '&times;'),
+            'info', // you don't need to specify full config
+            'warning' => array('closeText' => false),
+            'error' => array('closeText' => '&times;')
+        ),
+    ));
+
     $customForm = (Yii::app()->controller->id == 'metric') ? '
                               <form class="navbar-search pull-left" method="post">
                                   <input type="text" name="cores" id="search-query-main" class="search-query" value="' . $endPointName . '" placeholder="Aдрес / Координаты">
@@ -58,6 +74,7 @@
 //                    ),
                     array('label' => 'Home', 'url' => array('/metric/index')),
                     array('label'=>'Generaror', 'url'=>array('/form/create')),
+                    array('label'=>'Team', 'url'=>array('/team/index')),
 
                     array('url'=>Yii::app()->getModule('user')->loginUrl, 'label'=>Yii::app()->getModule('user')->t("Login"), 'visible'=>Yii::app()->user->isGuest),
                     array('url'=>Yii::app()->getModule('user')->registrationUrl, 'label'=>Yii::app()->getModule('user')->t("Register"), 'visible'=>Yii::app()->user->isGuest),

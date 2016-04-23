@@ -8,7 +8,7 @@
  * @property integer $user_id
  * @property string $status
  */
-class TblTeamUsers extends CActiveRecord
+class TeamUsers extends CActiveRecord
 {
     const STATUS_INVITED = 0;
     const STATUS_IN_TEAM = 1;
@@ -45,6 +45,8 @@ class TblTeamUsers extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+            'User'    => array(self::BELONGS_TO, 'User',  'user_id'),
+            'Team'    => array(self::BELONGS_TO, 'Team',   'team_id'),
 		);
 	}
 
@@ -91,7 +93,7 @@ class TblTeamUsers extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return TblTeamUsers the static model class
+	 * @return TeamUsers the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
@@ -99,7 +101,7 @@ class TblTeamUsers extends CActiveRecord
 	}
 
     public static function addUserToTeam($userId){
-        $teamUser = new TblTeamUsers();
+        $teamUser = new TeamUsers();
         $teamUser->team_id =1;
         $teamUser->user_id =$userId;
         $teamUser->status = self::STATUS_IN_TEAM;

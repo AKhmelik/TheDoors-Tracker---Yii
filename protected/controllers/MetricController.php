@@ -25,16 +25,14 @@ class MetricController extends Controller
     public function actionIndex()
     {
 
-        $userId = Yii::app()->user->getId();
-        $user = User::model()->findByPk($userId);
-        $team = $user->getTeam();
+       $team = Team::model()->getTeam();
 
         if(Yii::app()->request->isPostRequest)
         {
             $codes = Yii::app()->request->getParam('cores', 0);
             $mainUserId = Yii::app()->request->getParam('mainPoint', 0);
 
-            if($team->is_private == TblTeam::TYPE_PRIVATE){
+            if($team->is_private == Team::TYPE_PRIVATE){
                 $team->end_point_name =$codes;
                 $team->save(false);
 
@@ -77,26 +75,27 @@ class MetricController extends Controller
                     $user = User::getUserByHash(Yii::app()->request->getParam('hash'));
                     if($user){
 
-                        $geoLog = new GeoLog();
-                        $geoLog->longitude =Yii::app()->request->getParam('longitude');
-                        $geoLog->latitude = Yii::app()->request->getParam('latitude');
-                        $geoLog->user_id =Yii::app()->request->getParam('mid');
-                        $geoLog->user_api_id =$user->id;
-                        $geoLog->time = time();
-                        $geoLog->insert();
+                        if(Yii::app()->request->getParam('longitude')!=0 &&  Yii::app()->request->getParam('latitude')!=0){
+                            $geoLog = new GeoLog();
+                            $geoLog->longitude =Yii::app()->request->getParam('longitude');
+                            $geoLog->latitude = Yii::app()->request->getParam('latitude');
+                            $geoLog->user_id =Yii::app()->request->getParam('mid');
+                            $geoLog->user_api_id =$user->id;
+                            $geoLog->time = time();
+                            $geoLog->insert();
 
-                        GeoUnique::model()->deleteAllByAttributes(array('user_api_id'=>$user->id));
+                            GeoUnique::model()->deleteAllByAttributes(array('user_api_id'=>$user->id));
 
-                        $geoUser = new GeoUnique();
-                        $geoUser->longitude = Yii::app()->request->getParam('longitude');
-                        $geoUser->latitude = Yii::app()->request->getParam('latitude');
-                        $geoUser->user_id = Yii::app()->request->getParam('mid');
-                        $geoUser->user_api_id = $user->id;
-                        $geoUser->time = time();
-                        $geoUser->insert();
+                            $geoUser = new GeoUnique();
+                            $geoUser->longitude = Yii::app()->request->getParam('longitude');
+                            $geoUser->latitude = Yii::app()->request->getParam('latitude');
+                            $geoUser->user_id = Yii::app()->request->getParam('mid');
+                            $geoUser->user_api_id = $user->id;
+                            $geoUser->time = time();
+                            $geoUser->insert();
+                        }
 
                         $data = $user->getPointsData();
-
                         echo json_encode($data);
                        exit;
                     }
@@ -120,9 +119,7 @@ class MetricController extends Controller
     {
         if (Yii::app()->request->isAjaxRequest) {
 
-            $userId = Yii::app()->user->getId();
-            $user = User::model()->findByPk($userId);
-            $team = $user->getTeam();
+            $team = Team::model()->getTeam();
 
             $geolocal =GeoUnique::getByUserId($team->user_host_id);
 
@@ -147,9 +144,7 @@ class MetricController extends Controller
         if (Yii::app()->request->isAjaxRequest) {
 
             $geos = array();
-            $userId = Yii::app()->user->getId();
-            $user = User::model()->findByPk($userId);
-            $team = $user->getTeam();
+            $team = Team::model()->getTeam();
             $usersIds = $team->getUserIdArray();
 
             foreach ($usersIds as $userId) {
@@ -202,9 +197,7 @@ class MetricController extends Controller
             $endPointCoreLat = Yii::app()->request->getParam('endPointCoreLat');
             $endPointCoreLng = Yii::app()->request->getParam('endPointCoreLng');
 
-            $userId = Yii::app()->user->getId();
-            $user = User::model()->findByPk($userId);
-            $team = $user->getTeam();
+            $team = Team::model()->getTeam();
             $team->end_point_lat = $endPointCoreLat;
             $team->end_point_lng = $endPointCoreLng;
             $team->save(false);
@@ -235,9 +228,7 @@ class MetricController extends Controller
 
     public function actionAddMarker()
     {
-        $userId = Yii::app()->user->getId();
-        $user = User::model()->findByPk($userId);
-        $team = $user->getTeam();
+        $team = Team::model()->getTeam();
 
         $isNew = false;
         if (Yii::app()->request->getParam('markerLat') && Yii::app()->request->getParam('markerLng')) {
