@@ -14,16 +14,16 @@ class TeamController extends Controller
     const MAP_DISPLAY_TRUE = 1;
     const MAP_DISPLAY_FALSE = 0;
 
-    /**
-	 * @return array action filters
-	 */
-	public function filters()
-	{
-		return array(
-			'accessControl', // perform access control for CRUD operations
-			'postOnly + delete', // we only allow deletion via POST request
-		);
-	}
+//    /**
+//	 * @return array action filters
+//	 */
+//	public function filters()
+//	{
+//		return array(
+//			'accessControl', // perform access control for CRUD operations
+//			'postOnly + delete', // we only allow deletion via POST request
+//		);
+//	}
 
 	/**
 	 * Specifies the access control rules.
