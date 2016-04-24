@@ -14,16 +14,16 @@ class TeamController extends Controller
     const MAP_DISPLAY_TRUE = 1;
     const MAP_DISPLAY_FALSE = 0;
 
-//    /**
-//	 * @return array action filters
-//	 */
-//	public function filters()
-//	{
-//		return array(
-//			'accessControl', // perform access control for CRUD operations
-//			'postOnly + delete', // we only allow deletion via POST request
-//		);
-//	}
+    /**
+	 * @return array action filters
+	 */
+	public function filters()
+	{
+		return array(
+			'accessControl', // perform access control for CRUD operations
+			'postOnly + delete', // we only allow deletion via POST request
+		);
+	}
 
 	/**
 	 * Specifies the access control rules.
@@ -229,17 +229,19 @@ class TeamController extends Controller
         $team = Team::model()->getTeam();
         $teamUsers = TeamUsers::model()->findByAttributes(array('team_id'=>$team->id, 'user_id'=>Yii::app()->request->getParam('id')));
         if($teamUsers){
+            $userId = $teamUsers->user_id;
+            $userHostId = $teamUsers->user_host_id;
             if($teamUsers->delete()){
 
-                if($team->owner_id == $teamUsers->user_id || $team->user_host_id == $teamUsers->user_host_id){
+                if($team->owner_id == $userId || $team->user_host_id == $userHostId){
                     $users = $team->getUserIdArray();
                     if(!empty($users)){
                         $firstUserId = array_shift($users);
-                        if($team->owner_id == $teamUsers->user_id){
+                        if($team->owner_id == $userId){
                             $team->owner_id=$firstUserId;
                             $team->save();
                         }
-                        if($team->user_host_id == $teamUsers->user_host_id){
+                        if($team->user_host_id == $userHostId){
                             $team->user_host_id=$firstUserId;
                             $team->save();
                         }
