@@ -247,14 +247,7 @@ class TeamController extends Controller
                     else{
                         $team->delete();
                     }
-
                 }
-
-                $user = Yii::app()->getComponent('user');
-                $user->setFlash(
-                    'success',
-                    "User has been removed from our team!"
-                );
             }
 
 
