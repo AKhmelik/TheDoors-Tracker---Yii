@@ -230,10 +230,9 @@ class TeamController extends Controller
         $teamUsers = TeamUsers::model()->findByAttributes(array('team_id'=>$team->id, 'user_id'=>Yii::app()->request->getParam('id')));
         if($teamUsers){
             $userId = $teamUsers->user_id;
-            $userHostId = $teamUsers->user_host_id;
             if($teamUsers->delete()){
 
-                if($team->owner_id == $userId || $team->user_host_id == $userHostId){
+                if($team->owner_id == $userId || $team->user_host_id == $userId){
                     $users = $team->getUserIdArray();
                     if(!empty($users)){
                         $firstUserId = array_shift($users);
@@ -241,7 +240,7 @@ class TeamController extends Controller
                             $team->owner_id=$firstUserId;
                             $team->save();
                         }
-                        if($team->user_host_id == $userHostId){
+                        if($team->user_host_id == $userId){
                             $team->user_host_id=$firstUserId;
                             $team->save();
                         }
