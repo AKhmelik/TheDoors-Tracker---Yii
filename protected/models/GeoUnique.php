@@ -23,7 +23,7 @@ class GeoUnique extends CActiveRecord
     public static function getSelectPoint(){
         $html = '';
         $team = Team::model()->getTeam();
-        $userArray = $team->getUserIdArray();
+        $userArray = $team->getUsersInMap();
         if($userArray){
             foreach ($userArray as $userId) {
                 $selected= '';

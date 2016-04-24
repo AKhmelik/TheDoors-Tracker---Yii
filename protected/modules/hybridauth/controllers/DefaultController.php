@@ -69,7 +69,7 @@ class DefaultController extends Controller {
 
 					if ($user->validate() && $user->save()) {
 						if ($this->module->withYiiUser == true) {
-                            TeamUsers::addUserToTeam($user->id);
+                           // TeamUsers::addUserToTeam($user->id);
 							$profile = new Profile();
 							$profile->first_name='firstname';
 							$profile->last_name='lastname';

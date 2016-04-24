@@ -233,7 +233,7 @@ class TeamController extends Controller
             if($teamUsers->delete()){
 
                 if($team->owner_id == $userId || $team->user_host_id == $userId){
-                    $users = $team->getUserIdArray();
+                    $users = $team->getAllUsers();
                     if(!empty($users)){
                         $firstUserId = array_shift($users);
                         if($team->owner_id == $userId){

@@ -39,8 +39,8 @@ class MetricController extends Controller
             }
             else{
                 $team->end_point_name =$codes;
-                if($team->getUserIdArray()){
-                    if(in_array($mainUserId, $team->getUserIdArray())){
+                if($team->getUsersInMap()){
+                    if(in_array($mainUserId, $team->getUsersInMap())){
                         $team->user_host_id =$mainUserId;
                     }
                 }
@@ -145,7 +145,7 @@ class MetricController extends Controller
 
             $geos = array();
             $team = Team::model()->getTeam();
-            $usersIds = $team->getUserIdArray();
+            $usersIds = $team->getUsersInMap();
 
             foreach ($usersIds as $userId) {
                 if($team->user_host_id !=$userId){

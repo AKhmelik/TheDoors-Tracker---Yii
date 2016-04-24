@@ -12,6 +12,9 @@ class TeamUsers extends CActiveRecord
 {
     const STATUS_INVITED = 0;
     const STATUS_IN_TEAM = 1;
+
+    const DISPLAY_MAP = 1;
+    const DISPLAY_NONE = 0;
 	/**
 	 * @return string the associated database table name
 	 */

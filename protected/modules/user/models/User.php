@@ -220,7 +220,7 @@ class User extends CActiveRecord
                 return array('hash' => "GUEST", 'is_reg' => 3, 'error_message'=>'current user is already exists!');
             }
             if ($user->save()) {
-                TeamUsers::addUserToTeam($user->id);
+              //  TeamUsers::addUserToTeam($user->id);
                 $profile = new Profile();
                 $profile->user_id = $user->id;
                 $profile->save();
@@ -255,7 +255,7 @@ class User extends CActiveRecord
             }
 
             if ($this->save()) {
-                TeamUsers::addUserToTeam($this->id);
+             //   TeamUsers::addUserToTeam($this->id);
                 $profile = new Profile();
                 $profile->user_id = $this->id;
                 $profile->save();
@@ -347,7 +347,7 @@ class User extends CActiveRecord
 
         $team = $this->getTeam();
         $data = array();
-        $data['point'] = GeoUnique::getTeamPoints($team->getUserIdArray(), $this->id);
+        $data['point'] = GeoUnique::getTeamPoints($team->getAllUsers(), $this->id);
 
         $data['request'] = $team->end_point_name;
         $data['endPointCoreLat'] = $team->end_point_lat;

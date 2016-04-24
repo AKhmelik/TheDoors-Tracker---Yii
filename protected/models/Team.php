@@ -120,9 +120,25 @@ class Team extends CActiveRecord
 		return parent::model($className);
 	}
 
-    public function getUserIdArray(){
+    public function getAllUsers(){
 
-        $users = TeamUsers::model()->findAllByAttributes(array('team_id'=>$this->id, 'status'=>TeamUsers::STATUS_IN_TEAM));
+    $users = TeamUsers::model()->findAllByAttributes(array('team_id'=>$this->id, 'status'=>TeamUsers::STATUS_IN_TEAM));
+    $userIds = null;
+    if($users && !empty($users)){
+        foreach($users as $teamUser){
+            $userIds[] = $teamUser->user_id;
+        }
+    }
+    return $userIds;
+}
+
+
+    public function getUsersInMap(){
+
+        $users = TeamUsers::model()->findAllByAttributes(array(
+            'team_id'=>$this->id,
+            'status'=>TeamUsers::STATUS_IN_TEAM,
+            'show_in_map'=> TeamUsers::DISPLAY_MAP));
         $userIds = null;
         if($users && !empty($users)){
             foreach($users as $teamUser){
