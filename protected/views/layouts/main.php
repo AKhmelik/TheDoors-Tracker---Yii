@@ -20,14 +20,11 @@
 </head>
 
 <body>
-
 <div class="main-wraper" id="page">
-
-
     <?php
     $userId = Yii::app()->user->getId();
     $endPointName = '';
-    if($userId){
+    if ($userId) {
         $user = User::model()->findByPk($userId);
         $team = $user->getTeam();
         $endPointName = $team->end_point_name;
@@ -51,7 +48,7 @@
     $customForm = (Yii::app()->controller->id == 'metric') ? '
                               <form class="navbar-search pull-left" method="post">
                                   <input type="text" name="cores" id="search-query-main" class="search-query" value="' . $endPointName . '" placeholder="Aдрес / Координаты">
-                                  <select  name="mainPoint">'.GeoUnique::getSelectPoint().'</select>
+                                  <select  name="mainPoint">' . GeoUnique::getSelectPoint() . '</select>
                                   <input class="btn" type="submit" name="sub" value="Построить маршрут">
                               </form>' : '';
 
@@ -72,14 +69,14 @@
 //                        // array('label' => 'Codes Generator', 'url' => '#'),
 //
 //                    ),
-                    array('label' => 'Home', 'url' => array('/metric/index')),
-                    array('label'=>'Generaror', 'url'=>array('/form/create')),
-                    array('label'=>'Team', 'url'=>array('/team/index')),
+                        array('label' => 'Home', 'url' => array('/metric/index')),
+                        array('label' => 'Generaror', 'url' => array('/form/create')),
+                        array('label' => 'Team', 'url' => array('/team/index')),
 
-                    array('url'=>Yii::app()->getModule('user')->loginUrl, 'label'=>Yii::app()->getModule('user')->t("Login"), 'visible'=>Yii::app()->user->isGuest),
-                    array('url'=>Yii::app()->getModule('user')->registrationUrl, 'label'=>Yii::app()->getModule('user')->t("Register"), 'visible'=>Yii::app()->user->isGuest),
-                    array('url'=>Yii::app()->getModule('user')->profileUrl, 'label'=>Yii::app()->getModule('user')->t("Profile"), 'visible'=>!Yii::app()->user->isGuest),
-                    array('url'=>Yii::app()->getModule('user')->logoutUrl, 'label'=>Yii::app()->getModule('user')->t("Logout").' ('.Yii::app()->user->name.')', 'visible'=>!Yii::app()->user->isGuest),
+                        array('url' => Yii::app()->getModule('user')->loginUrl, 'label' => Yii::app()->getModule('user')->t("Login"), 'visible' => Yii::app()->user->isGuest),
+                        array('url' => Yii::app()->getModule('user')->registrationUrl, 'label' => Yii::app()->getModule('user')->t("Register"), 'visible' => Yii::app()->user->isGuest),
+                        array('url' => Yii::app()->getModule('user')->profileUrl, 'label' => Yii::app()->getModule('user')->t("Profile"), 'visible' => !Yii::app()->user->isGuest),
+                        array('url' => Yii::app()->getModule('user')->logoutUrl, 'label' => Yii::app()->getModule('user')->t("Logout") . ' (' . Yii::app()->user->name . ')', 'visible' => !Yii::app()->user->isGuest),
 
                     ),
                 ),
@@ -90,27 +87,27 @@
     );
     echo CHtml::closeTag('div');
 
-//        echo CHtml::openTag('div', array('class' => 'bs-navbar-top-example'));
-//        $this->widget(
-//            'bootstrap.widgets.TbNavbar',
-//            array(
-//                'brand' => 'Title',
-//                'brandOptions' => array('style' => 'width:auto;margin-left: 0px;'),
-//                'fixed' => 'top',
-//                'htmlOptions' => array('style' => 'position:absolute'),
-//                'items' => array(
-//                    array(
-//                        'class' => 'bootstrap.widgets.TbMenu',
-//                        'items' => array(
-//                            array('label' => 'Home', 'url' => '#', 'active' => true),
-//                            array('label' => 'Link', 'url' => '#'),
-//                            array('label' => 'Link', 'url' => '#'),
-//                        )
-//                    )
-//                )
-//            )
-//        );
-//        echo CHtml::closeTag('div');
+    //        echo CHtml::openTag('div', array('class' => 'bs-navbar-top-example'));
+    //        $this->widget(
+    //            'bootstrap.widgets.TbNavbar',
+    //            array(
+    //                'brand' => 'Title',
+    //                'brandOptions' => array('style' => 'width:auto;margin-left: 0px;'),
+    //                'fixed' => 'top',
+    //                'htmlOptions' => array('style' => 'position:absolute'),
+    //                'items' => array(
+    //                    array(
+    //                        'class' => 'bootstrap.widgets.TbMenu',
+    //                        'items' => array(
+    //                            array('label' => 'Home', 'url' => '#', 'active' => true),
+    //                            array('label' => 'Link', 'url' => '#'),
+    //                            array('label' => 'Link', 'url' => '#'),
+    //                        )
+    //                    )
+    //                )
+    //            )
+    //        );
+    //        echo CHtml::closeTag('div');
 
     ?>
 
@@ -118,12 +115,12 @@
     <!-- mainmenu -->
     <?php if (isset($this->breadcrumbs)): ?>
         <?php $this->widget('zii.widgets.CBreadcrumbs', array(
-			'links'=>$this->breadcrumbs,
-		)); ?><!-- breadcrumbs -->
+            'links' => $this->breadcrumbs,
+        )); ?><!-- breadcrumbs -->
     <?php endif ?>
-
-    <?php echo $content; ?>
-
+    <div>
+        <?php echo $content; ?>
+    </div>
     <div class="clear"></div>
 
     <div id="footer">
@@ -134,21 +131,6 @@
 
 </div>
 <!-- page -->
-<!-- Piwik -->
-<script type="text/javascript">
-    var _paq = _paq || [];
-    _paq.push(['trackPageView']);
-    _paq.push(['enableLinkTracking']);
-    (function() {
-        var u="//stats.eqbeat.ru/";
-        _paq.push(['setTrackerUrl', u+'piwik.php']);
-        _paq.push(['setSiteId', 1]);
-        var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
-        g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
-    })();
-</script>
-<noscript><p><img src="//stats.eqbeat.ru/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>
-<!-- End Piwik Code -->
 
 </body>
 </html>

@@ -14,8 +14,8 @@ $this->widget(
             'tokenSeparators' => array(',', ' ')
         )
     )
-);
- echo CHtml::submitButton('Invite to team'); ?>
+);?>&nbsp;
+ <?php echo CHtml::submitButton('Invite to team'); ?>
 <?php echo CHtml::endForm(); ?>
 
 <?php $this->widget('zii.widgets.grid.CGridView', array(

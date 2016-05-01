@@ -242,6 +242,16 @@ class User extends CActiveRecord
         }
     }
 
+    /**
+     * Mobile API autorisation.
+     * Returnes user hash by username  an password
+     *
+     * @param $params
+     * @param bool $isNew
+     * @return array
+     * @throws CException
+     * @author a.khmelik 2016-05-01
+     */
     public function getHashByUsername($params, $isNew=false){
         Yii::import('application.modules.hybridauth.models.HaLogin');
         //API registration
@@ -286,16 +296,31 @@ class User extends CActiveRecord
         }
     }
 
+    /**
+     * generates USER hash for mobile API access
+     * @return string
+     * @author a.khmelik 2016-05-01
+     */
     public function generateApiHash(){
         $this->api_hash= md5($this->id+time());
         $this->save(false);
         return $this->api_hash;
     }
 
+    /**
+     * generates hash if its necessary
+     * @return mixed|string
+     * @author a.khmelik 2016-05-01
+     */
     public function getHash(){
         return (empty($this->api_hash)) ? $this->generateApiHash() : $this->api_hash;
     }
 
+    /**
+     * creates user object by email or username
+     * @return array|CActiveRecord|CActiveRecord[]|mixed|null
+     * @author a.khmelik 2016-05-01
+     */
     public function isUserExistsValidation(){
 
         $criteria = new CDbCriteria;
@@ -309,10 +334,23 @@ class User extends CActiveRecord
         return $models;
     }
 
+    /**
+     * Get User object by hash
+     * @param $hash
+     * @return User
+     * @author a.khmelik 2016-05-01
+     */
     public static function getUserByHash($hash){
         return self::model()->findByAttributes(array('api_hash'=>$hash));
     }
 
+    /**
+     * Get Team object for current USER
+     *
+     * Tries to get private team for current User. If not exists - create new.
+     * @return CActiveRecord|Team
+     * @author a.khmelik 2016-05-01
+     */
     public function getPrivateTeam(){
        $team = Team::model()->findByAttributes(array('is_private'=>Team::TYPE_PRIVATE, 'owner_id'=>$this->id));
        if($team){
@@ -326,6 +364,11 @@ class User extends CActiveRecord
         return $team;
     }
 
+    /**
+     * Get Team object for current USER
+     * @return Team|null
+     * @author a.khmelik 2016-05-01
+     */
     public function getPublicTeam(){
         $teamUser = TeamUsers::model()->findByAttributes(array('user_id'=>$this->id, 'status'=>TeamUsers::STATUS_IN_TEAM));
         if($teamUser){
@@ -334,6 +377,12 @@ class User extends CActiveRecord
         return null;
     }
 
+    /**
+     * Get Team object for current USER
+     * Tries to get public team, if public team is not exists for current user - returned private Team
+     * @return CActiveRecord|null|Team
+     * @author a.khmelik 2016-05-01
+     */
     public function getTeam(){
        $team = $this->getPublicTeam();
        if(!$team){
@@ -342,12 +391,18 @@ class User extends CActiveRecord
       return $team;
     }
 
+    /**
+     * prepares geo coordinates for mobile APK
+     * @return array
+     * @author a.khmelik 2016-05-01
+     */
 
-    public function getPointsData(){
+    public function getPointsData()
+    {
 
         $team = $this->getTeam();
         $data = array();
-        $data['point'] = GeoUnique::getTeamPoints($team->getAllUsers(), $this->id);
+        $data['point'] = GeoUnique::getTeamPoints($team->getAllUsers(TeamUsers::DISPLAY_MAP), $this->id);
 
         $data['request'] = $team->end_point_name;
         $data['endPointCoreLat'] = $team->end_point_lat;
@@ -356,6 +411,13 @@ class User extends CActiveRecord
 
     }
 
+    /**
+     * prepares readable username. e.g. Paramonov Roma
+     *
+     * @param $id
+     * @return string
+     * @author a.khmelik 2016-05-01
+     */
     public static function getUserIdentityById($id){
         $user = self::model()->findByPk($id);
         if($user->profile->first_name){
