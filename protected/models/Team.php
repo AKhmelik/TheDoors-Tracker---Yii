@@ -22,6 +22,7 @@ class Team extends CActiveRecord
     const TYPE_PRIVATE = 1;
     const TYPE_PUBLIC = 0;
 
+
 	/**
 	 * @return string the associated database table name
 	 */
@@ -156,5 +157,32 @@ class Team extends CActiveRecord
         $userId = Yii::app()->user->getId();
         $user = User::model()->findByPk($userId);
         return $user->getTeam();
+    }
+
+    /**
+     * returns custom team markers
+     * @param int $display
+     * @return array
+     * @author a.khmelik 2016-06-16
+     */
+    public function getTeamMarkers($display=GeoPoints::DISPLAY_BOTH){
+        $arrayPoint = array();
+        $criteria = new CDbCriteria;
+        $criteria->condition = "team_id =:team_id and display =:display";
+        $criteria->params = array(':team_id' => $this->id, ':display'=> $display);
+        $markers = GeoUnique::model()->findAll($criteria);
+        foreach ($markers as $key => $marker) {
+
+            /**
+             * @var $marker GeoPoints
+             */
+            $coresExploded =  explode(', ', $marker->cores);
+            $arrayPoint[$key]['latitude']= $coresExploded[0];
+            $arrayPoint[$key]['longitude']= $coresExploded[1];
+            $arrayPoint[$key]['id']=  $marker->house;
+            $arrayPoint[$key]['comment']=  $marker->comments;
+        }
+
+        return $arrayPoint;
     }
 }

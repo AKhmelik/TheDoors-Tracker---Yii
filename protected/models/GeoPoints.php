@@ -12,6 +12,9 @@
  */
 class GeoPoints extends CActiveRecord
 {
+
+    const DISPLAY_SITE=0;
+    const DISPLAY_BOTH=1;
 	/**
 	 * @return string the associated database table name
 	 */

@@ -403,7 +403,7 @@ class User extends CActiveRecord
         $team = $this->getTeam();
         $data = array();
         $data['point'] = GeoUnique::getTeamPoints($team->getAllUsers(TeamUsers::DISPLAY_MAP), $this->id);
-
+        $data['markers'] = $team->getTeamMarkers(GeoPoints::DISPLAY_BOTH);
         $data['request'] = $team->end_point_name;
         $data['endPointCoreLat'] = $team->end_point_lat;
         $data['endPointCoreLng'] = $team->end_point_lng;
