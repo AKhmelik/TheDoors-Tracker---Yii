@@ -179,7 +179,8 @@ class Team extends CActiveRecord
             $coresExploded =  explode(', ', $marker->cores);
             $arrayPoint[$key]['latitude']= $coresExploded[0];
             $arrayPoint[$key]['longitude']= $coresExploded[1];
-            $arrayPoint[$key]['id']=  $marker->house;
+            $arrayPoint[$key]['id']=  $marker->id;
+            $arrayPoint[$key]['house']=  $marker->house;
             $arrayPoint[$key]['comment']=  $marker->comments;
         }
 
