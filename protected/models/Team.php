@@ -170,7 +170,7 @@ class Team extends CActiveRecord
         $criteria = new CDbCriteria;
         $criteria->condition = "team_id =:team_id and display =:display";
         $criteria->params = array(':team_id' => $this->id, ':display'=> $display);
-        $markers = GeoUnique::model()->findAll($criteria);
+        $markers = GeoPoints::model()->findAll($criteria);
         foreach ($markers as $key => $marker) {
 
             /**
