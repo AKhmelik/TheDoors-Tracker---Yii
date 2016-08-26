@@ -1,5 +1,5 @@
 <?php echo CHtml::scriptFile(Yii::app()->request->baseUrl . "/js/core.js");?>
-<script src="//api-maps.yandex.ru/2.0/?load=package.full&lang=ru-RU" type="text/javascript"></script>
+<script src="//api-maps.yandex.ru/2.1/?load=package.full&lang=ru-RU" type="text/javascript"></script>
 
 <script type="text/javascript">
 
@@ -18,8 +18,12 @@
             // её центр и коэффициент масштабирования.
             center: [50.00, 36.25],
             zoom: 15,
+            controls: ['smallMapDefaultSet'],
             behaviors: ['default', 'scrollZoom']
         });
+        myMap.controls
+            .remove('mapTools');
+
         myMap.controls.add(
             new ymaps.control.ZoomControl()
         );
@@ -35,12 +39,7 @@
 
         var trafficControl = new ymaps.control.TrafficControl();
         myMap.controls
-            .add('typeSelector')
-            // В конструкторе элемента управления можно задавать расширенные
-            // параметры, например, тип карты в обзорной карте.
-            .add(new ymaps.control.MiniMap({
-                type: 'yandex#publicMap'
-            }));
+            .add('typeSelector');
 
 
         myPlacemark = new ymaps.Placemark([50.00, 36.25], {
@@ -49,7 +48,11 @@
         }, {
             // Опции.
             // Стандартная фиолетовая иконка.
-            preset: 'twirl#violetIcon'
+//            preset: 'twirl#violetIcon'
+            iconLayout: 'default#image',
+            // Своё изображение иконки метки.
+            iconImageHref: '/images/map_marker.gif',
+            iconImageSize: [35, 35]
         });
         myMap.geoObjects.add(myPlacemark);
 
@@ -60,11 +63,11 @@
             iconContent: '<?php echo $points->house?>',
             id:<?php echo $points->id?>,
             hintContent: "<?php echo addslashes($points->comments);?>",
-            markerType:<?php echo $points->display?>
-
-
+            markerType:<?php echo $points->display?>,
+            markerColor: "<?php echo $points->color?>",
         }, {
-
+            iconColor:'<?php echo $points->color?>',
+            preset: 'twirl#violetIcon'
         });
         myMap.geoObjects.add(myPlacemark<?php echo $i?>);
 
@@ -95,8 +98,10 @@
             success: function (data) {
                 var info = JSON.parse(data);
                 myPlacemark.geometry.setCoordinates(info['start']);
-                myPlacemark.options.set('preset',info['icocolor']);
                 myPlacemark.properties.set("hintContent", info['updated']);
+
+                myPlacemark.options.set('iconLayout', 'default#image');
+                myPlacemark.options.set('iconImageHref', '/images/map_marker.gif');
 
                 if (needCentred) {
                     if (myMap.setCenter(info['start'])) {
@@ -125,6 +130,11 @@
 
 //                                console.log(myRoute.getDistance());
                                 points.get(0).properties.set('iconContent', myRoute.getLength());
+
+                                points.get(0).options.set('iconLayout', 'default#image');
+                                points.get(0).options.set('iconImageHref', 'images/map_marker.gif');
+                                points.get(0).options.set('iconImageSize', [35, 35]);
+
                                 points.get(1).properties.set('iconContent', 'Точка прибытия');
 
 //                                points.get(0).properties.set('preset', info['icocolor']);
@@ -136,7 +146,6 @@
 
                                 var endCores  = points.get(1).geometry.getCoordinates();
                                 var bounds = myRoute.getWayPoints().getBounds();
-
                                 if(typeof bounds[1] !== 'undefined') {
                                     $.ajax({
                                         type: 'POST',
@@ -168,7 +177,7 @@
                 if (counter > trafifcInterval) {
                     counter = 0;
                 }
-            }
+           }
         });
 
         $.ajax({
@@ -178,17 +187,18 @@
             success: function (data) {
                 var infoOther = JSON.parse(data);
 
-
                 $.each(infoOther, function(i, itemCheckbox) {
 
                     if(typeof advancerMarkers[i] == "undefined" ){
                         advancerMarkers[i] =  new ymaps.Placemark( infoOther[i].cores, {
                             iconContent: infoOther[i].title,
-                            hintContent: infoOther[i].updated
+                            hintContent: infoOther[i].updated,
+                            iconCaption:infoOther[i].title,
                         }, {
                             // Опции.
                             // Стандартная фиолетовая иконка.
-                            preset: infoOther[i].icocolor
+                            preset: infoOther[i].icocolor,
+
                         });
                         myMap.geoObjects.add(advancerMarkers[i]);
                     }
@@ -214,6 +224,7 @@
         var markerLat = $('input[name=latnew]').val();
         var markerLng = $('input[name=lngnew]').val();
         var placeId = $('input[name=placeId]').val();
+        var markerColor = $('input[name=markerColor]').val();
         $.ajax({
             type: 'POST',
             url: '/metric/addMarker',
@@ -224,7 +235,8 @@
                 markerLng: markerLng,
                 markerNumb: markerNumb,
                 placeId: placeId,
-                isDeleted:isDeleted
+                isDeleted:isDeleted,
+                markerColor:markerColor
             },
             success: function (data) {
                 if (placeId == 0) {
@@ -232,8 +244,9 @@
                         id: data,
                         iconContent: markerNumb,
                         hintContent: markerName,
-                        markerType: markerType
-                    }, {});
+                        markerType: markerType,
+                        markerColor:markerColor
+                    }, { iconColor:markerColor,});
 
                     myPlacemark.events.add('click', function (e) {
                         core.map.placemark = myPlacemark;
@@ -253,6 +266,8 @@
                     core.map.placemark.properties.set('iconContent', markerNumb);
                     core.map.placemark.properties.set('hintContent', markerName);
                     core.map.placemark.properties.set('markerType', markerType);
+                    core.map.placemark.properties.set('markerColor', markerColor);
+                    core.map.placemark.options.set('iconColor', markerColor);
                     myMap.balloon.close();
                     if(isDeleted){
                         myMap.geoObjects.remove(core.map.placemark);
@@ -273,46 +288,66 @@
             var submitText = (isNew)?'Add':'Edit';
             var iconContent =  (isNew)?'':placemark.properties.get('iconContent');
             var hintContent =  (isNew)?'':placemark.properties.get('hintContent');
-            var typeAdvanced =  (!isNew && placemark.properties.get('markerType')==1)?'checked':'';
-            var typeSimple = (typeAdvanced == '')?'checked':'';
-            var deleteButton  =  (isNew)?'':'<button class="btn fn-handler-marker-delete" type="button">delete</button>';
+            var typeAdvanced =  (isNew || (!isNew && placemark.properties.get('markerType')==1))?'checked':'';
+            var typeSimple = (!isNew && typeAdvanced == '')?'checked':'';
+
+            var deleteButton  =  (isNew)?'':'<button class="btn fn-handler-marker-delete" type="button">Delete</button>';
             var id = (isNew)?0:placemark.properties.get('id');
-            var coords = e.get('coordPosition');
+            var markerColor = (isNew)?"#f00":placemark.properties.get('markerColor');
+
+            var coords = e.get('coords');
             myMap.balloon.open(coords, {
                 contentHeader:headerText,
                 contentBody:'<p><div class="input-append">'+
-                '<input class="span2" name="newMarkerNumb" placeholder="number" id="appendedInputButton" value ="'+iconContent+'" type="text">' +
-                '<input placeholder="marker name" class="span7" name="newMarkerName" value ="'+hintContent+'" id="appendedInputButton" type="text">'+
-                '<button class="btn fn-handler-marker-create" type="button">'+submitText+'</button>'+deleteButton+
+                '<input class="span5" name="newMarkerNumb" placeholder="marker name" id="appendedInputButton" value ="'+iconContent+'" type="text">' +
+               '<button class="btn fn-handler-marker-create" type="button">'+submitText+'</button>'+deleteButton+'<button class="btn fn-handler-marker-croad" type="button">Set Route</button>'+
                 '</div></p>' +
-                '<div class = "markerPlaceWrapper"><label class="radio">' +
-                '<input type="radio" name="optionsRadios" id="optionsRadios1" value="0" '+typeSimple+'>' +
-                'display on site' +
+                '<label >' +
+                '<input type="text" name = "markerColor" id="color_marker" />'+
+                '  marker color' +
                 '</label>' +
+                '<div class = "markerPlaceWrapper">'+
                 '<label class="radio">' +
                 '<input type="radio" name="optionsRadios" id="optionsRadios2" value="1" '+typeAdvanced+'>' +
                 'display on site and mobile' +
                 '</label>' +
+                '<label class="radio">' +
+                '<input type="radio" name="optionsRadios" id="optionsRadios1" value="0" '+typeSimple+'>' +
+                'display on site' +
+                '</label>' +
                 '<input type="hidden" name = "latnew" value="'+coords[0].toPrecision(6)+'"> ' +
+                '<input type="hidden" name = "linka" value=""> ' +
                 '<input type="hidden" name = "placeId" value="'+id+'"> ' +
-                '<input type="hidden" name = "lngnew" value="'+coords[1].toPrecision(6)+'"> ' + '</div>'
+                '<input type="hidden" name = "lngnew" value="'+coords[1].toPrecision(6)+'"> '
+
 
             });
+            setTimeout(function() {
+                core.initColorPicker(markerColor);
+            }, 500);
+
         }
         else {
             myMap.balloon.close();
         }
     };
 
+    jQuery(document).on("click", ".fn-handler-marker-croad", function () {
+        $('#search-query-main').val($('input[name=latnew]').val()+" "+$('input[name=lngnew]').val());
+        $('#submit-form').trigger( "click" );
+    });
 
 </script>
-<?php echo CHtml::scriptFile(Yii::app()->request->baseUrl . "/javascript/jquery-1.10.2.js");
-//echo CHtml::scriptFile(Yii::app()->request->baseUrl . "/javascript/context_menu/jquery.contextMenu.js");
-//echo CHtml::scriptFile(Yii::app()->request->baseUrl . "/javascript/context_menu/jquery.ui.position.js");
-//echo CHtml::cssFile(Yii::app()->request->baseUrl . "/javascript/context_menu/jquery.contextMenu.css");
+<?php echo CHtml::scriptFile(Yii::app()->request->baseUrl . "/javascript/jquery-1.10.2.js");?>
+
+
+<?php echo CHtml::scriptFile(Yii::app()->request->baseUrl . "/js/colorpanel/spectrum.js");
+echo CHtml::cssFile(Yii::app()->request->baseUrl . "/js/colorpanel/spectrum.css");
 ?>
+
 
 
 <div class="row-fluid">
     <div id="map" class="col-xs-12 col-md-10"></div>
 </div>
+

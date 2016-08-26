@@ -146,15 +146,16 @@ class MetricController extends Controller
             $geos = array();
             $team = Team::model()->getTeam();
             $usersIds = $team->getUsersInMap();
-
-            foreach ($usersIds as $userId) {
-                if($team->user_host_id !=$userId){
-                    $geoLocal = GeoUnique::getByUserId($userId);
-                    $geos[$geoLocal->user_id]['updated'] = 'Updated ' . (time() - $geoLocal->time) . ' secs ago!';
-                    $geos[$geoLocal->user_id]['cores'] = array($geoLocal->latitude, $geoLocal->longitude);
-                    $geos[$geoLocal->user_id]['title'] = User::getUserIdentityById($userId);
-                    $geos[$geoLocal->user_id]['icocolor']=$this->getColor($geoLocal->time);
-                    $geos[$geoLocal->user_id]['corecolor']=$this->getCoreColor($geoLocal->time);
+            if($usersIds){
+                foreach ($usersIds as $userId) {
+                    if($team->user_host_id !=$userId){
+                        $geoLocal = GeoUnique::getByUserId($userId);
+                        $geos[$userId]['updated'] = 'Updated ' . (time() - $geoLocal->time) . ' secs ago!';
+                        $geos[$userId]['cores'] = array($geoLocal->latitude, $geoLocal->longitude);
+                        $geos[$userId]['title'] = User::getUserIdentityById($userId);
+                        $geos[$userId]['icocolor']=$this->getColor($geoLocal->time);
+                        $geos[$userId]['corecolor']=$this->getCoreColor($geoLocal->time);
+                    }
                 }
             }
             echo json_encode($geos, 1);
@@ -163,16 +164,16 @@ class MetricController extends Controller
 
     public function getColor($time){
         if((time()-$time)<10){
-            return 'twirl#greenIcon';
+            return 'islands#greenCircleDotIconWithCaption';
         }
         elseif((time()-$time)<60){
-            return 'twirl#yellowIcon';
+            return 'islands#yellowCircleDotIconWithCaption';
         }
         elseif((time()-$time)<120){
-            return 'twirl#redIcon';
+            return 'islands#redCircleDotIconWithCaption';
         }
         else{
-            return  'twirl#blackIcon';
+            return  'islands#blackCircleDotIconWithCaption';
         }
     }
 
@@ -244,6 +245,7 @@ class MetricController extends Controller
             $geoPoint->display = (Yii::app()->request->getParam('markerType') && Yii::app()->request->getParam('markerType') == 1) ? 1 : 0;
             $geoPoint->house = Yii::app()->request->getParam('markerNumb');
             $geoPoint->comments = Yii::app()->request->getParam('markerName');
+            $geoPoint->color = Yii::app()->request->getParam('markerColor');
             $geoPoint->team_id = $team->id;
             if($isDeleted == "true"){
                 $geoPoint->delete();

@@ -49,7 +49,7 @@
                               <form class="navbar-search pull-left" method="post">
                                   <input type="text" name="cores" id="search-query-main" class="search-query" value="' . $endPointName . '" placeholder="Aдрес / Координаты">
                                   <select  name="mainPoint">' . GeoUnique::getSelectPoint() . '</select>
-                                  <input class="btn" type="submit" name="sub" value="Построить маршрут">
+                                  <input class="btn" id="submit-form" type="submit" name="sub" value="Построить маршрут">
                               </form>' : '';
 
     echo CHtml::openTag('div', array('class' => 'bs-navbar-top-example'));
@@ -70,8 +70,8 @@
 //
 //                    ),
                         array('label' => 'Home', 'url' => array('/metric/index')),
-                        array('label' => 'Generaror', 'url' => array('/form/create')),
-                        array('label' => 'Team', 'url' => array('/team/index')),
+//                        array('label' => 'Generaror', 'url' => array('/form/create')),
+                        array('label' => 'Team', 'url' => array('/team/index'), 'visible'=>!Yii::app()->user->isGuest),
 
                         array('url' => Yii::app()->getModule('user')->loginUrl, 'label' => Yii::app()->getModule('user')->t("Login"), 'visible' => Yii::app()->user->isGuest),
                         array('url' => Yii::app()->getModule('user')->registrationUrl, 'label' => Yii::app()->getModule('user')->t("Register"), 'visible' => Yii::app()->user->isGuest),
@@ -131,26 +131,6 @@
 
 </div>
 <!-- page -->
-
-<!-- Piwik -->
-<script type="text/javascript">
-    var _paq = _paq || [];
-    _paq.push(['trackPageView']);
-    _paq.push(['enableLinkTracking']);
-    (function() {
-        var u="//stats.eqbeat.ru/";
-        _paq.push(['setTrackerUrl', u+'piwik.php']);
-        _paq.push(['setSiteId', 1]);
-        var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
-        g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
-    })();
-</script>
-<noscript><p><img src="//stats.eqbeat.ru/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>
-<!-- End Piwik Code -->
-<script type="text/javascript" src="http://stats.eqbeat.ru/plugins/ClickHeat/libs/js/clickheat.js"></script><noscript><p><a href="http://www.dugwood.com/index.html">Open Source Sofware</a></p></noscript><script type="text/javascript"><!--
-    clickHeatSite = 1;clickHeatGroup = encodeURIComponent(window.location.pathname+window.location.search);clickHeatServer = 'http://stats.eqbeat.ru/plugins/ClickHeat/libs/click.php';initClickHeat(); //-->
-</script>
-
 
 
 </body>
