@@ -15,7 +15,7 @@ class MetricController extends Controller
                 'users'=>array('@'),
             ),
             array('allow',  // allow all users to perform 'list' and 'show' actions
-                'actions'=>array('getdata'),
+                'actions'=>array('getdata', 'calculateHistory'),
                 'users'=>array('*'),
             ),
             array('deny'),
@@ -65,8 +65,6 @@ class MetricController extends Controller
      */
     public function actionGetData()
     {
-
-
         {
             if(Yii::app()->request->getParam('mid') && Yii::app()->request->getParam('latitude') && Yii::app()->request->getParam('longitude')){
                $hash = null;
@@ -82,6 +80,7 @@ class MetricController extends Controller
                             $geoLog->user_id =Yii::app()->request->getParam('mid');
                             $geoLog->user_api_id =$user->id;
                             $geoLog->time = time();
+                            $geoLog->datetime_col = date('Y-m-d h:i:s', time());
                             $geoLog->insert();
 
                             GeoUnique::model()->deleteAllByAttributes(array('user_api_id'=>$user->id));
@@ -261,5 +260,39 @@ class MetricController extends Controller
         }
     }
 
+    public function actionCalculateHistory()
+    {
+        $previosValue = 0;
+        $result = [];
+        if (Yii::app()->request->getParam('startDate') && Yii::app()->request->getParam('endDate') && Yii::app()->request->getParam('user')) {
+            $startDate = Yii::app()->request->getParam('startDate');
+            $endDate = Yii::app()->request->getParam('endDate');
+            $user = Yii::app()->request->getParam('user');
+            $team = Team::model()->getTeam();
+            $usersArray = $team->getAllUsers();
+            //if (in_array($user, $usersArray)) {
+                $criteria = new CDbCriteria;
+                $criteria->condition = "user_api_id =:user_api_id and datetime_col > :start AND datetime_col < :end";
+                $criteria->params = array(':user_api_id' => $user, ':start' => $startDate, ':end' => $endDate);
+                $data = GeoLog::model()->findAll($criteria);
+                $i = 0;
 
+                foreach ($data as $row) {
+                    if ($previosValue + 10 > $row->time ) {
+                        continue;
+                    }
+
+
+                    if ($previosValue + 30 < $row->time) {
+                        $i++;
+                    }
+                    $result[$i][] = [ 'latitude' => $row->latitude, 'longitude' => $row->longitude];
+                    $previosValue = $row->time;
+
+
+                }
+            //}
+        }
+        echo json_encode($result);
+    }
 }

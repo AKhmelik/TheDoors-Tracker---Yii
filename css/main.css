@@ -483,6 +483,14 @@ div.search-form
     border: red 1px solid;
     margin: 10px;
 }
+
+.history-button{
+    position: absolute;
+    z-index: 2;
+    right: 20px;
+    top: 100px;
+}
+
 @media (max-width: 830px) {
     .selector-down
     {

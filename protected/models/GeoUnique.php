@@ -20,10 +20,18 @@ class GeoUnique extends CActiveRecord
 		return 'geo_unique';
 	}
 
-    public static function getSelectPoint(){
+    public static function getSelectPoint($isAll=false){
         $html = '';
         $team = Team::model()->getTeam();
-        $userArray = $team->getUsersInMap();
+        if($isAll){
+            $data = Yii::app()->db->createCommand('Select id from tbl_users');
+            $userArray = $data->queryColumn();
+
+            //$userArray = $team->getAllUsers();
+        }
+        else{
+          $userArray = $team->getUsersInMap();
+        }
         if($userArray){
             foreach ($userArray as $userId) {
                 $selected= '';

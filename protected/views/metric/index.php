@@ -342,12 +342,48 @@
 
 
 <?php echo CHtml::scriptFile(Yii::app()->request->baseUrl . "/js/colorpanel/spectrum.js");
+echo CHtml::scriptFile(Yii::app()->request->baseUrl . "/js/momentjs/moment.min.js");
+echo CHtml::scriptFile(Yii::app()->request->baseUrl . "/js/momentjs/daterangepicker.js");
+
 echo CHtml::cssFile(Yii::app()->request->baseUrl . "/js/colorpanel/spectrum.css");
+echo CHtml::cssFile(Yii::app()->request->baseUrl . "/js/momentjs/daterangepicker.css");
+
+
 ?>
 
-
-
 <div class="row-fluid">
+    <a class=" history-button btn btn-primary"  data-toggle="modal" href="#myModal"><i class="icon-calendar icon-white"></i> History</a>
     <div id="map" class="col-xs-12 col-md-10"></div>
 </div>
 
+<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="myModalLabel">Show history</h3>
+    </div>
+    <div class="modal-body">
+        <input type="text" value ="" name="daterange"  />
+        <input type="hidden" value ="<?php echo date('Y-m-d h:i:s', time()-86400)?>" name="startData"  />
+        <input type="hidden" value ="<?php echo date('Y-m-d h:i:s', time())?>" name="endDate"  />
+        <select  id ="userSelectedId" name="userSelected"><?php echo GeoUnique::getSelectPoint(true) ?></select>
+        <script type="text/javascript">
+            $('input[name="daterange"]').daterangepicker({
+                    timePicker: true,
+                    timePicker24Hour: true,
+                    timePickerIncrement: 30,
+                    locale: {
+                        format: 'DD-MM-YYYY'
+                    }
+                },
+                function(start, end, label) {
+                    $('input[name=startData]').val(start.format('YYYY-MM-DD h:mm:ss'));
+                    $('input[name=endDate]').val(end.format('YYYY-MM-DD h:mm:ss'));
+                });
+
+        </script>
+    </div>
+    <div class="modal-footer">
+        <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+        <button class="btn fn-handler-calculate-history btn-primary">Show history</button>
+    </div>
+</div>

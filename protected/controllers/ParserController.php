@@ -14,6 +14,7 @@ class ParserController extends Controller
                 $geoLog->latitude = $_POST['lat'];
                 $geoLog->user_id =$_POST['imei'];
                 $geoLog->time = time();
+                $geoLog->datetime_col = date('Y-m-d h:i:s', time());
                 $geoLog->insert();
 
                 $geoUser = GeoUnique::model()->findAll('user_id="' . $_POST['imei'] . '"');
