@@ -338,7 +338,6 @@
     });
 
 </script>
-<?php echo CHtml::scriptFile(Yii::app()->request->baseUrl . "/javascript/jquery-1.10.2.js");?>
 
 
 <?php echo CHtml::scriptFile(Yii::app()->request->baseUrl . "/js/colorpanel/spectrum.js");
@@ -347,7 +346,7 @@ echo CHtml::scriptFile(Yii::app()->request->baseUrl . "/js/momentjs/daterangepic
 
 echo CHtml::cssFile(Yii::app()->request->baseUrl . "/js/colorpanel/spectrum.css");
 echo CHtml::cssFile(Yii::app()->request->baseUrl . "/js/momentjs/daterangepicker.css");
-
+echo CHtml::scriptFile(Yii::app()->request->baseUrl . "/js/click-handler.js");
 
 ?>
 
