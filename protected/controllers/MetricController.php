@@ -264,10 +264,14 @@ class MetricController extends Controller
     {
         $previosValue = 0;
         $result = [];
-        if (Yii::app()->request->getParam('startDate') && Yii::app()->request->getParam('endDate') && Yii::app()->request->getParam('user')) {
-            $startDate = Yii::app()->request->getParam('startDate');
-            $endDate = Yii::app()->request->getParam('endDate');
-            $user = Yii::app()->request->getParam('user');
+        if ((Yii::app()->request->getParam('startDate')
+            && Yii::app()->request->getParam('endDate')
+            && Yii::app()->request->getParam('user'))
+        || Yii::app()->request->getParam('dailyHistory')
+        ) {
+            $startDate = (Yii::app()->request->getParam('dailyHistory'))?date('Y-m-d h:i:s', time()-186400):Yii::app()->request->getParam('startDate');
+            $endDate = (Yii::app()->request->getParam('dailyHistory'))?date('Y-m-d h:i:s', time()+186400):Yii::app()->request->getParam('endDate');
+            $user = (Yii::app()->request->getParam('dailyHistory'))?Yii::app()->user->getId():Yii::app()->request->getParam('user');
             $team = Team::model()->getTeam();
             $usersArray = $team->getAllUsers();
             //if (in_array($user, $usersArray)) {
@@ -281,15 +285,11 @@ class MetricController extends Controller
                     if ($previosValue + 10 > $row->time ) {
                         continue;
                     }
-
-
                     if ($previosValue + 30 < $row->time) {
                         $i++;
                     }
                     $result[$i][] = [ 'latitude' => $row->latitude, 'longitude' => $row->longitude];
                     $previosValue = $row->time;
-
-
                 }
             //}
         }

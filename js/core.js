@@ -1,6 +1,7 @@
 var core = {};
 core.map = {};
 core.map.centerPosition = {};
+polylineArr=[];
 
 core.initColorPicker = function (markerColor) {
     $("#color_marker").spectrum({
@@ -22,3 +23,170 @@ core.initColorPicker = function (markerColor) {
         ]
     });
 };
+
+core.showHistory = function () {
+
+    $.ajax({
+        type: 'POST',
+        url: '/metric/calculateHistory',
+        data: {dailyHistory: 1},
+        success: function (data) {
+
+            $.each(polylineArr, function(index, value) {
+                myMap.geoObjects.remove(value);
+            });
+
+            var result = JSON.parse(data);
+            var hasData = false;
+
+
+            $.each(result, function(index, value) {
+                hasData =true;
+                var lines = [];
+                $.each(value, function(index, row) {
+                    lines.push([row.latitude, row.longitude]);
+                });
+
+                // Создаем ломаную линию.
+                 var polylineHistory = new ymaps.Polyline(lines, {
+                    hintContent: "Daily History"
+                }, {
+                    draggable: false,
+                    strokeColor: '#94000059',
+                    strokeWidth: 4,
+                    // Первой цифрой задаем длину штриха. Второй цифрой задаем длину разрыва.
+                    strokeStyle: '5 0'
+                });
+// Добавляем линию на карту.
+                myMap.geoObjects.add(polylineHistory);
+                polylineArr.push(polylineHistory);
+// Устанавливаем карте границы линии.
+//                 myMap.setBounds(polylineHistory.geometry.getBounds());
+            });
+
+        }
+    });
+
+};
+
+function getCores() {
+
+    $.ajax({
+        type: 'POST',
+        url: '/metric/getcores',
+        data: {hello: 1},
+        success: function (data) {
+            var info = JSON.parse(data);
+            myPlacemark.geometry.setCoordinates(info['start']);
+            myPlacemark.properties.set("hintContent", info['updated']);
+
+            myPlacemark.options.set('iconLayout', 'default#image');
+            myPlacemark.options.set('iconImageHref', '/images/map_marker.gif');
+
+            if (needCentred) {
+                if (myMap.setCenter(info['start'])) {
+                    needCentred = false;
+                }
+            }
+
+            if (counter == 0) {
+                if (myRoute){myMap.geoObjects.remove(myRoute);}
+
+                if (info['end'] != "") {
+                    ymaps.route(
+                        [info['start'], info['end']],
+                        { mapStateAutoApply: false }
+                    ).then(function (router) {
+
+                        myRoute = router;
+                        myRoute.options.set({ strokeColor: '0000ffff', opacity: 0.9 });
+                        myMap.geoObjects.add(myRoute);
+                        // С помощью метода getWayPoints() получаем массив точек маршрута
+                        // (массив транзитных точек маршрута можно получить с помощью метода getViaPoints)
+                        var points = myRoute.getWayPoints();
+                        points.options.set('preset',  info['corecolor']);
+
+//                                console.log(myRoute.getDistance());
+                        points.get(0).properties.set('iconContent', myRoute.getLength());
+
+                        points.get(0).options.set('iconLayout', 'default#image');
+                        points.get(0).options.set('iconImageHref', 'images/map_marker.gif');
+                        points.get(0).options.set('iconImageSize', [35, 35]);
+
+                        points.get(1).properties.set('iconContent', 'Точка прибытия');
+
+//                                points.get(0).properties.set('preset', info['icocolor']);
+//                                points.get(1).properties.set('preset', 'twirl#redStretchyIcon');
+
+                        points.get(0).properties.set('hintContent', info['updated']);
+
+
+
+                        var endCores  = points.get(1).geometry.getCoordinates();
+                        var bounds = myRoute.getWayPoints().getBounds();
+                        if(typeof bounds[1] !== 'undefined') {
+                            $.ajax({
+                                type: 'POST',
+                                url: '/metric/setendpoint',
+                                data: {endPointCoreLat: endCores[0], endPointCoreLng: endCores[1]},
+                                success: function (data) {
+
+                                }
+                            });
+
+
+                        }
+                    });
+                }
+                else{
+
+                    $.ajax({
+                        type: 'POST',
+                        url: '/metric/setendpoint',
+                        data: {endPointCoreLat: 0, endPointCoreLng: 0},
+                        success: function (data) {
+
+                        }
+                    });
+
+                }
+            }
+            counter++;
+            if (counter > trafifcInterval) {
+                counter = 0;
+            }
+        }
+    });
+
+    $.ajax({
+        type: 'POST',
+        url: '/metric/getanotherpoints',
+        data: {hello: 1},
+        success: function (data) {
+            var infoOther = JSON.parse(data);
+
+            $.each(infoOther, function(i, itemCheckbox) {
+
+                if(typeof advancerMarkers[i] == "undefined" ){
+                    advancerMarkers[i] =  new ymaps.Placemark( infoOther[i].cores, {
+                        iconContent: infoOther[i].title,
+                        hintContent: infoOther[i].updated,
+                        iconCaption:infoOther[i].title,
+                    }, {
+                        // Опции.
+                        // Стандартная фиолетовая иконка.
+                        preset: infoOther[i].icocolor,
+
+                    });
+                    myMap.geoObjects.add(advancerMarkers[i]);
+                }
+                advancerMarkers[i].geometry.setCoordinates(infoOther[i].cores);
+                advancerMarkers[i].options.set('preset',infoOther[i].icocolor);
+                advancerMarkers[i].properties.set("hintContent", infoOther[i].updated);
+            });
+
+
+        }
+    });
+
+}

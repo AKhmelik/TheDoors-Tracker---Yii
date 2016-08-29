@@ -88,195 +88,8 @@
     }
 
     setInterval('getCores()', 2000);
+    setInterval('core.showHistory()', 5000);
 
-    function getCores() {
-
-        $.ajax({
-            type: 'POST',
-            url: '/metric/getcores',
-            data: {hello: 1},
-            success: function (data) {
-                var info = JSON.parse(data);
-                myPlacemark.geometry.setCoordinates(info['start']);
-                myPlacemark.properties.set("hintContent", info['updated']);
-
-                myPlacemark.options.set('iconLayout', 'default#image');
-                myPlacemark.options.set('iconImageHref', '/images/map_marker.gif');
-
-                if (needCentred) {
-                    if (myMap.setCenter(info['start'])) {
-                        needCentred = false;
-                    }
-                }
-
-                if (counter == 0) {
-                    if (myRoute){myMap.geoObjects.remove(myRoute);}
-
-
-
-                    if (info['end'] != "") {
-                        ymaps.route(
-                            [info['start'], info['end']],
-                            { mapStateAutoApply: false }
-                        ).then(function (router) {
-
-                                myRoute = router;
-                                myRoute.options.set({ strokeColor: '0000ffff', opacity: 0.9 });
-                                myMap.geoObjects.add(myRoute);
-                                // С помощью метода getWayPoints() получаем массив точек маршрута
-                                // (массив транзитных точек маршрута можно получить с помощью метода getViaPoints)
-                                var points = myRoute.getWayPoints();
-                                points.options.set('preset',  info['corecolor']);
-
-//                                console.log(myRoute.getDistance());
-                                points.get(0).properties.set('iconContent', myRoute.getLength());
-
-                                points.get(0).options.set('iconLayout', 'default#image');
-                                points.get(0).options.set('iconImageHref', 'images/map_marker.gif');
-                                points.get(0).options.set('iconImageSize', [35, 35]);
-
-                                points.get(1).properties.set('iconContent', 'Точка прибытия');
-
-//                                points.get(0).properties.set('preset', info['icocolor']);
-//                                points.get(1).properties.set('preset', 'twirl#redStretchyIcon');
-
-                                points.get(0).properties.set('hintContent', info['updated']);
-
-
-
-                                var endCores  = points.get(1).geometry.getCoordinates();
-                                var bounds = myRoute.getWayPoints().getBounds();
-                                if(typeof bounds[1] !== 'undefined') {
-                                    $.ajax({
-                                        type: 'POST',
-                                        url: '/metric/setendpoint',
-                                        data: {endPointCoreLat: endCores[0], endPointCoreLng: endCores[1]},
-                                        success: function (data) {
-
-                                        }
-                                    });
-
-
-                                }
-                            });
-                    }
-                    else{
-
-                        $.ajax({
-                            type: 'POST',
-                            url: '/metric/setendpoint',
-                            data: {endPointCoreLat: 0, endPointCoreLng: 0},
-                            success: function (data) {
-
-                            }
-                        });
-
-                    }
-                }
-                counter++;
-                if (counter > trafifcInterval) {
-                    counter = 0;
-                }
-           }
-        });
-
-        $.ajax({
-            type: 'POST',
-            url: '/metric/getanotherpoints',
-            data: {hello: 1},
-            success: function (data) {
-                var infoOther = JSON.parse(data);
-
-                $.each(infoOther, function(i, itemCheckbox) {
-
-                    if(typeof advancerMarkers[i] == "undefined" ){
-                        advancerMarkers[i] =  new ymaps.Placemark( infoOther[i].cores, {
-                            iconContent: infoOther[i].title,
-                            hintContent: infoOther[i].updated,
-                            iconCaption:infoOther[i].title,
-                        }, {
-                            // Опции.
-                            // Стандартная фиолетовая иконка.
-                            preset: infoOther[i].icocolor,
-
-                        });
-                        myMap.geoObjects.add(advancerMarkers[i]);
-                    }
-                    advancerMarkers[i].geometry.setCoordinates(infoOther[i].cores);
-                    advancerMarkers[i].options.set('preset',infoOther[i].icocolor);
-                    advancerMarkers[i].properties.set("hintContent", infoOther[i].updated);
-                });
-
-
-            }
-        });
-
-    }
-
-
-    jQuery(document).on("click", ".fn-handler-marker-create, .fn-handler-marker-delete", function () {
-
-        var isDeleted = $(this).hasClass("fn-handler-marker-delete");
-        var markerType = $('input[name=optionsRadios]:checked', '.markerPlaceWrapper').val();
-        var markerName = $('input[name=newMarkerName]').val();
-        var markerNumb = $('input[name=newMarkerNumb]').val();
-
-        var markerLat = $('input[name=latnew]').val();
-        var markerLng = $('input[name=lngnew]').val();
-        var placeId = $('input[name=placeId]').val();
-        var markerColor = $('input[name=markerColor]').val();
-        $.ajax({
-            type: 'POST',
-            url: '/metric/addMarker',
-            data: {
-                markerType: markerType,
-                markerName: markerName,
-                markerLat: markerLat,
-                markerLng: markerLng,
-                markerNumb: markerNumb,
-                placeId: placeId,
-                isDeleted:isDeleted,
-                markerColor:markerColor
-            },
-            success: function (data) {
-                if (placeId == 0) {
-                    var myPlacemark = new ymaps.Placemark([markerLat, markerLng], {
-                        id: data,
-                        iconContent: markerNumb,
-                        hintContent: markerName,
-                        markerType: markerType,
-                        markerColor:markerColor
-                    }, { iconColor:markerColor,});
-
-                    myPlacemark.events.add('click', function (e) {
-                        core.map.placemark = myPlacemark;
-
-                        core.map.displayBalloon(e, myPlacemark);
-
-//                    var coords = e.get('coordPosition');
-//                   console.log(coords);
-//                    var nfid=myPlacemark.properties.get('id');
-//                    myMap.geoObjects.remove(myPlacemark);
-                    });
-
-                    myMap.geoObjects.add(myPlacemark);
-                    myMap.balloon.close();
-                }
-                else{
-                    core.map.placemark.properties.set('iconContent', markerNumb);
-                    core.map.placemark.properties.set('hintContent', markerName);
-                    core.map.placemark.properties.set('markerType', markerType);
-                    core.map.placemark.properties.set('markerColor', markerColor);
-                    core.map.placemark.options.set('iconColor', markerColor);
-                    myMap.balloon.close();
-                    if(isDeleted){
-                        myMap.geoObjects.remove(core.map.placemark);
-                    }
-                }
-
-            }
-        });
-    });
 
     core.map.displayBalloon = function(e, placemark){
 
@@ -331,12 +144,6 @@
             myMap.balloon.close();
         }
     };
-
-    jQuery(document).on("click", ".fn-handler-marker-croad", function () {
-        $('#search-query-main').val($('input[name=latnew]').val()+" "+$('input[name=lngnew]').val());
-        $('#submit-form').trigger( "click" );
-    });
-
 </script>
 
 
@@ -384,5 +191,15 @@ echo CHtml::scriptFile(Yii::app()->request->baseUrl . "/js/click-handler.js");
     <div class="modal-footer">
         <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
         <button class="btn fn-handler-calculate-history btn-primary">Show history</button>
+    </div>
+</div>
+
+<div id="myModalMessage"  class="modal hide fade" tabindex="-1" role="dialog" >
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h3>Warning</h3>
+    </div>
+    <div class="modal-body">
+
     </div>
 </div>
