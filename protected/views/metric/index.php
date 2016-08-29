@@ -1,6 +1,5 @@
 <?php echo CHtml::scriptFile(Yii::app()->request->baseUrl . "/js/core.js");?>
 <script src="//api-maps.yandex.ru/2.1/?load=package.full&lang=ru-RU" type="text/javascript"></script>
-
 <script type="text/javascript">
 
     var advancerMarkers = {};

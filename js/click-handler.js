@@ -49,7 +49,7 @@ jQuery(document).on("click", ".fn-handler-calculate-history", function () {
 });
 
 jQuery(document).on("click", ".fn-handler-marker-croad", function () {
-    $('#search-query-main').val($('input[name=latnew]').val()+" "+$('input[name=lngnew]').val());
+    $('#search-query-main').val($('input[name=latnew]').val()+","+$('input[name=lngnew]').val());
     $('#submit-form').trigger( "click" );
 });
 
