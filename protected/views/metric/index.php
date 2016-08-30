@@ -17,11 +17,15 @@
             // её центр и коэффициент масштабирования.
             center: [50.00, 36.25],
             zoom: 15,
-            controls: ['smallMapDefaultSet'],
+            controls: [],
             behaviors: ['default', 'scrollZoom']
         });
         myMap.controls
-            .remove('mapTools');
+            .remove('mapTools')
+            .remove('searchControl')
+            .remove('rulerControl')
+            .remove('fullscreenControl')
+            .remove('typeSelector');
 
         myMap.controls.add(
             new ymaps.control.ZoomControl()

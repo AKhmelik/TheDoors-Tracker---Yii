@@ -274,7 +274,7 @@ class MetricController extends Controller
             $user = (Yii::app()->request->getParam('dailyHistory'))?Yii::app()->user->getId():Yii::app()->request->getParam('user');
             $team = Team::model()->getTeam();
             $usersArray = $team->getAllUsers();
-            //if (in_array($user, $usersArray)) {
+            if (in_array($user, $usersArray)) {
                 $criteria = new CDbCriteria;
                 $criteria->condition = "user_api_id =:user_api_id and datetime_col > :start AND datetime_col < :end";
                 $criteria->params = array(':user_api_id' => $user, ':start' => $startDate, ':end' => $endDate);
@@ -291,7 +291,7 @@ class MetricController extends Controller
                     $result[$i][] = [ 'latitude' => $row->latitude, 'longitude' => $row->longitude];
                     $previosValue = $row->time;
                 }
-            //}
+            }
         }
         echo json_encode($result);
     }

@@ -487,8 +487,8 @@ div.search-form
 .history-button{
     position: absolute;
     z-index: 2;
-    right: 20px;
-    top: 100px;
+    right:120px;
+    top: 66px;
 }
 
 @media (max-width: 830px) {

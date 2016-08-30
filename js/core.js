@@ -91,7 +91,6 @@ function getCores() {
 
             if (counter == 0) {
                 if (myRoute){myMap.geoObjects.remove(myRoute);}
-
                 if (info['end'] != "") {
                     ymaps.route(
                         [info['start'], info['end']],
@@ -106,7 +105,6 @@ function getCores() {
                         var points = myRoute.getWayPoints();
                         points.options.set('preset',  info['corecolor']);
 
-//                                console.log(myRoute.getDistance());
                         points.get(0).properties.set('iconContent', myRoute.getLength());
 
                         points.get(0).options.set('iconLayout', 'default#image');
@@ -115,13 +113,7 @@ function getCores() {
 
                         points.get(1).properties.set('iconContent', 'Точка прибытия');
 
-//                                points.get(0).properties.set('preset', info['icocolor']);
-//                                points.get(1).properties.set('preset', 'twirl#redStretchyIcon');
-
                         points.get(0).properties.set('hintContent', info['updated']);
-
-
-
                         var endCores  = points.get(1).geometry.getCoordinates();
                         var bounds = myRoute.getWayPoints().getBounds();
                         if(typeof bounds[1] !== 'undefined') {
@@ -133,8 +125,6 @@ function getCores() {
 
                                 }
                             });
-
-
                         }
                     });
                 }
