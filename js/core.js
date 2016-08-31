@@ -79,9 +79,8 @@ function getCores() {
             var info = JSON.parse(data);
             myPlacemark.geometry.setCoordinates(info['start']);
             myPlacemark.properties.set("hintContent", info['updated']);
-
             myPlacemark.options.set('iconLayout', 'default#image');
-            myPlacemark.options.set('iconImageHref', '/images/map_marker.gif');
+          //  myPlacemark.options.set('iconImageHref', '/images/map_marker.gif');
 
             if (needCentred) {
                 if (myMap.setCenter(info['start'])) {
@@ -107,9 +106,9 @@ function getCores() {
 
                         points.get(0).properties.set('iconContent', myRoute.getLength());
 
-                        points.get(0).options.set('iconLayout', 'default#image');
-                        points.get(0).options.set('iconImageHref', 'images/map_marker.gif');
-                        points.get(0).options.set('iconImageSize', [35, 35]);
+                        // points.get(0).options.set('iconLayout', 'default#image');
+                        // points.get(0).options.set('iconImageHref', 'images/map_marker.gif');
+                        points.get(0).options.set('visible', false);
 
                         points.get(1).properties.set('iconContent', 'Точка прибытия');
 
