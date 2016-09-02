@@ -153,10 +153,16 @@ class Team extends CActiveRecord
         return $userIds;
     }
 
-    public function getTeam(){
-        $userId = Yii::app()->user->getId();
-        $user = User::model()->findByPk($userId);
-        return $user->getTeam();
+    public static function getTeam(){
+        if (Yii::app()->user->isGuest) {
+            return (isset(Yii::app()->session['teamId'])) ? Team::model()->findByPk(Yii::app()->session['teamId']) : null;
+        }
+        else{
+            $userId = Yii::app()->user->getId();
+            if(!$userId){return false;}
+            $user = User::model()->findByPk($userId);
+            return $user->getTeam();
+        }
     }
 
     /**
@@ -186,4 +192,26 @@ class Team extends CActiveRecord
 
         return $arrayPoint;
     }
+
+    /**
+     * Returns sharing link
+     * @return mixed|null
+     * @author a.khmelik 2016-09-02
+     */
+    public function getSharingLink(){
+        return (!$this->access_hash)?Yii::app()->getBaseUrl(true)."/metric/loginByHash?hash=".$this->generateSharingHash():Yii::app()->getBaseUrl(true)."/metric/loginByHash?hash=".$this->access_hash;
+    }
+
+    /**
+     * Generates sharing hash
+     * @return string
+     * @author a.khmelik 2016-09-02
+     */
+    public function generateSharingHash(){
+        $newHash = md5($this->id.time());
+        $this->access_hash = $newHash;
+        $this->save();
+       return $newHash;
+    }
+
 }

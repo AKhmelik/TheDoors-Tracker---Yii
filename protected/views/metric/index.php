@@ -161,9 +161,16 @@ echo CHtml::scriptFile(Yii::app()->request->baseUrl . "/js/click-handler.js");
 ?>
 
 <div class="row-fluid">
+    <?php if(!Yii::app()->user->isGuest):?>
+        <a class="sharelink-button btn btn-primary"  data-toggle="modal" href="#myCustomModalMessage"><i class="icon-share icon-white"></i>Share access</a>
+    <?php endif;?>
+    <?php if(!Yii::app()->user->isGuest):?>
     <a class=" history-button btn btn-primary"  data-toggle="modal" href="#myModal"><i class="icon-calendar icon-white"></i> History</a>
+    <?php endif;?>
+
     <div id="map" class="col-xs-12 col-md-10"></div>
 </div>
+
 
 <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-header">
@@ -172,6 +179,7 @@ echo CHtml::scriptFile(Yii::app()->request->baseUrl . "/js/click-handler.js");
     </div>
     <div class="modal-body">
         <input type="text" value ="" name="daterange"  />
+        <input type="hidden" value ="<?php echo $team->getSharingLink();?>" id="sharing-link" name="charing-link"  />
         <input type="hidden" value ="<?php echo date('Y-m-d h:i:s', time()-86400)?>" name="startData"  />
         <input type="hidden" value ="<?php echo date('Y-m-d h:i:s', time())?>" name="endDate"  />
         <select  id ="userSelectedId" name="userSelected"><?php echo GeoUnique::getSelectPoint(true) ?></select>
@@ -197,12 +205,11 @@ echo CHtml::scriptFile(Yii::app()->request->baseUrl . "/js/click-handler.js");
     </div>
 </div>
 
-<div id="myModalMessage"  class="modal hide fade" tabindex="-1" role="dialog" >
+<div id="myCustomModalMessage" class="modal hide fade" tabindex="-1" role="dialog" >
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h3>Warning</h3>
+        <h3 class="modal-title"></h3>
     </div>
     <div class="modal-body">
-
     </div>
 </div>

@@ -261,4 +261,6 @@ class UserModule extends CWebModule
 	public function users() {
 		return User;
 	}
+
+
 }

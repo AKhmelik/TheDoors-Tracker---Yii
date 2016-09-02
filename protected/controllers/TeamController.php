@@ -59,7 +59,7 @@ class TeamController extends Controller
 	 */
 	public function actionCreate()
 	{
-        $team = Team::model()->getTeam();
+        $team = Team::getTeam();
         if($team->is_private == Team::TYPE_PUBLIC){
             $this->redirect(array('index'));
         }
@@ -102,7 +102,7 @@ class TeamController extends Controller
 	public function actionIndex()
 	{
         $userId = Yii::app()->user->getId();
-        $team = Team::model()->getTeam();
+        $team = Team::getTeam();
         if($team->is_private == Team::TYPE_PUBLIC){
             if(isset($_POST['user_id'])){
                 $teamUsers = new TeamUsers();
@@ -200,7 +200,7 @@ class TeamController extends Controller
 	}
 
     public function actionUserHide(){
-        $team = Team::model()->getTeam();
+        $team = Team::getTeam();
         $teamUsers = TeamUsers::model()->findByAttributes(array('team_id'=>$team->id, 'user_id'=>Yii::app()->request->getParam('id')));
         if($teamUsers){
             $teamUsers->show_in_map =self::MAP_DISPLAY_FALSE;
@@ -210,7 +210,7 @@ class TeamController extends Controller
 
     public function actionUserDisplay(){
 
-        $team = Team::model()->getTeam();
+        $team = Team::getTeam();
         $teamUsers = TeamUsers::model()->findByAttributes(array('team_id'=>$team->id, 'user_id'=>Yii::app()->request->getParam('id')));
         if($teamUsers){
             $teamUsers->show_in_map =self::MAP_DISPLAY_TRUE;
@@ -221,7 +221,7 @@ class TeamController extends Controller
 
     public function actionUserDelete(){
 
-        $team = Team::model()->getTeam();
+        $team = Team::getTeam();
         $teamUsers = TeamUsers::model()->findByAttributes(array('team_id'=>$team->id, 'user_id'=>Yii::app()->request->getParam('id')));
         if($teamUsers){
             $userId = $teamUsers->user_id;

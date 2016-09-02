@@ -41,8 +41,10 @@ jQuery(document).on("click", ".fn-handler-calculate-history", function () {
             });
             $('#myModal').modal('hide');
             if(!hasData){
-                $('#myModalMessage .modal-body').html('no history data!');
-                $('#myModalMessage').modal('toggle')
+                $('.modal-title').html('Warning');
+
+                $('#myCustomModalMessage .modal-body').html('no history data!');
+                $('#myCustomModalMessage').modal('toggle')
             }
         }
     });
@@ -52,6 +54,7 @@ jQuery(document).on("click", ".fn-handler-marker-croad", function () {
     $('#search-query-main').val($('input[name=latnew]').val()+","+$('input[name=lngnew]').val());
     $('#submit-form').trigger( "click" );
 });
+
 
 jQuery(document).on("click", ".fn-handler-marker-create, .fn-handler-marker-delete", function () {
 
@@ -110,4 +113,34 @@ jQuery(document).on("click", ".fn-handler-marker-create, .fn-handler-marker-dele
 
         }
     });
+});
+
+jQuery(document).on("click", ".sharelink-button", function () {
+    $('.modal-title').html('Access sharing');
+    var sharingLink = $('#sharing-link').val();
+    $('#myCustomModalMessage .modal-body').html('');
+    $('<input id="share-it" class="sharing-input" name"new_gallery" value="'+sharingLink+'"/>').appendTo($('#myCustomModalMessage .modal-body'));
+    setTimeout(function () {
+        $('#share-it').select();
+    },1000);
+    var buttonElement = $('<a class="generate-code-button btn btn-primary" ><i class="icon-random icon-white"></i>Generate new link</a>')
+        .appendTo($('#myCustomModalMessage .modal-body'));
+});
+
+
+jQuery(document).on("click", ".generate-code-button", function () {
+    $.ajax({
+        type: 'POST',
+        url: '/metric/generateNewLink',
+        data: {
+        },
+        success: function (data) {
+            $('#share-it').val(data).select();
+        }
+    });
+
+});
+
+jQuery(document).on("click", "#share-it", function () {
+    $('#share-it').select();
 });

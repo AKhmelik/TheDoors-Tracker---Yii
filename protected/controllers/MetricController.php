@@ -2,6 +2,7 @@
 
 class MetricController extends Controller
 {
+    public  $endPointName ='';
 
     public function filters()
     {
@@ -12,10 +13,15 @@ class MetricController extends Controller
     {
         return array(
             array('allow', // allow authenticated users to access all actions
+                'actions'=>array('generatenewlink'),
                 'users'=>array('@'),
             ),
             array('allow',  // allow all users to perform 'list' and 'show' actions
-                'actions'=>array('getdata', 'calculateHistory'),
+                'actions'=>array('index','getdata', 'setendpoint','calculateHistory', 'getcores',  'addmarker', 'getanotherpoints'),
+                'expression'=>'WebUser::isSupport()',
+            ),
+            array('allow',  // allow all users to perform 'list' and 'show' actions
+                'actions'=>array('loginbyhash'),
                 'users'=>array('*'),
             ),
             array('deny'),
@@ -25,7 +31,7 @@ class MetricController extends Controller
     public function actionIndex()
     {
 
-       $team = Team::model()->getTeam();
+       $team = Team::getTeam();
 
         if(Yii::app()->request->isPostRequest)
         {
@@ -50,7 +56,12 @@ class MetricController extends Controller
 }
 
         $geoPoints=GeoPoints::model()->findAllByAttributes(array('team_id'=>$team->id));
-        $this->render('index', array('model' => array(), 'geoPoints'=>$geoPoints));
+
+        $team = Team::getTeam();
+        if($team){
+            $this->endPointName = $team->end_point_name;
+        }
+        $this->render('index', array('model' => array(), 'geoPoints'=>$geoPoints, 'team'=>$team));
 
     }
 
@@ -118,7 +129,7 @@ class MetricController extends Controller
     {
         if (Yii::app()->request->isAjaxRequest) {
 
-            $team = Team::model()->getTeam();
+            $team = Team::getTeam();
 
             $geolocal =GeoUnique::getByUserId($team->user_host_id);
 
@@ -143,7 +154,7 @@ class MetricController extends Controller
         if (Yii::app()->request->isAjaxRequest) {
 
             $geos = array();
-            $team = Team::model()->getTeam();
+            $team = Team::getTeam();
             $usersIds = $team->getUsersInMap();
             if($usersIds){
                 foreach ($usersIds as $userId) {
@@ -197,7 +208,7 @@ class MetricController extends Controller
             $endPointCoreLat = Yii::app()->request->getParam('endPointCoreLat');
             $endPointCoreLng = Yii::app()->request->getParam('endPointCoreLng');
 
-            $team = Team::model()->getTeam();
+            $team = Team::getTeam();
             $team->end_point_lat = $endPointCoreLat;
             $team->end_point_lng = $endPointCoreLng;
             $team->save(false);
@@ -228,7 +239,7 @@ class MetricController extends Controller
 
     public function actionAddMarker()
     {
-        $team = Team::model()->getTeam();
+        $team = Team::getTeam();
 
         $isNew = false;
         if (Yii::app()->request->getParam('markerLat') && Yii::app()->request->getParam('markerLng')) {
@@ -272,7 +283,7 @@ class MetricController extends Controller
             $startDate = (Yii::app()->request->getParam('dailyHistory'))?date('Y-m-d h:i:s', time()-86400):Yii::app()->request->getParam('startDate');
             $endDate = (Yii::app()->request->getParam('dailyHistory'))?date('Y-m-d h:i:s', time()+86400):Yii::app()->request->getParam('endDate');
             $user = (Yii::app()->request->getParam('dailyHistory'))?Yii::app()->user->getId():Yii::app()->request->getParam('user');
-            $team = Team::model()->getTeam();
+            $team = Team::getTeam();
             $usersArray = $team->getAllUsers();
             if (in_array($user, $usersArray)) {
                 $criteria = new CDbCriteria;
@@ -295,4 +306,26 @@ class MetricController extends Controller
         }
         echo json_encode($result);
     }
+    public function actionLoginByHash(){
+        Yii::app()->session->clear();
+        if(Yii::app()->request->getParam('hash')){
+            $team = Team::model()->findByAttributes(['access_hash'=>Yii::app()->request->getParam('hash')]);
+            if($team){
+                Yii::app()->session['teamId'] = $team->id;
+                Yii::app()->session['teamHash'] = Yii::app()->request->getParam('hash');
+            }
+        }
+        $this->redirect(array('metric/index'));
+    }
+    public function actionGenerateNewLink(){
+        if (Yii::app()->request->isAjaxRequest) {
+            $team = Team::getTeam();
+            /**
+             * @var $team Team
+             */
+            $team->generateSharingHash();
+            echo $team->getSharingLink();
+        }
+    }
+
 }

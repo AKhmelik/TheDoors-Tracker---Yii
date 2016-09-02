@@ -22,13 +22,6 @@
 <body>
 <div class="main-wraper" id="page">
     <?php
-    $userId = Yii::app()->user->getId();
-    $endPointName = '';
-    if ($userId) {
-        $user = User::model()->findByPk($userId);
-        $team = $user->getTeam();
-        $endPointName = $team->end_point_name;
-    }
 
     $this->widget('bootstrap.widgets.TbAlert', array(
         'fade' => true,
@@ -47,7 +40,7 @@
 
     $customForm = (Yii::app()->controller->id == 'metric') ? '
                               <form class="navbar-search pull-left" method="post">
-                                  <input type="text" name="cores" id="search-query-main" class="search-query" value="' . $endPointName . '" placeholder="Aдрес / Координаты">
+                                  <input type="text" name="cores" id="search-query-main" class="search-query" value="' . $this->endPointName . '" placeholder="Aдрес / Координаты">
                                   <select  name="mainPoint">' . GeoUnique::getSelectPoint() . '</select>
                                   <input class="btn" id="submit-form" type="submit" name="sub" value="Построить маршрут">
                               </form>' : '';

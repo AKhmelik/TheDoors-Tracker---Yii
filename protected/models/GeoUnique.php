@@ -22,15 +22,15 @@ class GeoUnique extends CActiveRecord
 
     public static function getSelectPoint($isAll=false){
         $html = '';
-        $team = Team::model()->getTeam();
+        $team = Team::getTeam();
         if($isAll){
 //            $data = Yii::app()->db->createCommand('Select id from tbl_users');
 //            $userArray = $data->queryColumn();
 
-            $userArray = $team->getAllUsers();
+            $userArray = ($team)?$team->getAllUsers():[];
         }
         else{
-          $userArray = $team->getUsersInMap();
+          $userArray = ($team)?$team->getUsersInMap():[];
         }
         if($userArray){
             foreach ($userArray as $userId) {

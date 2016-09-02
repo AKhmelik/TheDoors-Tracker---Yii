@@ -66,4 +66,13 @@ class WebUser extends CWebUser
         return Yii::app()->getModule('user')->isAdmin();
     }
 
+    public function isSupport(){
+        if(!Yii::app()->user->isGuest){
+            return true;
+        }
+        if(isset(Yii::app()->session['teamHash']) && Yii::app()->session['teamHash']){
+            return Team::model()->findByAttributes(['access_hash'=>Yii::app()->session['teamHash']]);
+        }
+        return false;
+    }
 }

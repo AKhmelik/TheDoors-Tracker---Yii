@@ -106,4 +106,15 @@ class SiteController extends Controller
 		Yii::app()->user->logout();
 		$this->redirect(Yii::app()->homeUrl);
 	}
+    public function actionLoginByHash(){
+        if(Yii::app()->request->getParam('hash')){
+            $team = Team::model()->findByAttributes(['access_hash'=>Yii::app()->request->getParam('hash')]);
+            if($team){
+                Yii::app()->session['teamId'] = $team->id;
+                Yii::app()->session['teamHash'] = Yii::app()->request->getParam('hash');
+                $this->redirect(array('metric/index'));
+            }
+        }
+        return false;
+    }
 }
