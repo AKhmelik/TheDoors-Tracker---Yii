@@ -7,13 +7,6 @@ body
 	background: #EFEFEF;
 }
 
-#page
-{
-	margin-top: 5px;
-	margin-bottom: 5px;
-	background: white;
-	border: 1px solid #C9E0ED;
-}
 
 #header
 {
@@ -51,6 +44,7 @@ body
 
 #footer
 {
+    display: none;
 	padding: 10px;
 	margin: 10px 20px;
 	font-size: 0.8em;
@@ -487,16 +481,22 @@ div.search-form
 .history-button, .sharelink-button{
     position: absolute;
     z-index: 2;
-    right:120px;
-    top: 66px;
+    right:20px;
+    top: 44px;
 }
 
 .sharelink-button{
-    right:220px;
+    right:120px;
 }
 .sharing-input{
     width: 360px;
     margin-right: 8px;
+}
+.leave-team{
+    margin-left: 10px;
+}
+.content-wrapper{
+    margin-top: 40px;
 }
 
 @media (max-width: 830px) {
@@ -504,5 +504,4 @@ div.search-form
     {
         width: 820px;
     }
-
 }

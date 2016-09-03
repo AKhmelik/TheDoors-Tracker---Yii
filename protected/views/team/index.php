@@ -1,11 +1,12 @@
-
+<?php echo CHtml::scriptFile(Yii::app()->request->baseUrl . "/js/click-handler.js");?>
+<div class="content-wrapper">
 <h1>Manage <?php echo $team->name?> Team </h1>
 <?php echo CHtml::beginForm();
 $this->widget(
     'bootstrap.widgets.TbSelect2',
     array(
         'asDropDownList' => true,
-        'name' => 'user_id',
+        'name' => 'user_id_new',
         'data' => $users,
         'options' => array(
             'val' => $users,
@@ -16,11 +17,14 @@ $this->widget(
     )
 );?>&nbsp;
  <?php echo CHtml::submitButton('Invite to team'); ?>
+<a class=" leave-team btn btn-primary btn-danger"  href="#"><i class="icon-plane icon-white"></i>Leave Team</a>
 <?php echo CHtml::endForm(); ?>
+
 
 <?php $this->widget('zii.widgets.grid.CGridView', array(
     'id'=>'tbl-team-grid',
     'dataProvider'=>$dataProvider,
+
     'columns'=>array(
         'User.username',
         /*
@@ -29,6 +33,9 @@ $this->widget(
         */
         array
         (
+            'afterDelete'=>'function(link,success,data){
+            window.location.href = window.location.href;
+            }',
             'class' => 'bootstrap.widgets.TbButtonColumn',
             'template' => '{display}{hide}{delete}',
             'deleteConfirmation'=> false,
@@ -55,7 +62,7 @@ $this->widget(
                 ),
             ),
             'delete' => array(
-                'url' => 'Yii::app()->controller->createUrl("userDelete", array("id"=>$data["user_id"]))',
+                'url' => 'Yii::app()->controller->createUrl("userLeave", array("id"=>$data["user_id"]))',
                 'label' => 'Click to remove user from team',
                 'icon'=>'remove', //remove-circle,remove
                 'options'=>array(
@@ -66,3 +73,37 @@ $this->widget(
         ),
     ),
 )); ?>
+    <h1>Invites </h1>
+<?php $this->widget('zii.widgets.grid.CGridView', array(
+    'id'=>'tbl-team-grid',
+    'dataProvider'=>$dataProviderInvites,
+    'columns'=>array(
+        'User.username',
+        /*
+        'end_point_name',
+        'user_host_id',
+        */
+        array
+        (
+            'class' => 'bootstrap.widgets.TbButtonColumn',
+            'template' => '{delete}',
+            'deleteConfirmation'=> false,
+            'afterDelete'=>'function(link,success,data){
+                
+               window.location.href = window.location.href;
+            }',
+            'buttons' => array(
+
+                'delete' => array(
+                    'url' => 'Yii::app()->controller->createUrl("userDelete", array("id"=>$data["user_id"]))',
+                    'label' => 'Click to remove invitation to team',
+                    'icon'=>'remove', //remove-circle,remove
+                    'options'=>array(
+                        'class'=>'btn btn-small',
+                    ),
+                ),
+            ),
+        ),
+    ),
+)); ?>
+</div>

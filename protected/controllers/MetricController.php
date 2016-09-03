@@ -265,9 +265,7 @@ class MetricController extends Controller
             } else {
                 $geoPoint->save();
             }
-
             echo $geoPoint->id;
-
         }
     }
 
@@ -282,9 +280,10 @@ class MetricController extends Controller
         ) {
             $startDate = (Yii::app()->request->getParam('dailyHistory'))?date('Y-m-d h:i:s', time()-86400):Yii::app()->request->getParam('startDate');
             $endDate = (Yii::app()->request->getParam('dailyHistory'))?date('Y-m-d h:i:s', time()+86400):Yii::app()->request->getParam('endDate');
-            $user = (Yii::app()->request->getParam('dailyHistory'))?Yii::app()->user->getId():Yii::app()->request->getParam('user');
             $team = Team::getTeam();
-            $usersArray = $team->getAllUsers();
+            $user = (Yii::app()->request->getParam('dailyHistory'))?$team->user_host_id:Yii::app()->request->getParam('user');
+
+            $usersArray = ($team->is_private==Team::TYPE_PRIVATE)?[$team->owner_id]:$team->getAllUsers();
             if (in_array($user, $usersArray)) {
                 $criteria = new CDbCriteria;
                 $criteria->condition = "user_api_id =:user_api_id and datetime_col > :start AND datetime_col < :end";

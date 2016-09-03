@@ -210,7 +210,7 @@ class Team extends CActiveRecord
     public function generateSharingHash(){
         $newHash = md5($this->id.time());
         $this->access_hash = $newHash;
-        $this->save();
+        $this->save(false);
        return $newHash;
     }
 

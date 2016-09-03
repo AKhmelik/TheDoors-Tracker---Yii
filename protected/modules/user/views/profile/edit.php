@@ -1,18 +1,6 @@
-<?php $this->pageTitle=Yii::app()->name . ' - '.UserModule::t("Profile");
-$this->breadcrumbs=array(
-	UserModule::t("Profile")=>array('profile'),
-	UserModule::t("Edit"),
-);
-$this->menu=array(
-	((UserModule::isAdmin())
-		?array('label'=>UserModule::t('Manage Users'), 'url'=>array('/user/admin'))
-		:array()),
-    array('label'=>UserModule::t('List User'), 'url'=>array('/user')),
-    array('label'=>UserModule::t('Profile'), 'url'=>array('/user/profile')),
-    array('label'=>UserModule::t('Change password'), 'url'=>array('changepassword')),
-    array('label'=>UserModule::t('Logout'), 'url'=>array('/user/logout')),
-);
-?><h1><?php echo UserModule::t('Edit profile'); ?></h1>
+<?php $this->pageTitle=Yii::app()->name . ' - '.UserModule::t("Profile");?>
+<div class="content-wrapper">
+<h1><?php echo UserModule::t('Edit profile'); ?></h1>
 
 <?php if(Yii::app()->user->hasFlash('profileMessage')): ?>
 <div class="success">
@@ -72,3 +60,47 @@ $this->menu=array(
 <?php $this->endWidget(); ?>
 
 </div><!-- form -->
+
+<h1><?php echo UserModule::t("Change password"); ?></h1>
+
+<div class="form">
+	<?php $form=$this->beginWidget('CActiveForm', array(
+		'id'=>'changepassword-form',
+		'enableAjaxValidation'=>true,
+		'clientOptions'=>array(
+			'validateOnSubmit'=>true,
+		),
+	)); ?>
+
+	<p class="note"><?php echo UserModule::t('Fields with <span class="required">*</span> are required.'); ?></p>
+	<?php echo $form->errorSummary($modelPass); ?>
+
+	<div class="row">
+		<?php echo $form->labelEx($modelPass,'oldPassword'); ?>
+		<?php echo $form->passwordField($modelPass,'oldPassword'); ?>
+		<?php echo $form->error($modelPass,'oldPassword'); ?>
+	</div>
+
+	<div class="row">
+		<?php echo $form->labelEx($modelPass,'password'); ?>
+		<?php echo $form->passwordField($modelPass,'password'); ?>
+		<?php echo $form->error($modelPass,'password'); ?>
+		<p class="hint">
+			<?php echo UserModule::t("Minimal password length 4 symbols."); ?>
+		</p>
+	</div>
+
+	<div class="row">
+		<?php echo $form->labelEx($modelPass,'verifyPassword'); ?>
+		<?php echo $form->passwordField($modelPass,'verifyPassword'); ?>
+		<?php echo $form->error($modelPass,'verifyPassword'); ?>
+	</div>
+
+
+	<div class="row submit">
+		<?php echo CHtml::submitButton(UserModule::t("Save")); ?>
+	</div>
+
+	<?php $this->endWidget(); ?>
+</div><!-- form -->
+</div>

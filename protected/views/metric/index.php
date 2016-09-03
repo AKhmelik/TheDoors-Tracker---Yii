@@ -47,7 +47,8 @@
 
         myPlacemark = new ymaps.Placemark([50.00, 36.25], {
             iconContent: 'EN',
-            hintContent: 'ЭКИПАЖ!'
+            hintContent: 'ЭКИПАЖ!',
+
         }, {
             // Опции.
             // Стандартная фиолетовая иконка.
@@ -55,7 +56,9 @@
             iconLayout: 'default#image',
             // Своё изображение иконки метки.
             iconImageHref: '/images/map_marker.gif',
-            iconImageSize: [35, 35]
+            iconImageSize: [35, 35],
+            iconOffset: [0,15]
+
         });
         myMap.geoObjects.add(myPlacemark);
 
@@ -91,7 +94,8 @@
     }
 
     setInterval('getCores()', 2000);
-    setInterval('core.showHistory()', 5000);
+    setInterval('core.showHistory()', 60000);
+    core.showHistory();
 
 
     core.map.displayBalloon = function(e, placemark){
@@ -115,7 +119,7 @@
             myMap.balloon.open(coords, {
                 contentHeader:headerText,
                 contentBody:'<p><div class="input-append">'+
-                '<input class="span5" name="newMarkerNumb" placeholder="marker name" id="appendedInputButton" value ="'+iconContent+'" type="text">' +
+                '<input class="new-marker-input" style ="width: 180px" name="newMarkerNumb" placeholder="marker name" id="appendedInputButton" value ="'+iconContent+'" type="text">' +
                '<button class="btn fn-handler-marker-create" type="button">'+submitText+'</button>'+deleteButton+'<button class="btn fn-handler-marker-croad" type="button">Set Route</button>'+
                 '</div></p>' +
                 '<label >' +
@@ -159,7 +163,7 @@ echo CHtml::cssFile(Yii::app()->request->baseUrl . "/js/momentjs/daterangepicker
 echo CHtml::scriptFile(Yii::app()->request->baseUrl . "/js/click-handler.js");
 
 ?>
-
+<div id="map" class="col-xs-12 col-md-10"></div>
 <div class="row-fluid">
     <?php if(!Yii::app()->user->isGuest):?>
         <a class="sharelink-button btn btn-primary"  data-toggle="modal" href="#myCustomModalMessage"><i class="icon-share icon-white"></i>Share access</a>
@@ -168,7 +172,7 @@ echo CHtml::scriptFile(Yii::app()->request->baseUrl . "/js/click-handler.js");
     <a class=" history-button btn btn-primary"  data-toggle="modal" href="#myModal"><i class="icon-calendar icon-white"></i> History</a>
     <?php endif;?>
 
-    <div id="map" class="col-xs-12 col-md-10"></div>
+
 </div>
 
 

@@ -24,13 +24,20 @@ class GeoUnique extends CActiveRecord
         $html = '';
         $team = Team::getTeam();
         if($isAll){
-//            $data = Yii::app()->db->createCommand('Select id from tbl_users');
-//            $userArray = $data->queryColumn();
-
-            $userArray = ($team)?$team->getAllUsers():[];
+            if($team && $team->is_private==Team::TYPE_PRIVATE){
+                $userArray = [$team->owner_id];
+            }
+            else{
+                $userArray = ($team)?$team->getAllUsers():[];
+            }
         }
         else{
-          $userArray = ($team)?$team->getUsersInMap():[];
+            if($team && $team->is_private==Team::TYPE_PRIVATE){
+                $userArray = [$team->owner_id];
+            }
+            else{
+                $userArray = ($team)?$team->getUsersInMap():[];
+            }
         }
         if($userArray){
             foreach ($userArray as $userId) {

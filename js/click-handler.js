@@ -144,3 +144,16 @@ jQuery(document).on("click", ".generate-code-button", function () {
 jQuery(document).on("click", "#share-it", function () {
     $('#share-it').select();
 });
+
+
+jQuery(document).on("click", ".leave-team", function () {
+    $.ajax({
+        type: 'POST',
+        url: '/team/leaveTeam',
+        data: {
+        },
+        success: function (data) {
+            location.reload();
+        }
+    });
+});

@@ -167,26 +167,36 @@ body {
     }
 
     .row-fluid #map{
-        height: 600px!important;
+        /*height: 600px!important;*/
     }
 
 
 }
-@media screen and (max-width: 600px) {
-    .navbar.navbar-fixed-top{
-        display:none;
-    }
-}
-
 
 .row-fluid #map {
     width: 100%;
-    height: 768px;
+    height: 100%;
     margin: 0;
     padding: 0;
 }
 
-.main-wraper{
-    margin: 0 7px 0 7px;
-}
 
+html,
+body , .main-wraper, #map{
+    height: 100%;
+}
+.bs-navbar-top-example{
+    position: absolute;
+    z-index: 10;
+    width: 100%;
+}
+.navbar-fixed-top .navbar-inner, .navbar-fixed-bottom .navbar-inner{
+    padding: 0!important;
+}
+.nav-collapse{
+    padding-right: 15px;
+    padding-left: 15px;
+}
+.new-marker-input{
+    width: 180px!important;
+}

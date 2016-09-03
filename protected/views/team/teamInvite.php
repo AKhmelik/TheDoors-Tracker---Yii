@@ -1,8 +1,66 @@
+<div class="content-wrapper">
 <h1>Invites</h1>
-<?php echo CHtml::errorSummary($teamUsers); ?>
-<?php echo CHtml::beginForm(); ?>
-<?php echo CHtml::activeDropDownList($teamUsers,'team_id',CHtml::listData($teamInvitedArray,'team_id','Team.name'), array('empty' => '(Select a team)'));?>
-<?php echo CHtml::submitButton('Accept'); ?>
-<?php echo CHtml::link('Create Team',array('team/create'),array('class'=>'btn btn-primary')); ?>
-
-<?php echo CHtml::endForm(); ?>
+<?php echo CHtml::link('Create Team', array('team/create'), array('class' => 'btn btn-primary')); ?>
+<?php $this->widget('zii.widgets.grid.CGridView', array(
+    'id' => 'tbl-team-grid',
+    'dataProvider' => $dataProviderInvites,
+    'columns' => array(
+        'Team.name',
+        array(
+            'type'=>'raw',
+            'htmlOptions'=>array('width'=>'40px'),
+            'value' => function($data){return CHtml::ajaxLink(
+                'Accept',
+                Yii::app()->controller->createUrl("teamAccept", array("team_id"=>$data["team_id"])),
+                array("type" => "POST","success"=>"function(){location.reload();}"),
+                array("class" => "delete btn-success btn"));},
+        ),
+        array(
+            'type'=>'raw',
+            'htmlOptions'=>array('width'=>'40px'),
+            'value' => function($data){return CHtml::ajaxLink(
+                'Delete',
+                Yii::app()->controller->createUrl("teamDelete", array("team_id"=>$data["team_id"])),
+                array("type" => "POST","success"=>"function(){location.reload();}"),
+                array("class" => "delete btn btn-danger"));},
+        ),
+        /*
+        'end_point_name',
+        'user_host_id',
+        */
+//        array
+//        (
+//
+//            'class' => 'bootstrap.widgets.TbButtonColumn',
+//            'template' => '{accept}{delete}',
+//            'deleteConfirmation' => false,
+//            'afterDelete' => 'function(link,success,data){
+//
+//               window.location.href = window.location.href;
+//            }',
+//
+//
+//
+//            'buttons' => array(
+//                'accept' => array(
+//                    'url' => 'Yii::app()->controller->createUrl("teamAccept", array("id"=>$data["team_id"]))',
+//                    'label' => 'Click to hide user on map',
+//                    'icon' => 'ok-sign', //remove-circle,remove
+//                    'options' => array(
+//                        'class' => 'btn btn-small',
+//                    ),
+//                ),
+//                'delete' => array(
+//                    'url' => 'Yii::app()->controller->createUrl("teamDelete", array("id"=>$data["team_id"]))',
+//                    'label' => 'Click to remove invitation to team',
+//                    'icon' => 'remove', //remove-circle,remove
+//                    'options' => array(
+//                        'class' => 'btn btn-small',
+//                    ),
+//                ),
+//
+//            ),
+//        ),
+    ),
+)); ?>
+    </div>

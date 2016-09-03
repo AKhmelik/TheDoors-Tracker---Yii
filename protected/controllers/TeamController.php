@@ -104,10 +104,10 @@ class TeamController extends Controller
         $userId = Yii::app()->user->getId();
         $team = Team::getTeam();
         if($team->is_private == Team::TYPE_PUBLIC){
-            if(isset($_POST['user_id'])){
+            if(isset($_POST['user_id_new'])){
                 $teamUsers = new TeamUsers();
                 $teamUsers->team_id = $team->id;
-                $teamUsers->user_id = $_POST['user_id'];
+                $teamUsers->user_id = $_POST['user_id_new'];
                 $teamUsers->status = TeamUsers::STATUS_INVITED;
                 if($teamUsers->save()){
                     $user = Yii::app()->getComponent('user');
@@ -139,29 +139,34 @@ class TeamController extends Controller
                 ),
             ));
 
+            $dataProviderInvites=new CActiveDataProvider('TeamUsers', array(
+                'criteria'=>array(
+                    'condition'=>'t.status =0 AND team_id='.$team->id,
+                    'with'=>array('User'),
+                ),
+                'pagination'=>array(
+                    'pageSize'=>20,
+                ),
+            ));
+
+
             $this->render('index',array(
-                'dataProvider'=>$dataProvider,  'team' =>$team, 'users'=>$users
+                'dataProvider'=>$dataProvider,  'dataProviderInvites' => $dataProviderInvites, 'team' =>$team, 'users'=>$users
             ));
         }
         else{
-            $teamUsers= new TeamUsers();
-            if(isset($_POST['TeamUsers'])){
-                if(isset($_POST['TeamUsers']['team_id'])){
-                   $team = TeamUsers::model()->findByAttributes(array('user_id'=>$userId, 'team_id'=>$_POST['TeamUsers']['team_id']));
-                   if($team){
-                       $team->status = TeamUsers::STATUS_IN_TEAM;
-                       $team->save(false);
-                       $this->refresh();
-                   }
-                }
-                $teamUsers->addError('team_error','Please select the team');
 
-            }
-
-
-            $teamInvitedArray = TeamUsers::model()->findAllByAttributes(array('user_id'=>$userId, 'status'=>TeamUsers::STATUS_INVITED));
-            $this->render('teamInvite',array(
-                'teamInvitedArray'=>$teamInvitedArray,  'teamUsers' =>$teamUsers
+            $dataProviderInvites=new CActiveDataProvider('TeamUsers', array(
+                'criteria'=>array(
+                    'condition'=>'t.status =0 AND user_id='.$userId,
+                    'with'=>array('Team'),
+                ),
+                'pagination'=>array(
+                    'pageSize'=>20,
+                ),
+            ));
+             $this->render('teamInvite',array(
+                'dataProviderInvites'=>$dataProviderInvites
             ));
 
         }
@@ -218,6 +223,12 @@ class TeamController extends Controller
         }
     }
 
+    public function actionUserLeave(){
+        $team = Team::getTeam();
+        $teamUsers = TeamUsers::model()->findByAttributes(array('team_id'=>$team->id, 'user_id'=>Yii::app()->request->getParam('id')));
+        $teamUsers->status = TeamUsers::STATUS_INVITED;
+        $teamUsers->save();
+    }
 
     public function actionUserDelete(){
 
@@ -245,9 +256,45 @@ class TeamController extends Controller
                     }
                 }
             }
-
-
         }
+    }
+
+    public function actionLeaveTeam(){
+        if (Yii::app()->request->isAjaxRequest) {
+            $userId = Yii::app()->user->getId();
+            if(!$userId){return false;}
+            $user = User::model()->findByPk($userId);
+            $team = $user->getPublicTeam();
+            if($team){
+                $teamUsers = TeamUsers::model()->findByAttributes(['team_id'=>$team->id,'user_id'=>$userId]);
+                $teamUsers->status = TeamUsers::STATUS_INVITED;
+                return $teamUsers->save();
+            }
+        }
+    }
+
+    public function actionTeamAccept(){
+        if (Yii::app()->request->isAjaxRequest) {
+            $userId = Yii::app()->user->getId();
+            $teamUsers = TeamUsers::model()->findByAttributes(array('team_id'=>Yii::app()->request->getParam('team_id'),
+                'user_id'=>$userId));
+            if($teamUsers){
+                $teamUsers->status = TeamUsers::STATUS_IN_TEAM;
+                $teamUsers->save();
+            }
+        }
+        echo 1;
+    }
+    public function actionTeamDelete(){
+        if (Yii::app()->request->isAjaxRequest) {
+            $userId = Yii::app()->user->getId();
+            $teamUsers = TeamUsers::model()->findByAttributes(array('team_id'=>Yii::app()->request->getParam('team_id'),
+                'user_id'=>$userId));
+            if($teamUsers){
+                $teamUsers->delete();
+            }
+        }
+        echo 1;
     }
 
 }

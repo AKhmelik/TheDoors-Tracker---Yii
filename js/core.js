@@ -31,7 +31,6 @@ core.showHistory = function () {
         url: '/metric/calculateHistory',
         data: {dailyHistory: 1},
         success: function (data) {
-
             $.each(polylineArr, function(index, value) {
                 myMap.geoObjects.remove(value);
             });
@@ -104,13 +103,18 @@ function getCores() {
                         var points = myRoute.getWayPoints();
                         points.options.set('preset',  info['corecolor']);
 
+
                         points.get(0).properties.set('iconContent', myRoute.getLength());
 
                         // points.get(0).options.set('iconLayout', 'default#image');
                         // points.get(0).options.set('iconImageHref', 'images/map_marker.gif');
                         points.get(0).options.set('visible', false);
 
-                        points.get(1).properties.set('iconContent', 'Точка прибытия');
+                        points.get(1).properties.set('iconContent', 'Точка прибытия. Длина маршрута:'+ myRoute.getLength());
+                        points.get(1).options.set('preset', 'islands#darkOrangeStretchyIcon' );
+
+
+
 
                         points.get(0).properties.set('hintContent', info['updated']);
                         var endCores  = points.get(1).geometry.getCoordinates();

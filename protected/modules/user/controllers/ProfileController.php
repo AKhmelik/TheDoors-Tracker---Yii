@@ -48,12 +48,36 @@ class ProfileController extends Controller
 				$profile->save();
                 Yii::app()->user->updateSession();
 				Yii::app()->user->setFlash('profileMessage',UserModule::t("Changes is saved."));
-				$this->redirect(array('/user/profile'));
 			} else $profile->validate();
 		}
 
+
+
+        $modelPass = new UserChangePassword;
+        if (Yii::app()->user->id) {
+
+            // ajax validator
+            if(isset($_POST['ajax']) && $_POST['ajax']==='changepassword-form')
+            {
+                echo UActiveForm::validate($modelPass);
+                Yii::app()->end();
+            }
+
+            if(isset($_POST['UserChangePassword'])) {
+                $modelPass->attributes=$_POST['UserChangePassword'];
+                if($modelPass->validate()) {
+                    $new_password = User::model()->notsafe()->findbyPk(Yii::app()->user->id);
+                    $new_password->password = UserModule::encrypting($modelPass->password);
+                    $new_password->activkey=UserModule::encrypting(microtime().$modelPass->password);
+                    $new_password->save();
+                    Yii::app()->user->setFlash('profileMessage',UserModule::t("New password is saved."));
+                }
+            }
+        }
+
 		$this->render('edit',array(
 			'model'=>$model,
+            'modelPass'=>$modelPass,
 			'profile'=>$profile,
 		));
 	}
