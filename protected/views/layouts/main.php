@@ -42,7 +42,7 @@
                               <form class="navbar-search pull-left" method="post">
                                   <input type="text" name="cores" id="search-query-main" class="search-query" value="' . $this->endPointName . '" placeholder="Aдрес / Координаты">
                                   <select  name="mainPoint">' . GeoUnique::getSelectPoint() . '</select>
-                                  <input class="btn" id="submit-form" type="submit" name="sub" value="Построить маршрут">
+                                  <input class="btn btn-success" id="submit-form" type="submit" name="sub" value="Построить маршрут">
                               </form>' : '';
 
     echo CHtml::openTag('div', array('class' => 'bs-navbar-top-example'));
@@ -62,9 +62,9 @@
 //                        // array('label' => 'Codes Generator', 'url' => '#'),
 //
 //                    ),
-                        array('label' => 'Home', 'url' => array('/metric/index')),
+                        array('label' => Yii::t('app', 'Home') , 'url' => array('/metric/index')),
 //                        array('label' => 'Generaror', 'url' => array('/form/create')),
-                        array('label' => 'Team', 'url' => array('/team/index'), 'visible'=>!Yii::app()->user->isGuest),
+                        array('label' => Yii::t('app', 'Group') , 'url' => array('/team/index'), 'visible'=>!Yii::app()->user->isGuest),
 
                         array('url' => Yii::app()->getModule('user')->loginUrl, 'label' => Yii::app()->getModule('user')->t("Login"), 'visible' => Yii::app()->user->isGuest),
                         array('url' => Yii::app()->getModule('user')->registrationUrl, 'label' => Yii::app()->getModule('user')->t("Register"), 'visible' => Yii::app()->user->isGuest),

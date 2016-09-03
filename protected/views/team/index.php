@@ -1,6 +1,6 @@
 <?php echo CHtml::scriptFile(Yii::app()->request->baseUrl . "/js/click-handler.js");?>
 <div class="content-wrapper">
-<h1>Manage <?php echo $team->name?> Team </h1>
+<h1>Manage <?php echo $team->name?> Group </h1>
 <?php echo CHtml::beginForm();
 $this->widget(
     'bootstrap.widgets.TbSelect2',
@@ -16,7 +16,7 @@ $this->widget(
         )
     )
 );?>&nbsp;
- <?php echo CHtml::submitButton('Invite to team'); ?>
+ <?php echo CHtml::submitButton('Invite to team', ['class' =>'btn btn-primary']); ?>
 <a class=" leave-team btn btn-primary btn-danger"  href="#"><i class="icon-plane icon-white"></i>Leave Team</a>
 <?php echo CHtml::endForm(); ?>
 

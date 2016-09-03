@@ -54,7 +54,7 @@
 	</div>
 
 	<div class="row buttons">
-		<?php echo CHtml::submitButton($model->isNewRecord ? UserModule::t('Create') : UserModule::t('Save')); ?>
+		<?php echo CHtml::submitButton($model->isNewRecord ? UserModule::t('Create') : UserModule::t('Save'), ['class'=>'btn btn-success']); ?>
 	</div>
 
 <?php $this->endWidget(); ?>
@@ -98,7 +98,7 @@
 
 
 	<div class="row submit">
-		<?php echo CHtml::submitButton(UserModule::t("Save")); ?>
+		<?php echo CHtml::submitButton(UserModule::t("Save"), ['class'=>'btn btn-success']); ?>
 	</div>
 
 	<?php $this->endWidget(); ?>

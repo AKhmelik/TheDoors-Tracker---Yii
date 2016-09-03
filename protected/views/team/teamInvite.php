@@ -1,6 +1,6 @@
 <div class="content-wrapper">
 <h1>Invites</h1>
-<?php echo CHtml::link('Create Team', array('team/create'), array('class' => 'btn btn-primary')); ?>
+<?php echo CHtml::link('Create Group', array('team/create'), array('class' => 'btn btn-primary')); ?>
 <?php $this->widget('zii.widgets.grid.CGridView', array(
     'id' => 'tbl-team-grid',
     'dataProvider' => $dataProviderInvites,

@@ -25,9 +25,11 @@
 
 .grid-view table.items th
 {
-	color: white;
+	color: black;
 	background: url("bg.gif") repeat-x scroll left top white;
 	text-align: center;
+	background-image: linear-gradient(to top, rgb(158, 158, 158), rgba(185, 185, 185, 0.8),rgb(212, 212, 212));
+	height: 29px;
 }
 
 .grid-view table.items th a
@@ -61,7 +63,7 @@
 
 .grid-view table.items tr.odd
 {
-	background: #E5F1F4;
+	background: #efefef;
 }
 
 .grid-view table.items tr.selected

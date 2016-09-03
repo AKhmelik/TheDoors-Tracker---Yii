@@ -166,10 +166,10 @@ echo CHtml::scriptFile(Yii::app()->request->baseUrl . "/js/click-handler.js");
 <div id="map" class="col-xs-12 col-md-10"></div>
 <div class="row-fluid">
     <?php if(!Yii::app()->user->isGuest):?>
-        <a class="sharelink-button btn btn-primary"  data-toggle="modal" href="#myCustomModalMessage"><i class="icon-share icon-white"></i>Share access</a>
+        <a class="sharelink-button btn btn-primary"  data-toggle="modal" href="#myCustomModalMessage"><i class="icon-share icon-white"></i><?= Yii::t('app', 'Share access')?></a>
     <?php endif;?>
     <?php if(!Yii::app()->user->isGuest):?>
-    <a class=" history-button btn btn-primary"  data-toggle="modal" href="#myModal"><i class="icon-calendar icon-white"></i> History</a>
+    <a class=" history-button btn btn-primary"  data-toggle="modal" href="#myModal"><i class="icon-calendar icon-white"></i> <?= Yii::t('app', 'History')?></a>
     <?php endif;?>
 
 
@@ -204,8 +204,8 @@ echo CHtml::scriptFile(Yii::app()->request->baseUrl . "/js/click-handler.js");
         </script>
     </div>
     <div class="modal-footer">
-        <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-        <button class="btn fn-handler-calculate-history btn-primary">Show history</button>
+        <button class="btn" data-dismiss="modal" aria-hidden="true"><?= Yii::t('app', 'Close')?></button>
+        <button class="btn fn-handler-calculate-history btn-primary"><?= Yii::t('app', 'Show history')?></button>
     </div>
 </div>
 
