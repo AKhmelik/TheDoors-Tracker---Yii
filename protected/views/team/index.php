@@ -1,6 +1,6 @@
 <?php echo CHtml::scriptFile(Yii::app()->request->baseUrl . "/js/click-handler.js");?>
 <div class="content-wrapper">
-<h1>Manage <?php echo $team->name?> Group </h1>
+<h1><?=Yii::t('app', 'Manage')?> <?php echo $team->name.' '?> <?=Yii::t('app', 'Group')?> </h1>
 <?php echo CHtml::beginForm();
 $this->widget(
     'bootstrap.widgets.TbSelect2',
@@ -10,14 +10,14 @@ $this->widget(
         'data' => $users,
         'options' => array(
             'val' => $users,
-            'placeholder' => 'Enter user name',
+            'placeholder' => Yii::t('app','Enter user name'),
             'width' => '40%',
             'tokenSeparators' => array(',', ' ')
         )
     )
 );?>&nbsp;
- <?php echo CHtml::submitButton('Invite to team', ['class' =>'btn btn-primary']); ?>
-<a class=" leave-team btn btn-primary btn-danger"  href="#"><i class="icon-plane icon-white"></i>Leave Team</a>
+ <?php echo CHtml::submitButton(Yii::t('app', 'Invite to group'), ['class' =>'btn btn-primary']); ?>
+<a class=" leave-team btn btn-primary btn-danger"  href="#"><i class="icon-plane icon-white"></i><?=Yii::t('app', 'Leave Group')?></a>
 <?php echo CHtml::endForm(); ?>
 
 
@@ -42,7 +42,7 @@ $this->widget(
             'buttons' => array( // HERE
                 'display' => array(
                     'url' => 'Yii::app()->controller->createUrl("userHide", array("id"=>$data["user_id"]))',
-                    'label' => 'Click to hide user on map',
+                    'label' => Yii::t('app', 'Click to hide user on map'),
                     'icon'=>'ok-sign', //remove-circle,remove
                     'visible'=>'$data->show_in_map == 1',
                     'options'=>array(
@@ -52,7 +52,7 @@ $this->widget(
 
             'hide' => array(
                 'url' => 'Yii::app()->controller->createUrl("userDisplay", array("id"=>$data["user_id"]))',
-                'label' => 'Click to display user on map',
+                'label' => Yii::t('app', 'Click to display user on map'),
                 'icon'=>'remove-circle', //remove-circle,remove
                 'visible'=>'$data->show_in_map == 0',
 
@@ -63,7 +63,7 @@ $this->widget(
             ),
             'delete' => array(
                 'url' => 'Yii::app()->controller->createUrl("userLeave", array("id"=>$data["user_id"]))',
-                'label' => 'Click to remove user from team',
+                'label' => Yii::t('app', 'Click to remove user from group'),
                 'icon'=>'remove', //remove-circle,remove
                 'options'=>array(
                     'class'=>'btn btn-small',
@@ -73,7 +73,7 @@ $this->widget(
         ),
     ),
 )); ?>
-    <h1>Invites </h1>
+    <h1><?= Yii::t('app', 'Invites')?></h1>
 <?php $this->widget('zii.widgets.grid.CGridView', array(
     'id'=>'tbl-team-grid',
     'dataProvider'=>$dataProviderInvites,
@@ -96,7 +96,7 @@ $this->widget(
 
                 'delete' => array(
                     'url' => 'Yii::app()->controller->createUrl("userDelete", array("id"=>$data["user_id"]))',
-                    'label' => 'Click to remove invitation to team',
+                    'label' => Yii::t('app','Click to remove invitation to group'),
                     'icon'=>'remove', //remove-circle,remove
                     'options'=>array(
                         'class'=>'btn btn-small',

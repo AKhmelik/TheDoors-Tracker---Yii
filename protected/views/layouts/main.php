@@ -40,9 +40,10 @@
 
     $customForm = (Yii::app()->controller->id == 'metric') ? '
                               <form class="navbar-search pull-left" method="post">
-                                  <input type="text" name="cores" id="search-query-main" class="search-query" value="' . $this->endPointName . '" placeholder="Aдрес / Координаты">
-                                  <select  name="mainPoint">' . GeoUnique::getSelectPoint() . '</select>
-                                  <input class="btn btn-success" id="submit-form" type="submit" name="sub" value="Построить маршрут">
+                                  <input data-placement="bottom" data-content="'.Yii::t('app','Type end point coordinates or street').'" type="text" name="cores" id="search-query-main" class="search-query" value="' . $this->endPointName . '" placeholder="Aдрес / Координаты">
+                                  <select id="user-select" data-placement="bottom" data-content="'.Yii::t('app','Select user for routing').'" name="mainPoint">' . GeoUnique::getSelectPoint() . '</select>
+                                   <input class="btn btn-success" type="button" id="submit-search"  name="sub" value="'.Yii::t('app', 'Search').'">
+                                  <input class="btn btn-success" id="submit-form" type="submit" name="sub" value="'.Yii::t('app', 'Set Route').'">
                               </form>' : '';
 
     echo CHtml::openTag('div', array('class' => 'bs-navbar-top-example'));

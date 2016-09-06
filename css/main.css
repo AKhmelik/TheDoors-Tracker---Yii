@@ -481,15 +481,15 @@ div.search-form
 .history-button, .sharelink-button{
     position: absolute;
     z-index: 2;
-    right:20px;
-    top: 44px;
+    right:100px;
+    top: 50px;
 }
 
 .sharelink-button{
-    right:120px;
+    right:202px;
 }
 .sharing-input{
-    width: 360px;
+    width: 310px;
     margin-right: 8px;
 }
 .leave-team{
@@ -498,7 +498,12 @@ div.search-form
 .content-wrapper{
     margin-top: 40px;
 }
-
+#search-query-main{
+    width: 150px;
+}
+#submit-search{
+    width: 63px;
+}
 @media (max-width: 830px) {
     .selector-down
     {

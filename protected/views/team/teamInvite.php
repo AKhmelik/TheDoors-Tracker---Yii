@@ -1,6 +1,6 @@
 <div class="content-wrapper">
-<h1>Invites</h1>
-<?php echo CHtml::link('Create Group', array('team/create'), array('class' => 'btn btn-primary')); ?>
+<h1><?= Yii::t('app', 'Invites')?></h1>
+<?php echo CHtml::link(Yii::t('app', 'Create Group'), array('team/create'), array('class' => 'btn btn-primary')); ?>
 <?php $this->widget('zii.widgets.grid.CGridView', array(
     'id' => 'tbl-team-grid',
     'dataProvider' => $dataProviderInvites,
@@ -10,7 +10,7 @@
             'type'=>'raw',
             'htmlOptions'=>array('width'=>'40px'),
             'value' => function($data){return CHtml::ajaxLink(
-                'Accept',
+                 Yii::t('app', 'Accept'),
                 Yii::app()->controller->createUrl("teamAccept", array("team_id"=>$data["team_id"])),
                 array("type" => "POST","success"=>"function(){location.reload();}"),
                 array("class" => "delete btn-success btn"));},
@@ -19,7 +19,7 @@
             'type'=>'raw',
             'htmlOptions'=>array('width'=>'40px'),
             'value' => function($data){return CHtml::ajaxLink(
-                'Delete',
+                Yii::t('app', 'Delete'),
                 Yii::app()->controller->createUrl("teamDelete", array("team_id"=>$data["team_id"])),
                 array("type" => "POST","success"=>"function(){location.reload();}"),
                 array("class" => "delete btn btn-danger"));},

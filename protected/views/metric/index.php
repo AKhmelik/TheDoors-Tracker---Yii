@@ -1,7 +1,9 @@
 <?php echo CHtml::scriptFile(Yii::app()->request->baseUrl . "/js/core.js");?>
+<?php echo CHtml::scriptFile(Yii::app()->request->baseUrl . "/js/jquery.cookie.js");?>
+<?php setcookie("access_sharing", Yii::t('app', 'Access sharing'));?>
+<?php setcookie("generate_new_link", Yii::t('app', 'Generate new link'));?>
 <script src="//api-maps.yandex.ru/2.1/?load=package.full&lang=ru-RU" type="text/javascript"></script>
 <script type="text/javascript">
-
     var advancerMarkers = {};
     var myMap;
     var myRoute;
@@ -31,8 +33,6 @@
             new ymaps.control.ZoomControl()
         );
         myMap.options.set('scrollZoomSpeed', 4.5);
-
-
         myMap.events.add(['click', 'contextmenu'], function (e) {
             var eType = e.get('type');
             if(eType != 'click'){
@@ -171,15 +171,13 @@ echo CHtml::scriptFile(Yii::app()->request->baseUrl . "/js/click-handler.js");
     <?php if(!Yii::app()->user->isGuest):?>
     <a class=" history-button btn btn-primary"  data-toggle="modal" href="#myModal"><i class="icon-calendar icon-white"></i> <?= Yii::t('app', 'History')?></a>
     <?php endif;?>
-
-
 </div>
 
 
 <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-        <h3 id="myModalLabel">Show history</h3>
+        <h3 id="myModalLabel"><?= Yii::t('app', 'Show history')?></h3>
     </div>
     <div class="modal-body">
         <input type="text" value ="" name="daterange"  />
@@ -200,6 +198,8 @@ echo CHtml::scriptFile(Yii::app()->request->baseUrl . "/js/click-handler.js");
                     $('input[name=startData]').val(start.format('YYYY-MM-DD h:mm:ss'));
                     $('input[name=endDate]').val(end.format('YYYY-MM-DD h:mm:ss'));
                 });
+            $('#search-query-main').popover({ trigger: "hover" });
+            $('#user-select').popover({ trigger: "hover" });
 
         </script>
     </div>

@@ -116,14 +116,14 @@ jQuery(document).on("click", ".fn-handler-marker-create, .fn-handler-marker-dele
 });
 
 jQuery(document).on("click", ".sharelink-button", function () {
-    $('.modal-title').html('Access sharing');
+    $('.modal-title').html($.cookie('access_sharing'));
     var sharingLink = $('#sharing-link').val();
     $('#myCustomModalMessage .modal-body').html('');
     $('<input id="share-it" class="sharing-input" name"new_gallery" value="'+sharingLink+'"/>').appendTo($('#myCustomModalMessage .modal-body'));
     setTimeout(function () {
         $('#share-it').select();
     },1000);
-    var buttonElement = $('<a class="generate-code-button btn btn-primary" ><i class="icon-random icon-white"></i>Generate new link</a>')
+    var buttonElement = $('<a class="generate-code-button btn btn-primary" ><i class="icon-random icon-white"></i>'+$.cookie('generate_new_link')+'</a>')
         .appendTo($('#myCustomModalMessage .modal-body'));
 });
 
@@ -156,4 +156,27 @@ jQuery(document).on("click", ".leave-team", function () {
             location.reload();
         }
     });
+});
+
+
+jQuery(document).on("click", "#submit-search", function () {
+    var myGeocoder = ymaps.geocode($('#search-query-main').val());
+    myGeocoder.then(
+        function (res) {
+                if(typeof res.geoObjects.get(0)!="undefined"){
+                    // Создание метки
+                    var myPlacemark = new ymaps.Placemark(
+                        // Координаты метки
+                        res.geoObjects.get(0).geometry.getCoordinates(), {
+                            balloonContent: res.geoObjects.get(0).geometry.getCoordinates()
+                        }
+                    );
+                    myMap.setCenter(res.geoObjects.get(0).geometry.getCoordinates(), 18);
+                    myMap.geoObjects.add(myPlacemark);
+                    myPlacemark.balloon.open();
+                }
+        },
+        function (err) {
+        }
+    );
 });

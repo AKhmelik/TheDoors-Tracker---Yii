@@ -15,8 +15,6 @@
 	'enableAjaxValidation'=>false,
 )); ?>
 
-	<p class="note">Fields with <span class="required">*</span> are required.</p>
-
 	<?php echo $form->errorSummary($model); ?>
 
 
@@ -28,7 +26,7 @@
 
 
 	<div class="row buttons">
-		<?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Save', ['class'=>'btn btn-success']); ?>
+		<?php echo CHtml::submitButton($model->isNewRecord ? Yii::t('app','Create')  : Yii::t('app','Save'), ['class'=>'btn btn-success']); ?>
 	</div>
 
 <?php $this->endWidget(); ?>

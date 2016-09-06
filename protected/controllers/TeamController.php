@@ -113,7 +113,7 @@ class TeamController extends Controller
                     $user = Yii::app()->getComponent('user');
                     $user->setFlash(
                         'success',
-                        "<strong>Well done!</strong> User was added to our team!"
+                        Yii::t('app',"Well done! User was invited to our team!")
                     );
                 }
             }

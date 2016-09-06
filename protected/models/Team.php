@@ -72,7 +72,7 @@ class Team extends CActiveRecord
 			'id' => 'ID',
 			'is_private' => 'Is Private',
 			'owner_id' => 'Owner',
-			'name' => 'Name',
+			'name' => Yii::t('app','Group Name'),
 			'end_point_lat' => 'End Point Lat',
 			'end_point_lng' => 'End Point Lng',
 			'end_point_name' => 'End Point Name',
