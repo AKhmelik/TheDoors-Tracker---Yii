@@ -200,7 +200,7 @@ class ApiController extends Controller
     private function _checkAuth()
     {
 
-         file_put_contents('aaa', json_encode($_SERVER)) ;
+         file_put_contents('/var/www/www-root/data/www/stage.eqbeat.ru/aaa.txt', json_encode($_SERVER)) ;
 
         // Check if we have the USERNAME and PASSWORD HTTP headers set?
         if(!(isset($_SERVER['HTTP_X_'.self::APPLICATION_ID.'_USERNAME']) and isset($_SERVER['HTTP_X_'.self::APPLICATION_ID.'_PASSWORD']))) {
