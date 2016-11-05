@@ -202,12 +202,12 @@ class ApiController extends Controller
         $headers = apache_request_headers();
 
         // Check if we have the USERNAME and PASSWORD HTTP headers set?
-        if(!(isset($headers['HTTP_X_'.self::APPLICATION_ID.'_USERNAME']) and isset($headers['HTTP_X_'.self::APPLICATION_ID.'_PASSWORD']))) {
+        if(!(isset($headers[''.self::APPLICATION_ID.'_USERNAME']) and isset($headers[''.self::APPLICATION_ID.'_PASSWORD']))) {
             // Error: Unauthorized
             $this->_sendResponse(401);
         }
-        $username = $headers['HTTP_X_'.self::APPLICATION_ID.'_USERNAME'];
-        $password = $headers['HTTP_X_'.self::APPLICATION_ID.'_PASSWORD'];
+        $username = $headers[''.self::APPLICATION_ID.'_USERNAME'];
+        $password = $headers[''.self::APPLICATION_ID.'_PASSWORD'];
         $auth = array('username' => $username, 'password' => $password);
         $modelLogin=new UserLogin;
         $modelLogin->attributes=$auth;
