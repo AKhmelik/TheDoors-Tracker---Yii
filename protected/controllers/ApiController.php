@@ -199,16 +199,15 @@ class ApiController extends Controller
      */
     private function _checkAuth()
     {
-
-         file_put_contents('/var/www/www-root/data/www/stage.eqbeat.ru/aaa.txt', json_encode($_SERVER)) ;
+        $headers = apache_request_headers();
 
         // Check if we have the USERNAME and PASSWORD HTTP headers set?
-        if(!(isset($_SERVER['HTTP_X_'.self::APPLICATION_ID.'_USERNAME']) and isset($_SERVER['HTTP_X_'.self::APPLICATION_ID.'_PASSWORD']))) {
+        if(!(isset($headers['HTTP_X_'.self::APPLICATION_ID.'_USERNAME']) and isset($headers['HTTP_X_'.self::APPLICATION_ID.'_PASSWORD']))) {
             // Error: Unauthorized
             $this->_sendResponse(401);
         }
-        $username = $_SERVER['HTTP_X_'.self::APPLICATION_ID.'_USERNAME'];
-        $password = $_SERVER['HTTP_X_'.self::APPLICATION_ID.'_PASSWORD'];
+        $username = $headers['HTTP_X_'.self::APPLICATION_ID.'_USERNAME'];
+        $password = $headers['HTTP_X_'.self::APPLICATION_ID.'_PASSWORD'];
         $auth = array('username' => $username, 'password' => $password);
         $modelLogin=new UserLogin;
         $modelLogin->attributes=$auth;
