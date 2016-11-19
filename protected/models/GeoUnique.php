@@ -141,8 +141,6 @@ class GeoUnique extends CActiveRecord
 
         $arrayPoint = array();
 
-        $team = Team::getTeam();
-        $arrayPoint[100500]=['latitude'=>$team->end_point_lat, 'longitude'=>$team->end_point_lng, 'id'=>$team->end_point_name];
 
         if($userIdArray){
             $criteria = new CDbCriteria;
@@ -160,6 +158,9 @@ class GeoUnique extends CActiveRecord
                 $arrayPoint[$key]['id']=  User::getUserIdentityById($point->user_api_id);
             }
         }
+        $team = Team::getTeam();
+        $arrayPoint[]=['latitude'=>$team->end_point_lat, 'longitude'=>$team->end_point_lng, 'id'=>$team->end_point_name];
+
         return $arrayPoint;
     }
 
