@@ -158,7 +158,12 @@ class GeoUnique extends CActiveRecord
                 $arrayPoint[$key]['id']=  User::getUserIdentityById($point->user_api_id);
             }
         }
+        $user = User::model()->findByPk($excludeId);
+        if($user){
+            $team =$user->getTeam();
+            $arrayPoint[]=['latitude'=>(string)$team->end_point_lat, 'longitude'=>(string)$team->end_point_lng, 'id'=>(string)$team->end_point_name];
 
+        }
         return $arrayPoint;
     }
 
