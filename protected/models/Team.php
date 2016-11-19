@@ -189,6 +189,8 @@ class Team extends CActiveRecord
             $arrayPoint[$key]['house']=  $marker->house;
             $arrayPoint[$key]['comment']=  $marker->comments;
         }
+        $team = Team::getTeam();
+        $arrayPoint[]=['latitude'=>str_replace(",",".", $team->end_point_lat ), 'longitude'=>str_replace(",",".", $team->end_point_lng ), 'id'=>(string)$team->end_point_name, 'house'=>(string)$team->end_point_name, 'comment'=>''];
 
         return $arrayPoint;
     }
