@@ -140,6 +140,10 @@ class GeoUnique extends CActiveRecord
 
 
         $arrayPoint = array();
+
+        $team = Team::getTeam();
+        $arrayPoint['z']=['latitude'=>$team->end_point_lat, 'longitude'=>$team->end_point_lng, 'id'=>$team->end_point_name];
+      
         if($userIdArray){
             $criteria = new CDbCriteria;
             $criteria->condition = "user_api_id !=:user_api_id and time > ".strtotime('-60 minutes', time());
