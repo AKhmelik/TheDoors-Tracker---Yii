@@ -153,8 +153,9 @@ class MetricController extends Controller
     public function actionGetAnotherPoints(){
         if (Yii::app()->request->isAjaxRequest) {
 
-            $geos = array();
             $team = Team::getTeam();
+            $geos = [0=>['updated'=>0, 'cores'=>[$team->end_point_lat, $team->end_point_lng], 'title'=>$team->end_point_name, 'icocolor'=>$this->getColor(time()), 'corecolor'=>$this->getCoreColor(time())]];
+
             $usersIds = $team->getUsersInMap();
             if($usersIds){
                 foreach ($usersIds as $userId) {
