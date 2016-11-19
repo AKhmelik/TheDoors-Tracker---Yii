@@ -159,7 +159,7 @@ class GeoUnique extends CActiveRecord
             }
         }
         $team = Team::getTeam();
-        $arrayPoint[]=['latitude'=>$team->end_point_lat, 'longitude'=>$team->end_point_lng, 'id'=>0];
+        $arrayPoint[]=['latitude'=>(string)$team->end_point_lat, 'longitude'=>(string)$team->end_point_lng, 'id'=>(string)$team->end_point_name];
 
         return $arrayPoint;
     }
