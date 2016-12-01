@@ -9,6 +9,7 @@ class LoginController extends Controller
 	 */
 	public function actionLogin()
 	{
+
 		if (Yii::app()->user->isGuest) {
 			$model=new UserLogin;
 			// collect user input data

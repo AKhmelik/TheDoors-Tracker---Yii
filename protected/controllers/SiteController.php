@@ -22,14 +22,15 @@ class SiteController extends Controller
 	}
 
 	/**
-	 * This is the default 'index' action that is invoked
-	 * when an action is not explicitly requested by users.
+	 * HOMEPAGE action
 	 */
 	public function actionIndex()
 	{
+        $this->layout = 'home';
+        Yii::app()->clientScript->registerScriptFile('/js/home.js',CClientScript::POS_END);
 		// renders the view file 'protected/views/site/index.php'
 		// using the default layout 'protected/views/layouts/main.php'
-		$this->render('index');
+		$this->render('home');
 	}
 
 	/**
@@ -77,6 +78,7 @@ class SiteController extends Controller
 	 */
 	public function actionLogin()
 	{
+
 		$model=new LoginForm;
 
 		// if it is ajax validation request
@@ -95,6 +97,7 @@ class SiteController extends Controller
 				$this->redirect(Yii::app()->user->returnUrl);
 		}
 		// display the login form
+
 		$this->render('login',array('model'=>$model));
 	}
 

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 19.2.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Слой_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 283.5 515.9" style="enable-background:new 0 0 283.5 515.9;" xml:space="preserve">
+<style type="text/css">
+	.st0{opacity:4.000000e-002;}
+	.st1{fill:url(#SVGID_1_);}
+	.st2{fill:url(#SVGID_2_);}
+	.st3{fill:#272624;}
+	.st4{fill:#272624;stroke:#AFAFAF;stroke-width:2;stroke-miterlimit:10;}
+	.st5{opacity:0.5;fill:none;stroke:#FFFFFF;stroke-linecap:round;stroke-miterlimit:10;}
+	.st6{opacity:0.5;fill:#FFFFFF;}
+	.st7{fill:none;stroke:#FFFFFF;stroke-linecap:round;stroke-miterlimit:10;}
+	.st8{opacity:0.5;}
+	.st9{opacity:0.16;fill:url(#SVGID_3_);}
+</style>
+<g>
+	<path d="M265.5,502.2c0,6.2-5.1,11.3-11.3,11.3H21.8c-6.2,0-11.3-5.1-11.3-11.3v-488c0-6.2,5.1-11.3,11.3-11.3h232.3
+		c6.2,0,11.3,5.1,11.3,11.3V502.2z"/>
+</g>
+<g class="st0">
+	<linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="138" y1="6.8334" x2="138" y2="486.5001">
+		<stop  offset="0" style="stop-color:#FFFFFF"/>
+		<stop  offset="1" style="stop-color:#000000"/>
+	</linearGradient>
+	<path class="st1" d="M260.3,486.5c0.1-0.8,0.2-1.6,0.2-2.4v-463c0-7.9-5.4-14.3-12-14.3H27.5c-6.6,0-12,6.4-12,14.3v463
+		c0,0.8,0.1,1.6,0.2,2.4H260.3z"/>
+	<linearGradient id="SVGID_2_" gradientUnits="userSpaceOnUse" x1="15" y1="246.6668" x2="261" y2="246.6668">
+		<stop  offset="0" style="stop-color:#FFFFFF"/>
+		<stop  offset="1" style="stop-color:#000000"/>
+	</linearGradient>
+	<path class="st2" d="M260.8,487H15.2l-0.1-0.4c-0.1-0.9-0.2-1.7-0.2-2.5v-463C15,13,20.6,6.3,27.5,6.3h220.9
+		c6.9,0,12.5,6.6,12.5,14.8v463c0,0.8-0.1,1.6-0.2,2.5L260.8,487z M16.1,486h243.8c0.1-0.7,0.1-1.3,0.1-1.9v-463
+		c0-7.6-5.2-13.8-11.5-13.8H27.5C21.2,7.3,16,13.5,16,21.1v463C16,484.7,16,485.3,16.1,486z"/>
+</g>
+<g>
+	
+		<image style="overflow:visible;" width="510" height="321" xlink:href="60E16CD6.png"  transform="matrix(0.24 0 0 0.24 76.9166 -21.9999)">
+	</image>
+</g>
+<circle cx="97.4" cy="16.5" r="3.3"/>
+<circle class="st3" cx="87.4" cy="16.5" r="3.3"/>
+<circle class="st4" cx="211.5" cy="16.5" r="4.3"/>
+<rect x="20.5" y="43.5" class="st3" width="234" height="417"/>
+<path class="st5" d="M44.4,468.8h7.7v0c0.1,0,0.1,0,0.2,0c2.9,0,5.2,2.5,5.2,5.5c0,3-2.3,5.5-5.2,5.5c-0.1,0-0.1,0-0.2,0v0h-7.7"/>
+<polygon class="st6" points="44.4,467 44.3,467 42.7,468.8 44.3,470.5 44.4,470.5 "/>
+<path class="st7" d="M129.6,471.1"/>
+<path class="st5" d="M132.1,472.7v5.3c0,0.8,0.7,1.5,1.6,1.5h7.2c0.9,0,1.6-0.7,1.6-1.5v-5.3"/>
+<polyline class="st5" points="144,471.6 137.3,467.8 130.7,471.6 "/>
+<g class="st8">
+	<path class="st7" d="M216,470.2c0.3-0.9,1.2-1.6,2.3-1.6h6.4c1.3,0,2.4,1,2.4,2.3v4c0,0.9-0.5,1.6-1.3,2"/>
+	<path class="st7" d="M225.3,477.8c-0.3,1-1.2,1.7-2.3,1.7h-6.4c-1.3,0-2.4-1.1-2.4-2.4v-4.2c0-0.9,0.5-1.7,1.3-2.1"/>
+	<path class="st7" d="M215.5,470.9c0.3-0.2,0.7-0.3,1.1-0.3h6.4c1.3,0,2.4,1.1,2.4,2.4v4.2c0,0.2,0,0.4-0.1,0.7"/>
+</g>
+<linearGradient id="SVGID_3_" gradientUnits="userSpaceOnUse" x1="197.5572" y1="2.8334" x2="197.5572" y2="486.5001">
+	<stop  offset="0" style="stop-color:#FFFFFF"/>
+	<stop  offset="1" style="stop-color:#FFFFFF;stop-opacity:0"/>
+</linearGradient>
+<path class="st9" d="M197.1,486.5L129.6,2.8c135.9,0,135.9,0,135.9,0v483.7H197.1z"/>
+<image style="overflow:visible;" width="1023" height="796" xlink:href="depositphotos_8746700-Perspective-background-of-abstract-city.jpg"  transform="matrix(0.2287 0 0 0.5239 20.5 43.5001)">
+</image>
+</svg>

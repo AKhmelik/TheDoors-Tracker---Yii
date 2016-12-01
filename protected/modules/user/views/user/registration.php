@@ -1,10 +1,8 @@
-<?php $this->pageTitle=Yii::app()->name . ' - '.UserModule::t("Registration");
+<?php $this->pageTitle=UserModule::t("Registration");
 $this->breadcrumbs=array(
 	UserModule::t("Registration"),
 );
 ?>
-
-<h1><?php echo UserModule::t("Registration"); ?></h1>
 
 <?php if(Yii::app()->user->hasFlash('registration')): ?>
 <div class="success">
@@ -27,61 +25,67 @@ $this->breadcrumbs=array(
 	
 	<?php echo $form->errorSummary(array($model,$profile)); ?>
 	
-	<div class="row">
-	<?php echo $form->labelEx($model,'username'); ?>
-	<?php echo $form->textField($model,'username'); ?>
-	<?php echo $form->error($model,'username'); ?>
+	<div class="row-fluid">
+		<div class="span6">
+			<div class="">
+				<?php echo $form->labelEx($model,'username'); ?>
+				<?php echo $form->textField($model,'username'); ?>
+				<?php echo $form->error($model,'username'); ?>
+			</div>
+			<div class="">
+				<?php echo $form->labelEx($model,'email'); ?>
+				<?php echo $form->textField($model,'email'); ?>
+				<?php echo $form->error($model,'email'); ?>
+			</div>
+		</div>
+		<div class="span6">
+			<div class="">
+				<?php echo $form->labelEx($model,'password'); ?>
+				<?php echo $form->passwordField($model,'password'); ?>
+				<?php echo $form->error($model,'password'); ?>
+			</div>
+			<div class="">
+				<?php echo $form->labelEx($model,'verifyPassword'); ?>
+				<?php echo $form->passwordField($model,'verifyPassword'); ?>
+				<?php echo $form->error($model,'verifyPassword'); ?>
+			</div>
+		</div>
 	</div>
-	
-	<div class="row">
-	<?php echo $form->labelEx($model,'password'); ?>
-	<?php echo $form->passwordField($model,'password'); ?>
-	<?php echo $form->error($model,'password'); ?>
-	<p class="hint">
-	<?php echo UserModule::t("Minimal password length 4 symbols."); ?>
-	</p>
-	</div>
-	
-	<div class="row">
-	<?php echo $form->labelEx($model,'verifyPassword'); ?>
-	<?php echo $form->passwordField($model,'verifyPassword'); ?>
-	<?php echo $form->error($model,'verifyPassword'); ?>
-	</div>
-	
-	<div class="row">
-	<?php echo $form->labelEx($model,'email'); ?>
-	<?php echo $form->textField($model,'email'); ?>
-	<?php echo $form->error($model,'email'); ?>
-	</div>
-	
-<?php 
-		$profileFields=$profile->getFields();
-		if ($profileFields) {
-			foreach($profileFields as $field) {
-			?>
-	<div class="row">
-		<?php echo $form->labelEx($profile,$field->varname); ?>
-		<?php 
-		if ($widgetEdit = $field->widgetEdit($profile)) {
-			echo $widgetEdit;
-		} elseif ($field->range) {
-			echo $form->dropDownList($profile,$field->varname,Profile::range($field->range));
-		} elseif ($field->field_type=="TEXT") {
-			echo$form->textArea($profile,$field->varname,array('rows'=>6, 'cols'=>50));
-		} else {
-			echo $form->textField($profile,$field->varname,array('size'=>60,'maxlength'=>(($field->field_size)?$field->field_size:255)));
-		}
-		 ?>
-		<?php echo $form->error($profile,$field->varname); ?>
-	</div>	
+	<div class="row-fluid">
+		<div class="span12">
 			<?php
+			$profileFields=$profile->getFields();
+			if ($profileFields) {
+				foreach($profileFields as $field) {
+					?>
+					<div class="row">
+						<?php echo $form->labelEx($profile,$field->varname); ?>
+						<?php
+						if ($widgetEdit = $field->widgetEdit($profile)) {
+							echo $widgetEdit;
+						} elseif ($field->range) {
+							echo $form->dropDownList($profile,$field->varname,Profile::range($field->range));
+						} elseif ($field->field_type=="TEXT") {
+							echo$form->textArea($profile,$field->varname,array('rows'=>6, 'cols'=>50));
+						} else {
+							echo $form->textField($profile,$field->varname,array('size'=>60,'maxlength'=>(($field->field_size)?$field->field_size:255)));
+						}
+						?>
+						<?php echo $form->error($profile,$field->varname); ?>
+					</div>
+					<?php
+				}
 			}
-		}
-?>
+			?>
 
-	<div class="row submit">
-		<?php echo CHtml::submitButton(UserModule::t("Register")); ?>
-	</div>
+			<div class="row submit">
+				<?php echo CHtml::submitButton(UserModule::t("Register"),array('class'=>'btn btn-success')); ?>
+			</div>
+			</div>
+	
+
+
+
 
 <?php $this->endWidget(); ?>
 </div><!-- form -->

@@ -8,6 +8,8 @@ class Controller extends CController
 
     public function beforeAction($action)
     {
+        if(Yii::app()->request->isAjaxRequest) $this->layout = 'application.views.layouts.ajax';
+        if(Yii::app()->request->isAjaxRequest && Yii::app()->request->getParam('modal')) $this->layout = 'application.views.layouts.modal';
         if (parent::beforeAction($action)) {
             /* @var $cs CClientScript */
             $baseUrl = Yii::app()->baseUrl;
