@@ -140,6 +140,8 @@ class GeoUnique extends CActiveRecord
 
 
         $arrayPoint = array();
+
+
         if($userIdArray){
             $criteria = new CDbCriteria;
             $criteria->condition = "user_api_id !=:user_api_id and time > ".strtotime('-60 minutes', time());
@@ -155,6 +157,12 @@ class GeoUnique extends CActiveRecord
                 $arrayPoint[$key]['longitude']= $point->longitude;
                 $arrayPoint[$key]['id']=  User::getUserIdentityById($point->user_api_id);
             }
+        }
+        $user = User::model()->findByPk($excludeId);
+        if($user){
+            $team =$user->getTeam();
+            $arrayPoint[]=['latitude'=>(string)$team->end_point_lat, 'longitude'=>(string)$team->end_point_lng, 'id'=>(string)$team->end_point_name];
+
         }
         return $arrayPoint;
     }

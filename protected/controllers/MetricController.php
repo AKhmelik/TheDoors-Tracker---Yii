@@ -17,11 +17,11 @@ class MetricController extends Controller
                 'users'=>array('@'),
             ),
             array('allow',  // allow all users to perform 'list' and 'show' actions
-                'actions'=>array('index','getdata', 'setendpoint','calculateHistory', 'getcores',  'addmarker', 'getanotherpoints'),
+                'actions'=>array('index', 'setendpoint','calculateHistory', 'getcores',  'addmarker', 'getanotherpoints'),
                 'expression'=>'WebUser::isSupport()',
             ),
             array('allow',  // allow all users to perform 'list' and 'show' actions
-                'actions'=>array('loginbyhash'),
+                'actions'=>array('loginbyhash', 'getdata'),
                 'users'=>array('*'),
             ),
             array('deny'),
