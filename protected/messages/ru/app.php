@@ -28,6 +28,7 @@ return array(
     'Create Group' =>'Создать группу',
     'Create'=>'Создать',
     'Type end point coordinates or street' => 'Укажите координаты или адрес точки прибытия',
-    'Select user for routing'=>'Выберете пользователя для построения маршрута'
+    'Select user for routing'=>'Выберете пользователя для построения маршрута',
+    'Feedback'=>'Обратная связь'
 
 );
