@@ -265,6 +265,8 @@ class User extends CActiveRecord
             }
 
             if ($this->save()) {
+                $team = $this->getTeam();
+                $link = $team->getSharingLink();
              //   TeamUsers::addUserToTeam($this->id);
                 $profile = new Profile();
                 $profile->user_id = $this->id;
@@ -274,7 +276,7 @@ class User extends CActiveRecord
                 $halogin->loginProviderIdentifier = $params['oauth'];
                 $halogin->loginProvider = $params['loginProviderIdentifier'];
                 $halogin->save();
-                return array('hash' => $this->generateApiHash(), 'is_reg' => 1, 'error_message'=>'');
+                return array('hash' => $this->generateApiHash(), 'is_reg' => 1, 'error_message'=>'', 'link'=>$link);
             }
 
         }
@@ -284,7 +286,11 @@ class User extends CActiveRecord
             if($modelLogin->validate()){
                 $userLogin = Yii::app()->user;
                 $user = User::model()->findByPk($userLogin->getId());
-                return array('hash' => $user->getHash(), 'is_reg' => 1);
+
+                $team = $user->getTeam();
+                $link = $team->getSharingLink();
+
+                return array('hash' => $user->getHash(), 'is_reg' => 1, 'link'=>$link);
             }
             else{
                 $errorMessage='';
