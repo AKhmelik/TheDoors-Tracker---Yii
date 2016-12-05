@@ -315,18 +315,18 @@ footer
 
 
 /*media*/
-@media screen and (max-width: 767px), screen and (max-height: 879px){
+/*@media screen and (max-width: 767px), screen and (max-height: 879px){
     #screen-2
     {
         display: none;
     }
-}
-@media screen and (min-width: 768px) and (min-height: 880px){
+}*/
+/*@media screen and (min-width: 768px) and (min-height: 880px){*/
     #screen-2-mobile
     {
         display: none;
     }
-}
+/*}*/
 
 /*bootstrap fixes*/
 body .btn
