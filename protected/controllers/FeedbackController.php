@@ -2,6 +2,7 @@
 
 class FeedbackController extends Controller
 {
+    public $layout='//layouts/column3';
 	public function actionIndex()
 	{
 	    $model = new Post();

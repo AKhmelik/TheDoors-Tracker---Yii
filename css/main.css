@@ -504,6 +504,13 @@ div.search-form
 #submit-search{
     width: 63px;
 }
+.content-container{
+    padding: 0px 0 0 36px
+}
+
+.content-container h1{
+    font-size: 23px;
+}
 @media (max-width: 830px) {
     .selector-down
     {

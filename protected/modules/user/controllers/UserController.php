@@ -2,6 +2,7 @@
 
 class UserController extends Controller
 {
+    public $layout='//layouts/column3';
 	/**
 	 * @var CActiveRecord the currently loaded data model instance.
 	 */

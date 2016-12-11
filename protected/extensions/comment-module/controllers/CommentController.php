@@ -9,6 +9,7 @@
  */
 class CommentController extends CController
 {
+    public $layout='//layouts/column3';
 	/**
 	 * @return array action filters
 	 */
@@ -92,7 +93,6 @@ class CommentController extends CController
 				}
 			}
 		}
-
 		$this->render('create',array(
 			'model'=>$comment,
 		));

@@ -1,3 +1,4 @@
+<h1>Feedback</h1>
 <?php
 	Yii::app()->clientScript->registerCss('ext-comment', "
 	div.ext-comment {
@@ -32,6 +33,7 @@
 	");
 ?>
 <div class="ext-comment" id="ext-comment-<?php echo $data->id; ?>">
+
 
 	<span class="ext-comment-head">
 		<span class="ext-comment-name"><?php echo CHtml::encode($data->userName); ?></span>
