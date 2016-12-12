@@ -13,7 +13,10 @@
         <!--/.navbar-collapse -->
     </nav>
 </div>
-<div id="slide-screen" data-screen="1">
+<div id="slide-screen">
+    <ul id="pagination-dots">
+        <?php for($i=1;$i<=8;$i++) echo CHtml::tag('li',array('data-step'=>$i));?>
+    </ul>
     <!-- Example row of columns -->
     <div id="screen-1-wrapper">
         <div class="screen-1-video-wrapper">
@@ -30,8 +33,12 @@
                         <img src="/images/main.png" style="max-height: 200px;margin-top: 60px">
                     </div>
                     <div class="col-md-6 span6 text-left" style="font-size: 21px;text-indent: 20px;">
-                        <strong>EQBEAT</strong> - простое и удобное приложение для отслеживания GPS-сигналов с мобильных устройств. Фиксируйте перемещения GPS-маяков на карте в режиме онлайн! Объединяйтесь в группы для координации перемещений, отслеживайте все или только избранные маршруты, создавайте ссылки доступа, чтобы делиться своим местоположением.
-                        Вы играете в городские квесты? Вы хотите быть спокойным за вашего ребенка? Вы все время на ногах и много перемещаетесь по городу? Тогда приложение EQBEAT станет вашим незаменимым помощником!
+                        <strong>EQBEAT</strong> - простое и удобное приложение для отслеживания GPS-сигналов с мобильных
+                        устройств. Фиксируйте перемещения GPS-маяков на карте в режиме онлайн! Объединяйтесь в группы
+                        для координации перемещений, отслеживайте все или только избранные маршруты, создавайте ссылки
+                        доступа, чтобы делиться своим местоположением.
+                        Вы играете в городские квесты? Вы хотите быть спокойным за вашего ребенка? Вы все время на ногах
+                        и много перемещаетесь по городу? Тогда приложение EQBEAT станет вашим незаменимым помощником!
                     </div>
                 </div>
                 <div style="margin-top: 185px; margin-bottom: 45px">
@@ -40,40 +47,32 @@
             </div>
         </div>
     </div>
-    <div id="screen-2">
+    <div id="screen-2-wrapper">
         <div id="animation-screen">
-            <div id="display-2-tips">
-                <h2 id="tip-1" class="tip">Установите бесплатное приложение на Ваше Android устройство</h2>
-                <h2 id="tip-2" class="tip">Авторизируйтесь, создав бесплатный аккаунт</h2>
-                <h2 id="tip-3" class="tip">Ваше устройство готово к использованию</h2>
-                <h2 id="tip-4" class="tip">Выполните вход на сайте</h2>
-                <h2 id="tip-5" class="tip">Ваше устройство будет отображаться на карте</h2>
-                <h2 id="tip-6" class="tip">Создав уникальную ссылку доступа, Вы можете делиться своей геолокацией</h2>
-                <h2 id="tip-7" class="tip">Вы можете создавать группы, где сможете просматривать местоположение каждого участника</h2>
-                <h2 id="tip-8" class="tip">А также строить маршруты </h2>
-            </div>
-            <div id="display-2">
-                <?php echo file_get_contents(Yii::app()->getBasePath().DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR."images".DIRECTORY_SEPARATOR.'screen2.svg'); ?>
-            </div>
-            <!--<div id="phone">
-            <?php /*echo file_get_contents(Yii::app()->getBasePath().DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR."images".DIRECTORY_SEPARATOR.'phone.svg'); */?>
+            <?php echo file_get_contents(Yii::app()->getBasePath() . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . 'screen2.svg'); ?>
         </div>
-        <div id="display">
-            <?php /*echo file_get_contents(Yii::app()->getBasePath().DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR."images".DIRECTORY_SEPARATOR.'display.svg'); */?>
-        </div>-->
-
-
-            <a id="gplay" href="//google.com/" target="_blank"><img src="/images/gplay.png"></a>
-            <svg class="arrow-down" id="scroll-pic">
-                <path class="a1" d="M0 0 L15 16 L30 0"></path>
-                <path class="a2" d="M0 10 L15 26 L30 10"></path>
-                <path class="a3" d="M0 20 L15 36 L30 20"></path>
-            </svg>
+        <div id="tips">
+            <h2 id="tip-1" class="tip">Установите бесплатное приложение на Ваше Android устройство</h2>
+            <h2 id="tip-2" class="tip">Авторизируйтесь, создав бесплатный аккаунт</h2>
+            <h2 id="tip-3" class="tip">Ваше устройство готово к использованию</h2>
+            <h2 id="tip-4" class="tip">Выполните вход на сайте</h2>
+            <h2 id="tip-5" class="tip">Ваше устройство будет отображаться на карте</h2>
+            <h2 id="tip-6" class="tip">Создав уникальную ссылку доступа, Вы можете делиться своей геолокацией</h2>
+            <h2 id="tip-7" class="tip">Вы можете создавать группы, где сможете просматривать местоположение каждого
+                участника</h2>
+            <h2 id="tip-8" class="tip">А также строить маршруты </h2>
+        </div>
+        <div id="screen2-footer">
+            <a id="gplay" href="//google.com/" target="_blank"><img src="/images/gplay.png"></a><br>
+            <button type="button" id="scroll-pic">
+                <svg class="arrow-down">
+                    <path class="a1" d="M0 0 L15 16 L30 0"></path>
+                    <path class="a2" d="M0 10 L15 26 L30 10"></path>
+                    <path class="a3" d="M0 20 L15 36 L30 20"></path>
+                </svg>
+            </button>
         </div>
     </div>
-    <footer style="">
-
-    </footer>
 </div>
 
 <div id="modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -91,9 +90,9 @@
 </div>
 <?php
 $customScript = '';
-$loginUrl = $this->createUrl('user/login',array('modal'=>'1'));
-$registerUrl = $this->createUrl('user/registration',array('modal'=>'1'));
-if(Yii::app()->user->isGuest){
+$loginUrl = $this->createUrl('user/login', array('modal' => '1'));
+$registerUrl = $this->createUrl('user/registration', array('modal' => '1'));
+if (Yii::app()->user->isGuest) {
     $customScript .= <<<JS
 //LOGIN
 loginHtml = '';
@@ -120,6 +119,6 @@ e.preventDefault();
 })
 JS;
 }
-Yii::app()->clientScript->registerScript('home',$customScript,CClientScript::POS_READY);
+Yii::app()->clientScript->registerScript('home', $customScript, CClientScript::POS_READY);
 ?>
 

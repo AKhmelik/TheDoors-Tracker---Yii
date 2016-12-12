@@ -122,12 +122,12 @@
 	</g>
 	<g id="phone-image-1"><image style="display:inline;overflow:visible;" width="768" height="1280" xlink:href="/images/phone/1.jpg"  transform="matrix(0.3363 0 0 0.3363 280.4505 61.2173)">
 	</image></g>
-	<g id="phone-image-2"><image style="display:inline;overflow:visible;" width="768" height="1280" xlink:href="/images/phone/2.jpg"  transform="matrix(0.3363 0 0 0.3363 280.4505 61.2173)">
+	<g id="phone-image-2"><image style="display:inline;overflow:visible;" width="768" height="1280" xlink:href="/images/phone/3.jpg"  transform="matrix(0.3363 0 0 0.3363 280.4505 61.2173)">
 	</image></g>
-	<g id="phone-image-3"><image style="display:inline;overflow:visible;" width="768" height="1280" xlink:href="/images/phone/3.jpg"  transform="matrix(0.3363 0 0 0.3363 280.4505 61.2173)">
+	<g id="phone-image-3"><image style="display:inline;overflow:visible;" width="768" height="1280" xlink:href="/images/phone/4.jpg"  transform="matrix(0.3363 0 0 0.3363 280.4505 61.2173)">
 	</image></g>
-	<g id="phone-image-4"><image style="display:inline;overflow:visible;" width="768" height="1280" xlink:href="/images/phone/4.jpg"  transform="matrix(0.3363 0 0 0.3363 280.4505 61.2173)">
-	</image></g>
+	<!--<g id="phone-image-4"><image style="display:inline;overflow:visible;" width="768" height="1280" xlink:href="/images/phone/4.jpg"  transform="matrix(0.3363 0 0 0.3363 280.4505 61.2173)">
+	</image></g>-->
 	<linearGradient id="SVGID_8_" gradientUnits="userSpaceOnUse" x1="475.3176" y1="16.3333" x2="475.3176" y2="521.9341">
 		<stop  offset="0" style="stop-color:#FFFFFF"/>
 		<stop  offset="1" style="stop-color:#FFFFFF;stop-opacity:0"/>
