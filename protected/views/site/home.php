@@ -30,7 +30,7 @@
             <div class="container text-center" id="screen-1-content">
                 <div class="row">
                     <div class="col-md-6 span6 hide-on-md hide-on-sm">
-                        <img src="/images/main.png" style="max-height: 200px;margin-top: 60px">
+                        <img src="/images/main2.svg" style="max-height: 200px;margin-top: 10px">
                     </div>
                     <div class="col-md-6 span6 text-left" style="font-size: 21px;text-indent: 20px;">
                         <strong>EQBEAT</strong> - простое и удобное приложение для отслеживания GPS-сигналов с мобильных
