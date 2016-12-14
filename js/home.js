@@ -8,7 +8,9 @@ $( document ).ready(function(){
             from:5,
             to:10,
             mode:'svg',
-            defaultClass:''
+            defaultClass:'',
+            transform:'translate(15px, 0px) scale(1, 1)',
+            transformActive:'translate(-31px, 360px) scale(0.4, 0.4)'
 
         },
         {
@@ -140,6 +142,13 @@ $( document ).ready(function(){
                     item.object.attr('class',item.defaultClass+' active');
                 else
                     item.object.attr('class',item.defaultClass);
+                if(typeof(item.defaultStyle) != 'undefined')
+                {
+                    if(item.from<=screenNum && item.to>=screenNum)
+                        item.object.attr('transform',item.transform);
+                    else
+                        item.object.attr('transform',item.transformActive);
+                }
             }
         });
         //
@@ -147,7 +156,7 @@ $( document ).ready(function(){
     };
     changeScreen(1);
     $('#screen2-footer').on('click','#scroll-pic',function (){changeScreen(currentScreen+1,true)});
-    $paginationDots.on('click',function(){
+    $('.goto').on('click',function(){
         changeScreen($(this).data('step'),true)
     });
 });

@@ -15,7 +15,7 @@
 </div>
 <div id="slide-screen">
     <ul id="pagination-dots">
-        <?php for($i=1;$i<=8;$i++) echo CHtml::tag('li',array('data-step'=>$i));?>
+        <?php for($i=1;$i<=8;$i++) echo CHtml::tag('li',array('data-step'=>$i,'class'=>'goto'),' ');?>
     </ul>
     <!-- Example row of columns -->
     <div id="screen-1-wrapper">
@@ -27,9 +27,9 @@
         </div>
 
         <div id="screen-1">
-            <div class="container text-center">
+            <div class="container text-center" id="screen-1-content">
                 <div class="row">
-                    <div class="col-md-6 span6">
+                    <div class="col-md-6 span6 hide-on-md hide-on-sm">
                         <img src="/images/main.png" style="max-height: 200px;margin-top: 60px">
                     </div>
                     <div class="col-md-6 span6 text-left" style="font-size: 21px;text-indent: 20px;">
@@ -41,8 +41,9 @@
                         и много перемещаетесь по городу? Тогда приложение EQBEAT станет вашим незаменимым помощником!
                     </div>
                 </div>
-                <div style="margin-top: 185px; margin-bottom: 45px">
-                    <a href="#" class="btn btn-outline-inverse btn-lg btn-large ">Подробнее</a>
+                <br>
+                <div style="">
+                    <a href="#" class="btn btn-outline-inverse btn-lg btn-large goto" data-step="2">Подробнее</a>
                 </div>
             </div>
         </div>
@@ -88,6 +89,14 @@
         <button class="btn btn-primary">Save changes</button>
     </div>
 </div>
+<!--[if IE]>
+<style type="text/css">
+    #phone.active
+    {
+        opacity: 0;
+    }
+</style>
+<![endif]-->
 <?php
 $customScript = '';
 $loginUrl = $this->createUrl('user/login', array('modal' => '1'));

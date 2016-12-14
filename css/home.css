@@ -58,7 +58,6 @@ body
 .screen-2-active #navbar a
 {
     color: #545454;
-    margin-left: 21px;
 }
 .screen-2-active .navbar.home-navbar .navbar-brand img
 {
@@ -86,7 +85,6 @@ body
     background: -o-linear-gradient(top, #79316e 0%,#1f2653 100%);
     background: -ms-linear-gradient(top, #79316e 0%,#1f2653 100%);
     background: linear-gradient(to bottom, #79316e 0%,#1f2653 100%);*/
-    padding-top: 250px;
     color: #ffffff;
 }
 #screen-1-wrapper
@@ -100,9 +98,10 @@ body
 }
 #screen-1-content
 {
-    text-align: center;
-    display: table-cell;
-    vertical-align: middle;
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%) translateX(-50%);
+    left: 50%;
 }
 .screen-1-video-wrapper
 {
@@ -219,6 +218,9 @@ body
     position: absolute;
     top: 80px;
     display: block;
+    padding-left: 15px;
+    padding-right: 15px;
+    box-sizing: border-box;
 }
 .tip
 {
@@ -232,6 +234,7 @@ body
     max-width: 100%;
     margin-left: 0;
     margin-right: 0;
+
     display: inline-block;
     width: 100%;
     top: 10px;
@@ -261,11 +264,24 @@ footer
 #phone
 {
     transition: 300ms transform;
-    transform: translate(15px, 0px) scale(1, 1)
+    transform: translate(15px, 0px) scale(1, 1);
 }
 #phone.active
 {
+    -ms-transform: translate(-31px, 360px) scale(0.4, 0.4);
+    -webkit-transform: translate(-31px, 360px) scale(0.4, 0.4);
+    -moz-transform: translate(-31px, 360px) scale(0.4, 0.4);
     transform: translate(-31px, 360px) scale(0.4, 0.4);
+}
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+    #phone {
+        opacity: 1;
+        transition: 300ms opacity;
+    }
+    #phone.active
+    {
+        opacity: 0;
+    }
 }
 #monitor
 {
@@ -357,19 +373,37 @@ footer
 }
 
 
-/*media*/
-/*@media screen and (max-width: 767px), screen and (max-height: 879px){
-    #screen-2
+@media screen and (max-width: 440px){
+    #navbar a
     {
-        display: none;
+        margin-left: 3px;
     }
-}*/
-/*@media screen and (min-width: 768px) and (min-height: 880px){*/
-    #screen-2-mobile
+    .navbar-brand img
     {
-        display: none;
+        width: 130px;
+        padding-top: 10px;
     }
-/*}*/
+    .tip
+    {
+        font-size: 18px;
+        line-height: 18px;
+    }
+    .hide-on-sm
+    {
+        display: none !important;
+    }
+}
+@media screen and (min-width: 441px) and (max-width: 768px){
+    .tip
+    {
+        font-size: 22px;
+        line-height: 22px;
+    }
+    .hide-on-md
+    {
+        display: none !important;
+    }
+}
 
 /*bootstrap fixes*/
 body .btn
@@ -422,6 +456,6 @@ body .modal
 }
 #pagination-dots li.active
 {
-    background-color: rgb(159, 73, 119);
+    background-color: rgb(57, 46, 89);
     border: 1px solid rgb(87, 87, 87);
 }

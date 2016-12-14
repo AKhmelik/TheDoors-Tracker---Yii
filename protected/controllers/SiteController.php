@@ -30,7 +30,7 @@ class SiteController extends Controller
         Yii::app()->clientScript->registerScriptFile('/js/home.js',CClientScript::POS_END);
 		// renders the view file 'protected/views/site/index.php'
 		// using the default layout 'protected/views/layouts/main.php'
-		$this->render('home');
+		$this->render($this->isDesktop()?'home':'home_mobile');
 	}
 
 	/**
