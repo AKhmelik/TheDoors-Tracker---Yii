@@ -150,9 +150,8 @@ $( document ).ready(function(){
             changeScreen(currentScreen-1)
         }
     });
-    window.addEventListener('DOMMouseScroll', function(e){
-        console.log(e.wheelDelta);
-        if(e.wheelDelta < 0)
+    window.addEventListener('wheel', function(e){
+        if(e.deltaY > 0)
         {
             changeScreen(currentScreen+1)
         }
