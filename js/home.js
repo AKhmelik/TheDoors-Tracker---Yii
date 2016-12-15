@@ -1,5 +1,5 @@
 var currentScreen = 1;
-var maxScreen = 8;
+var maxScreen = 9;
 $( document ).ready(function(){
 
     var animationObjects = [
@@ -71,10 +71,48 @@ $( document ).ready(function(){
         {
             object: $('#scroll-pic'),
             from:1,
-            to:7,
+            to:8,
             mode:'svg',
             defaultClass:'arrow-down'
         },
+
+        {
+            object: $('#monitor-image-1'),
+            from:1,
+            to:5,
+            mode:'svg',
+            defaultClass:'phone-image'
+        },
+        {
+            object: $('#monitor-image-2'),
+            from:1,
+            to:9,
+            mode:'svg',
+            defaultClass:'phone-image'
+        },
+        {
+            object: $('#monitor-image-3'),
+            from:7,
+            to:7,
+            mode:'svg',
+            defaultClass:'phone-image'
+        },
+        {
+            object: $('#monitor-image-4'),
+            from:8,
+            to:8,
+            mode:'svg',
+            defaultClass:'phone-image'
+        },
+        {
+            object: $('#monitor-image-5'),
+            from:9,
+            to:9,
+            mode:'svg',
+            defaultClass:'phone-image'
+        },
+
+
         {
             object: $('#phone-image-1'),
             from:1,

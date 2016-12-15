@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 19.2.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Слой_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 120 200" style="enable-background:new 0 0 120 200;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:none;stroke:#FFFFFF;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;}
+	.st1{fill:#FFFFFF;}
+	.st2{fill:#FFFFFF;}
+	.st3{fill:#FFFFFF;stroke:#FFFFFF;stroke-width:7;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;}
+	.st4{fill:none;stroke:#FFFFFF;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;}
+	.st5{fill:none;stroke:#FF0000;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;}
+
+		.st0{
+  -webkit-animation: blink 1.5s linear infinite;
+  animation: blink 1.5s linear infinite;
+}
+@-webkit-keyframes blink {
+  0% { stroke: rgb(255, 255, 255); }
+  50% { stroke: rgba(255, 255, 255, 0.5); }
+  100% { stroke: rgba(255, 255, 255, 0.1); }
+}
+@keyframes blink {
+  0% { stroke: rgb(255, 255, 255); }
+  50% { stroke: rgba(255, 255, 255, 0.5); }
+  100% { stroke: rgba(255, 255, 255, 0.1); }
+}
+
+
+</style>
+<g id="dot">
+		<animateMotion begin="0s" dur="28s" repeatCount="indefinite"
+  path="M104,84.6l25.3-13.4c0,0,8.3,8,10.7,13.4s16.6-8.6,16.6-8.6s1.7-1.2,4.7,2.6s11,11.8,11,11.8s-0.6,3.9,8-5.8
+		C189,74.9,191,71.2,191,71.2s1.4-5.6,9,3.1c7.6,8.7,12.3,4.7,3,13.7s-22.9,23.7-40.5,32.6s-43,13.5-43,13.5s-2-13.8-5.4-24.5
+		C110.7,98.9,104,84.6,104,84.6z "  />
+	<circle class="st0" cx="0" cy="0" r="5.2"/>
+	<circle class="st0" cx="0" cy="0" r="7.4"/>
+	<circle cx="0" cy="0" r="3.3"/>
+</g>
+<g id="laptop">
+	<g>
+		<path class="st1" d="M209.8,59.9v76.5h-133V59.9H209.8 M209.8,52.9h-133c-3.9,0-7,3.1-7,7v76.5c0,3.9,3.1,7,7,7h133
+			c3.9,0,7-3.1,7-7V59.9C216.8,56.1,213.6,52.9,209.8,52.9L209.8,52.9z"/>
+	</g>
+	<path class="st2" d="M211.4,148.4H75.3c-3,0-5.5-2.5-5.5-5.5v-6.5h147v6.6C216.8,146,214.3,148.4,211.4,148.4z"/>
+	<line class="st3" x1="60" y1="154.2" x2="229.5" y2="154.2"/>
+	<path class="st4" d="M83.8,58.8c4.3,3.8,13.7,12.7,20.5,23.4c0,0,23.4-10.6,40.1-23.7"/>
+	<path class="st4" d="M124.3,58.2l-13.9,11.3c0,0-6.2-8.5-11.4-15.5"/>
+	<path class="st4" d="M104,54c1.3,1.7,2.4,3.2,3.2,4.3C111,64,111,64,111,64l8.5-7.1"/>
+	<path class="st4" d="M107.3,86.7c0,0,15.5-8,18.7-10.2s3.2-2.2,3.2-2.2s8.1,7.1,14.8,27s7.3,21.9,7.3,21.9s-7.4,3.9-18.6,6.1
+		c-11.2,2.2-12.1,2-12.1,2S122.3,113.3,107.3,86.7z"/>
+	<path class="st4" d="M172.3,59.5c-2.5,2.8-6.3,6.5-10.9,10c-9.3,7-19.9,13.5-19.9,13.5s-2.8-6-8.1-11.8c0,0,8.9-5.2,19.2-12.7"/>
+	<path class="st4" d="M143.6,87.7c0,0,12.8-8.1,14-8.9s11.9,12.5,12.1,12.9c0.1,0.4-4.7,5.1-11.7,9.2s-7,4.1-7,4.1
+		S148.3,95,143.6,87.7z"/>
+	<path class="st4" d="M74.9,116.6l31.7-20.7c0,0,6.5,12.6,8,24s1.5,11.3,1.5,11.3s-18.6,3.5-41.1-6.5"/>
+	<path class="st4" d="M93.4,75.9c0,0,4.9,5.7,8,10.4c3.1,4.6,3.8,6.4,3.8,6.4l-18,12.1L75.1,92.5L93.4,75.9z"/>
+	<polyline class="st4" points="75.2,98.8 83.5,106.6 75.3,112.2 	"/>
+	<path class="st4" d="M74.9,64.6l3.6-4c0,0,3.3,2.2,7.8,7.3s4.5,5.1,4.5,5.1L75.2,88"/>
+	<path class="st4" d="M162.5,73.9c0,0,10.1-8.9,12.4-12c2.3-3.1,3-4.3,3-4.3l11.2,11c0,0,1.3,2-8.3,12.2c-6,6.4-6.9,7.1-6.9,7.1
+		L162.5,73.9z"/>
+	<path class="st4" d="M152.8,109.6c0,0,10.3-5.4,22.7-17.2c14.1-13.3,19-21.3,19-21.3l11.1,10.6c0,0-18.5,18.5-28.5,25.6
+		c-10.1,7.1-21.4,13.3-21.4,13.3L152.8,109.6z"/>
+	<path class="st4" d="M74.9,129.5c2.3,0.9,4.5,1.7,6.6,2.3c11.6,3.1,18.7,4.5,25.8,4.9c7.1,0.4,8.7,0,8.7,0v2"/>
+	<path class="st4" d="M189.2,138.3c7.5-2.6,14.8-5.5,21.7-8.4"/>
+	<path class="st4" d="M210.9,84.6c-6.6,6.4-15.8,15.1-27.1,25c-23.3,20.4-50.6,25-63,27.1v3.8"/>
+	<polyline class="st4" points="188.2,59.9 209.1,79.5 210.7,77.9 	"/>
+	<path class="st4" d="M209.9,63.2c-1.3-1.3-2.7-2.6-4.2-4.1"/>
+</g>
+</svg>

@@ -15,7 +15,7 @@
 </div>
 <div id="slide-screen">
     <ul id="pagination-dots">
-        <?php for($i=1;$i<=8;$i++) echo CHtml::tag('li',array('data-step'=>$i,'class'=>'goto'),' ');?>
+        <?php for($i=1;$i<=9;$i++) echo CHtml::tag('li',array('data-step'=>$i,'class'=>'goto'),' ');?>
     </ul>
     <!-- Example row of columns -->
     <div id="screen-1-wrapper">
