@@ -112,6 +112,17 @@ $( document ).ready(function(){
             changeScreen(currentScreen-1)
         }
     });
+    window.addEventListener('DOMMouseScroll', function(e){
+        console.log(e.wheelDelta);
+        if(e.wheelDelta < 0)
+        {
+            changeScreen(currentScreen+1)
+        }
+        else
+        {
+            changeScreen(currentScreen-1)
+        }
+    });
     changeScreen = function (screenNum,forced) {
         if(!screenNum) return false;
         if(screenNum>maxScreen) return false;

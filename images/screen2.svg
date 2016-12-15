@@ -79,9 +79,9 @@
 </g>
 <g id="phone" class="st0">
 	
-		<radialGradient id="SVGID_5_" cx="409.584" cy="535.9481" r="209.2881" gradientTransform="matrix(1 0 0 0.1261 0 485.248)" gradientUnits="userSpaceOnUse">
-		<stop  offset="0.3629" style="stop-color:#000000;stop-opacity:0.9"/>
-		<stop  offset="0.9325" style="stop-color:#000000;stop-opacity:9.534836e-002"/>
+		<radialGradient id="SVGID_5_" cx="409.584" cy="510" r="209.2881" gradientTransform="matrix(1 0 0 0.1261 0 485.248)" gradientUnits="userSpaceOnUse">
+		<stop  offset="0.6629" style="stop-color:#000000;stop-opacity:0.14"/>
+		<stop  offset="0.7325" style="stop-color:#000000;stop-opacity:0.09"/>
 		<stop  offset="1" style="stop-color:#000000;stop-opacity:0"/>
 	</radialGradient>
 	<path class="st8" d="M705.3,552.5c0,35.2-132.4,28.5-295.7,28.5s-295.7,6.7-295.7-28.5c0-35.2,132.4-27.5,295.7-27.5

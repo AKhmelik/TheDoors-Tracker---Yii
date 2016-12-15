@@ -10,7 +10,7 @@ $this->breadcrumbs=array(
 </div>
 <?php else: ?>
 
-<div class="form">
+<div class="form text-center">
 <?php $form=$this->beginWidget('UActiveForm', array(
 	'id'=>'registration-form',
 	'enableAjaxValidation'=>true,
@@ -21,12 +21,11 @@ $this->breadcrumbs=array(
 	'htmlOptions' => array('enctype'=>'multipart/form-data'),
 )); ?>
 
-	<p class="note"><?php echo UserModule::t('Fields with <span class="required">*</span> are required.'); ?></p>
-	
+
 	<?php echo $form->errorSummary(array($model,$profile)); ?>
 	
 	<div class="row-fluid">
-		<div class="span6">
+		<div class="span12">
 			<div class="">
 				<?php echo $form->labelEx($model,'username'); ?>
 				<?php echo $form->textField($model,'username'); ?>
@@ -38,7 +37,9 @@ $this->breadcrumbs=array(
 				<?php echo $form->error($model,'email'); ?>
 			</div>
 		</div>
-		<div class="span6">
+		</div>
+	<div class="row-fluid">
+		<div class="span12">
 			<div class="">
 				<?php echo $form->labelEx($model,'password'); ?>
 				<?php echo $form->passwordField($model,'password'); ?>
@@ -51,11 +52,13 @@ $this->breadcrumbs=array(
 			</div>
 		</div>
 	</div>
+	<p class="note"><?php echo UserModule::t('Fields with <span class="required">*</span> are required.'); ?></p>
 	<div class="row-fluid">
 		<div class="span12">
 			<?php
 			$profileFields=$profile->getFields();
-			if ($profileFields) {
+						// fitstname and lastname makes form too heavy. so let it be hidden
+			if (false && $profileFields) {
 				foreach($profileFields as $field) {
 					?>
 					<div class="row">

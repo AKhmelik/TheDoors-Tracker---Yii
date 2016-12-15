@@ -4,6 +4,7 @@ return array(
 	'Registration' => 'Регистрация',
 	'Register' => 'Зарегистрироваться',
 	'Login' => 'Вход',
+	'Login with Facebook' => 'Вход через Facebook',
 	'Logout' => 'Выйти',
 	'username' => 'Логин',
 	'username or email' => 'Логин или email',

@@ -3,8 +3,9 @@
 <svg version="1.1" id="Слой_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 viewBox="0 0 453.5 293.5" style="enable-background:new 0 0 453.5 283.5;" xml:space="preserve">
 <style type="text/css">
-	.st0{fill:none;stroke:#0D0F0F;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;}
-	.st1{fill:#FFFFFF;}
+	.st0{fill:none;stroke:#FFFFFF;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;stroke-width:2;}
+	.st9{fill:none;stroke:#0D0F0F;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;stroke-width:2;}
+	.st1{fill:#FFFFFF;stroke-width:2;}
 	.st2{fill:#FFFFFF;}
 	.st3{fill:#FFFFFE;}
 	.st4{fill:#FFFFFF;stroke:#FFFEFE;stroke-width:15;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;}
@@ -14,15 +15,33 @@
   -webkit-animation: blink 1.5s linear infinite;
   animation: blink 1.5s linear infinite;
 }
+				.st9{
+  -webkit-animation: blink2 1.5s linear infinite;
+  animation: blink2 1.5s linear infinite;
+}
 @-webkit-keyframes blink {
   0% { stroke: rgb(255, 255, 255); }
-  50% { stroke: rgba(255, 255, 255, 0.5); }
-  100% { stroke: rgba(255, 255, 255, 0.1); }
+  50% { stroke: rgba(255, 255, 255, 0.3); }
+  900% { stroke: rgba(255, 255, 255, 0); }
 }
 @keyframes blink {
   0% { stroke: rgb(255, 255, 255); }
-  50% { stroke: rgba(255, 255, 255, 0.5); }
-  100% { stroke: rgba(255, 255, 255, 0.1); }
+  50% { stroke: rgba(255, 255, 255, 0.3); }
+  100% { stroke: rgba(255, 255, 255, 0); }
+}
+	@-webkit-keyframes blink2 {
+  0% { stroke: rgb(255, 255, 255, 0); }
+  32% { stroke: rgb(255, 255, 255, 0); }
+  33% { stroke: rgb(255, 255, 255, 1); }
+  50% { stroke: rgba(255, 255, 255, 0.6); }
+  900% { stroke: rgba(255, 255, 255, 0); }
+}
+@keyframes blink2 {
+  0% { stroke: rgb(255, 255, 255, 0); }
+  32% { stroke: rgb(255, 255, 255, 0); }
+  33% { stroke: rgb(255, 255, 255, 1); }
+  50% { stroke: rgba(255, 255, 255, 0.6); }
+  100% { stroke: rgba(255, 255, 255, 0); }
 }
 </style>
 <g id="dot">
@@ -31,7 +50,7 @@
 		s29.3,31.4,29.3,31.4s-1.6,10.4,21.3-15.4c23.2-25.8,28.5-35.7,28.5-35.7s3.7-14.9,24,8.3c20.2,23.2,32.7,12.5,8,36.5
 		c-24.8,24-61,63.1-107.8,86.8s-114.5,35.9-114.5,35.9s-5.3-36.7-14.4-65.2S118.3,94.4,118.3,94.4z"  />
 	<circle class="st0" cx="0" cy="0" r="13.8"/>
-	<circle class="st0" cx="0" cy="0" r="19.7"/>
+	<circle class="st9" cx="0" cy="0" r="19.7"/>
 	<circle class="st1" cx="0" cy="0" r="8.8"/>
 
 </g>

@@ -32,7 +32,7 @@
                     <div class="col-md-6 span6 hide-on-md hide-on-sm">
                         <img src="/images/main2.svg" style="max-height: 200px;margin-top: 10px">
                     </div>
-                    <div class="col-md-6 span6 text-left" style="font-size: 21px;text-indent: 20px;">
+                    <div class="col-md-6 span6 text-justify6" style="font-size: 21px;text-indent: 20px; line-height: 24px; text-align: justify">
                         <strong>EQBEAT</strong> - простое и удобное приложение для отслеживания GPS-сигналов с мобильных
                         устройств. Фиксируйте перемещения GPS-маяков на карте в режиме онлайн! Объединяйтесь в группы
                         для координации перемещений, отслеживайте все или только избранные маршруты, создавайте ссылки
