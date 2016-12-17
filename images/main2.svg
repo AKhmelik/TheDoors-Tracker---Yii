@@ -1,9 +1,9 @@
 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 viewBox="0 0 453.5 293.5" style="enable-background:new 0 0 453.5 283.5;" xml:space="preserve">
 <style type="text/css">
-	.st0{fill:none;stroke:#FFFFFF;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;stroke-width:2;}
+	.st0{fill:none;stroke:#FF0000;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;stroke-width:2;}
 	.st9{fill:none;stroke:#0D0F0F;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;stroke-width:2;}
-	.st1{fill:#FFFFFF;stroke-width:2;}
+	.st1{fill:#FF0000;stroke-width:2;}
 	.st2{fill:#FFFFFF;}
 	.st3{fill:#FFFFFE;}
 	.st4{fill:#FFFFFF;stroke:#FFFEFE;stroke-width:15;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;}
@@ -18,28 +18,28 @@
   animation: blink2 1.5s linear infinite;
 }
 @-webkit-keyframes blink {
-  0% { stroke: rgb(255, 255, 255); }
-  50% { stroke: rgba(255, 255, 255, 0.3); }
-  900% { stroke: rgba(255, 255, 255, 0); }
+  0% { stroke: rgb(255, 16, 16); }
+  50% { stroke: rgba(255, 16, 16, 0.8); }
+  900% { stroke: rgba(255, 16, 16, 0); }
 }
 @keyframes blink {
-  0% { stroke: rgb(255, 255, 255); }
-  50% { stroke: rgba(255, 255, 255, 0.3); }
-  100% { stroke: rgba(255, 255, 255, 0); }
+  0% { stroke: rgb(255, 16, 16); }
+  50% { stroke: rgba(255, 16, 16, 0.8); }
+  100% { stroke: rgba(255, 16, 16, 0); }
 }
 	@-webkit-keyframes blink2 {
-  0% { stroke: rgb(255, 255, 255, 0); }
-  32% { stroke: rgb(255, 255, 255, 0); }
-  33% { stroke: rgb(255, 255, 255, 1); }
-  50% { stroke: rgba(255, 255, 255, 0.6); }
-  900% { stroke: rgba(255, 255, 255, 0); }
+  0% { stroke: rgb(255, 16, 16, 0); }
+  32% { stroke: rgb(255, 16, 16, 0); }
+  33% { stroke: rgb(255, 16, 16, 1); }
+  50% { stroke: rgba(255, 16, 16, 0.6); }
+  900% { stroke: rgba(255, 16, 16, 0); }
 }
 @keyframes blink2 {
-  0% { stroke: rgb(255, 255, 255, 0); }
-  32% { stroke: rgb(255, 255, 255, 0); }
-  33% { stroke: rgb(255, 255, 255, 1); }
-  50% { stroke: rgba(255, 255, 255, 0.6); }
-  100% { stroke: rgba(255, 255, 255, 0); }
+  0% { stroke: rgb(255, 16, 16, 0); }
+  32% { stroke: rgb(255, 16, 16, 0); }
+  33% { stroke: rgb(255, 16, 16, 1); }
+  50% { stroke: rgba(255, 16, 16, 0.6); }
+  100% { stroke: rgba(255, 16, 16, 0); }
 }
 </style>
 <g id="dot">
