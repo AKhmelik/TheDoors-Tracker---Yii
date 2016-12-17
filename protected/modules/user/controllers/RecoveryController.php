@@ -69,7 +69,7 @@ class RecoveryController extends Controller
                             $headers = "From: support@eqbeat.ru" . "\r\n" .
                                 "CC: support@eqbeat.ru";
 
-			    			UserModule::sendMail($user->email,$subject,$message,$headers);
+			    			UserModule::sendMail($user->email,$subject,$message);
 			    			
 							Yii::app()->user->setFlash('recoveryMessage',UserModule::t("Please check your email. An instructions was sent to your email address."));
 			    			$this->refresh();
