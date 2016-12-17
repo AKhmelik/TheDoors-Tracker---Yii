@@ -66,9 +66,9 @@ class RecoveryController extends Controller
 //                            } catch (Exception $e) {
 //                                echo $e->getMessage(); //Boring error messages from anything else!
 //                            }
+                            $headers = "From: support@eqbeat.ru" . "\r\n" ;
 
-
-			    			UserModule::sendMail($user->email,$subject,$message);
+			    			UserModule::sendMail($user->email,$subject,$message,$headers);
 			    			
 							Yii::app()->user->setFlash('recoveryMessage',UserModule::t("Please check your email. An instructions was sent to your email address."));
 			    			$this->refresh();
