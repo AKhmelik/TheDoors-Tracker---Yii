@@ -53,22 +53,22 @@ class RecoveryController extends Controller
 			    						'{activation_url}'=>$activation_url,
 			    					));
 
-                            try {
-                                $mail = new YiiMailer();
-//$mail->clearLayout();//if layout is already set in config
-                                $mail->setFrom('support@eqbeat.ru', 'Support');
-                                $mail->setTo($user->email);
-                                $mail->setSubject($subject);
-                                $mail->setBody($message);
-                                $mail->send();
-                            } catch (phpmailerException $e) {
-                                echo $e->errorMessage(); //Pretty error messages from PHPMailer
-                            } catch (Exception $e) {
-                                echo $e->getMessage(); //Boring error messages from anything else!
-                            }
+//                            try {
+//                                $mail = new YiiMailer();
+////$mail->clearLayout();//if layout is already set in config
+//                                $mail->setFrom('support@eqbeat.ru', 'Support');
+//                                $mail->setTo($user->email);
+//                                $mail->setSubject($subject);
+//                                $mail->setBody($message);
+//                                $mail->send();
+//                            } catch (phpmailerException $e) {
+//                                echo $e->errorMessage(); //Pretty error messages from PHPMailer
+//                            } catch (Exception $e) {
+//                                echo $e->getMessage(); //Boring error messages from anything else!
+//                            }
 
 
-//			    			UserModule::sendMail($user->email,$subject,$message);
+			    			UserModule::sendMail($user->email,$subject,$message);
 			    			
 							Yii::app()->user->setFlash('recoveryMessage',UserModule::t("Please check your email. An instructions was sent to your email address."));
 			    			$this->refresh();
