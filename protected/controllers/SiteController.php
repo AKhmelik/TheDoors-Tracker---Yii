@@ -26,6 +26,10 @@ class SiteController extends Controller
 	 */
 	public function actionIndex()
 	{
+        if (!Yii::app()->user->isGuest){
+            $this->redirect('metric/index');
+        }
+
         $this->layout = 'home';
         Yii::app()->clientScript->registerScriptFile('/js/home.js',CClientScript::POS_END);
 		// renders the view file 'protected/views/site/index.php'
