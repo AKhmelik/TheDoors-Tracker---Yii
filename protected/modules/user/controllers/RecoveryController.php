@@ -66,7 +66,8 @@ class RecoveryController extends Controller
 //                            } catch (Exception $e) {
 //                                echo $e->getMessage(); //Boring error messages from anything else!
 //                            }
-                            $headers = "From: support@eqbeat.ru" . "\r\n" ;
+                            $headers = "From: support@eqbeat.ru" . "\r\n" .
+                                "CC: support@eqbeat.ru";
 
 			    			UserModule::sendMail($user->email,$subject,$message,$headers);
 			    			
