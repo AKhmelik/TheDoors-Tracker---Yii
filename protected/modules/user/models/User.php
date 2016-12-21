@@ -229,7 +229,9 @@ class User extends CActiveRecord
                 $halogin->loginProviderIdentifier = $params['oauth'];
                 $halogin->loginProvider = $params['loginProviderIdentifier'];
                 $halogin->save();
-                return array('hash' => $user->generateApiHash(), 'is_reg' => 1);
+                $team = $user->getTeam();
+                $link = $team->getSharingLink();
+                return array('hash' => $user->generateApiHash(), 'link' =>$link, 'is_reg' => 1);
             }
             $errorMessage='';
             foreach( $user->getErrors() as $error){
