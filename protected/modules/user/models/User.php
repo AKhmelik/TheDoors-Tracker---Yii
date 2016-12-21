@@ -209,7 +209,9 @@ class User extends CActiveRecord
 
         if ($user) {
             $hash = $user->getHash();
-            return array('hash' => $hash, 'is_reg' => 1);
+            $team = $user->getTeam();
+            $link = $team->getSharingLink();
+            return array('hash' => $hash, 'is_reg' => 1, 'link'=>$link);
         } elseif (isset($params['username']) && isset($params['email'])) {
             //reg by oauth
             $user = new User();
