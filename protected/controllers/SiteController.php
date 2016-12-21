@@ -29,9 +29,18 @@ class SiteController extends Controller
         if (!Yii::app()->user->isGuest){
             $this->redirect('metric/index');
         }
+		if($this->isDesktop()){
+			Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/css/home.css');
+			Yii::app()->clientScript->registerScriptFile('/js/home.js',CClientScript::POS_END);
 
+		}
+		else{
+			Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/css/homeMobile.css');
+			Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/css/swiper.min.css');
+			Yii::app()->clientScript->registerScriptFile('/js/home.js',CClientScript::POS_END);
+
+		}
         $this->layout = 'home';
-        Yii::app()->clientScript->registerScriptFile('/js/home.js',CClientScript::POS_END);
 		// renders the view file 'protected/views/site/index.php'
 		// using the default layout 'protected/views/layouts/main.php'
 		$this->render($this->isDesktop()?'home':'home_mobile');
