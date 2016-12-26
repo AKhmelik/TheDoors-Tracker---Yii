@@ -93,7 +93,7 @@
 
                     <div class="swiper-slide" style="position: fixed">
                         <div id="gplay-div">
-                            <a style="" id="gplay" href="//google.com/" target="_blank"><img src="/images/gplay.png"></a><br>
+                            <a style="" id="gplay" href="https://play.google.com/store/apps/details?id=ru.eqbeat.tracker" target="_blank"><img src="/images/gplay.png"></a><br>
 
                         </div>
 

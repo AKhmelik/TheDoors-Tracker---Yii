@@ -64,7 +64,7 @@
             <h2 id="tip-8" class="tip">А также строить маршруты </h2>
         </div>
         <div id="screen2-footer">
-            <a id="gplay" href="//google.com/" target="_blank"><img src="/images/gplay.png"></a><br>
+            <a id="gplay" href="https://play.google.com/store/apps/details?id=ru.eqbeat.tracker" target="_blank"><img src="/images/gplay.png"></a><br>
             <button type="button" id="scroll-pic">
                 <svg class="arrow-down">
                     <path class="a1" d="M0 0 L15 16 L30 0"></path>
