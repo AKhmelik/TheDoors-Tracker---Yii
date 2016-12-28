@@ -274,7 +274,7 @@ class User extends CActiveRecord
             $this->password = UserModule::encrypting($params['password']);
             $this->status = 1;
             if($this->isUserExistsValidation()){
-                return array('hash' => "GUEST", 'is_reg' => 3, 'error_message'=>'current user is already exists!');
+                return array('oauth'=>'','hash' => "GUEST", 'is_reg' => 3, 'error_message'=>'current user is already exists!');
             }
 
             if ($this->save()) {
@@ -289,7 +289,7 @@ class User extends CActiveRecord
                 $halogin->loginProviderIdentifier = $params['oauth'];
                 $halogin->loginProvider = $params['loginProviderIdentifier'];
                 $halogin->save();
-                return array('hash' => $this->generateApiHash(), 'is_reg' => 1, 'error_message'=>'', 'link'=>$link);
+                return array('oauth'=>'','hash' => $this->generateApiHash(), 'is_reg' => 1, 'error_message'=>'', 'link'=>$link);
             }
 
         }
@@ -303,14 +303,14 @@ class User extends CActiveRecord
                 $team = $user->getTeam();
                 $link = $team->getSharingLink();
 
-                return array('hash' => $user->getHash(), 'is_reg' => 1, 'link'=>$link);
+                return array('oauth'=>'','hash' => $user->getHash(), 'is_reg' => 1, 'link'=>$link);
             }
             else{
                 $errorMessage='';
                 foreach( $modelLogin->getErrors() as $error){
                     $errorMessage.=implode(', ', $error);
                 }
-                return array('hash' => "GUEST", 'is_reg' => 3, 'error_message'=>$errorMessage);
+                return array('oauth'=>'','hash' => "GUEST", 'is_reg' => 3, 'error_message'=>$errorMessage);
             }
         }
     }
