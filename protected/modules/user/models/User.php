@@ -220,7 +220,7 @@ class User extends CActiveRecord
             $hash = $user->getHash();
             $team = $user->getTeam();
             $link = $team->getSharingLink();
-            return array('hash' => $hash, 'is_reg' => 1, 'link'=>$link);
+            return array('oauth'=>$params['oauth'], 'hash' => $hash, 'is_reg' => 1, 'link'=>$link);
         } elseif (isset($params['username']) && isset($params['email'])) {
             //reg by oauth
             $user = new User();
@@ -228,7 +228,7 @@ class User extends CActiveRecord
             $user->email = $params['email'];
             $user->status = 1;
             if($user->isUserExistsValidation()){
-                return array('hash' => "GUEST", 'is_reg' => 3, 'error_message'=>'current user is already exists!');
+                return array('oauth'=>$params['oauth'],'hash' => "GUEST", 'is_reg' => 3, 'error_message'=>'current user is already exists!');
             }
             if ($user->save()) {
               //  TeamUsers::addUserToTeam($user->id);
@@ -242,16 +242,16 @@ class User extends CActiveRecord
                 $halogin->save();
                 $team = $user->getTeam();
                 $link = $team->getSharingLink();
-                return array('hash' => $user->generateApiHash(), 'link' =>$link, 'is_reg' => 1);
+                return array('oauth'=>$params['oauth'],'hash' => $user->generateApiHash(), 'link' =>$link, 'is_reg' => 1);
             }
             $errorMessage='';
             foreach( $user->getErrors() as $error){
                 $errorMessage.=implode(', ', $error);
             }
 
-            return array('hash' => "GUEST", 'is_reg' => 3, 'error_message'=>$errorMessage);
+            return array('oauth'=>$params['oauth'],'hash' => "GUEST", 'is_reg' => 3, 'error_message'=>$errorMessage);
         } else {
-            return array('hash' => "GUEST", 'is_reg' => 2, 'error_message'=>'');
+            return array('oauth'=>$params['oauth'],'hash' => "GUEST", 'is_reg' => 2, 'error_message'=>'');
         }
     }
 
