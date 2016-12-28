@@ -205,6 +205,15 @@ class User extends CActiveRecord
     public function getHashByOauth($params)
     {
         Yii::import('application.modules.hybridauth.models.HaLogin');
+
+        if($params['loginProviderIdentifier'] == "Google"){
+            $userinfo = 'https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=' . $params['oauth'];
+            $json = file_get_contents($userinfo);
+            $userInfoArray = json_decode($json,true);
+            $params['oauth'] = $userInfoArray['id'];
+        }
+
+
         $user = HaLogin::getUser($params['loginProviderIdentifier'], $params['oauth']);
 
         if ($user) {
