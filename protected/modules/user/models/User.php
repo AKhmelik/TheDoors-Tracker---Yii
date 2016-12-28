@@ -206,7 +206,7 @@ class User extends CActiveRecord
     {
         Yii::import('application.modules.hybridauth.models.HaLogin');
 
-        if($params['loginProviderIdentifier'] == "Google"){
+        if($params['loginProviderIdentifier'] == "Google" && !is_numeric($params['oauth'])){
             $userinfo = 'https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=' . $params['oauth'];
             $json = file_get_contents($userinfo);
             $userInfoArray = json_decode($json,true);
