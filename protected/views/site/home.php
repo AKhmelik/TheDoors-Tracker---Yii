@@ -9,6 +9,11 @@
                 <a href="#" id="login"><?= Yii::t('app','Login')?></a>
                 <a href="#" class="registration-action"><?= Yii::t('app','Register')?></a>
             </form>
+            <div  id="language-selector" style="float:right; margin:5px;">
+                <?php
+                $this->widget('application.components.widgets.LanguageSelector');
+                ?>
+            </div>
         </div>
         <!--/.navbar-collapse -->
     </nav>
