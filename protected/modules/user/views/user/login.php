@@ -51,6 +51,7 @@ $this->breadcrumbs=array(
 	<div class="row submit">
 		<?php echo CHtml::submitButton(UserModule::t("Login"),array('class'=>'btn btn-success','style'=>'margin-top:0;margin-bottom:0')); ?>
 		<?php echo CHtml::link(UserModule::t("Login with Facebook"),'/hybridauth/default/login/?provider=Facebook',array('class'=>'btn btn-primary')); ?>
+		<?php echo CHtml::link(UserModule::t("Login with Google"),'/hybridauth/default/login/?provider=Google',array('class'=>'btn btn-primary')); ?>
 		<?php //$this->widget('application.modules.hybridauth.widgets.renderProviders'); ?>
 	</div>
 
