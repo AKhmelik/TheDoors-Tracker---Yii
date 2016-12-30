@@ -43,6 +43,9 @@ $this->breadcrumbs=array(
 
 	<div class="row">
 		<p class="hint">
+			<?php echo CHtml::link('Terms and contions','http://eqbeat.ru/termsandcontions.html',array('class'=>'')); ?>
+		</p>
+		<p class="hint">
 			<?php echo CHtml::link(UserModule::t("Register"),Yii::app()->getModule('user')->registrationUrl,array('class'=>'registration-action')); ?> | <?php echo CHtml::link(UserModule::t("Lost Password?"),Yii::app()->getModule('user')->recoveryUrl); ?>
 		</p>
 	</div>
