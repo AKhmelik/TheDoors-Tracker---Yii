@@ -312,6 +312,10 @@ class MetricController extends Controller
             if($team){
                 Yii::app()->session['teamId'] = $team->id;
                 Yii::app()->session['teamHash'] = Yii::app()->request->getParam('hash');
+                if(isset($_GET['search']) && !empty($_GET['search'])){
+                    $team->end_point_name =$_GET['search'];
+                    $team->save(false);
+                }
             }
         }
         $this->redirect(array('metric/index'));
