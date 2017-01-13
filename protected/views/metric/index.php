@@ -94,7 +94,7 @@
     }
 
     setInterval('getCores()', 2000);
-    setInterval('core.showHistory()', 60000);
+    setInterval('core.showHistory()', 30000);
     core.showHistory();
 
 

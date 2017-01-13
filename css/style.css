@@ -210,3 +210,13 @@ body , .main-wraper, #map{
 .new-marker-input{
     width: 180px!important;
 }
+
+@media screen and (max-width: 300px) {
+   .navbar{
+       display: none;
+
+   }
+    #map{padding: 0;}
+
+
+}
