@@ -313,6 +313,17 @@ class MetricController extends Controller
                 Yii::app()->session['teamId'] = $team->id;
                 Yii::app()->session['teamHash'] = Yii::app()->request->getParam('hash');
                 if(isset($_GET['search']) && !empty($_GET['search'])){
+
+                    $response = file_get_contents('https://geocode-maps.yandex.ru/1.x/?format=json&geocode='.$_GET['search']);
+                    $jsonData = json_decode($response, true);
+                    if(isset($jsonData['response']['GeoObjectCollection']['featureMember'][0]['GeoObject']['Point']['pos'])){
+                        $data = explode(' ',$jsonData['response']['GeoObjectCollection']['featureMember'][0]['GeoObject']['Point']['pos'] ) ;
+                        $team->end_point_lng =$data[0];
+                        $team->end_point_lat =$data[1];
+                    }
+
+
+
                     $team->end_point_name =$_GET['search'];
                     $team->save(false);
                 }
