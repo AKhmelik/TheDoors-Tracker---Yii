@@ -57,19 +57,7 @@ class RecoveryController extends Controller
 			    						'{activation_url}'=>$activation_url,
 			    					));
 
-//                            try {
-//                                $mail = new YiiMailer();
-////$mail->clearLayout();//if layout is already set in config
-//                                $mail->setFrom('support@eqbeat.ru', 'Support');
-//                                $mail->setTo($user->email);
-//                                $mail->setSubject($subject);
-//                                $mail->setBody($message);
-//                                $mail->send();
-//                            } catch (phpmailerException $e) {
-//                                echo $e->errorMessage(); //Pretty error messages from PHPMailer
-//                            } catch (Exception $e) {
-//                                echo $e->getMessage(); //Boring error messages from anything else!
-//                            }
+
                             $headers = "From: support@eqbeat.ru" . "\r\n" .
                                 "CC: support@eqbeat.ru";
 
