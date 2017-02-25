@@ -3,7 +3,7 @@
   color: inherit;
   background: #fff;
   border-radius: 4px;
-  width: 278px;
+  width: 328px;
   padding: 4px;
   margin-top: 1px;
   top: 100px;
@@ -65,7 +65,7 @@
     display: block; }
   .daterangepicker .calendar {
     display: none;
-    max-width: 270px;
+    max-width: 300px;
     margin: 4px; }
     .daterangepicker .calendar.single .calendar-table {
       border: none; }
@@ -145,7 +145,7 @@
     vertical-align: middle;
     margin: 0 0 5px 0;
     padding: 0 6px 0 28px;
-    width: 100%; }
+    width: 80%; }
     .daterangepicker .input-mini.active {
       border: 1px solid #08c;
       border-radius: 4px; }
