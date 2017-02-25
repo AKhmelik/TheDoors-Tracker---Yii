@@ -1,4 +1,4 @@
-<h1>Feedback</h1>
+
 <?php
 	Yii::app()->clientScript->registerCss('ext-comment', "
 	div.ext-comment {

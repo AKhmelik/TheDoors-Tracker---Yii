@@ -12,7 +12,7 @@
 
 	<?php /** @var CActiveForm $form */
 	echo $form->errorSummary($comment); ?>
-
+	<h1>Feedback</h1>
 	<div class="row">
 		<?php echo $form->labelEx($comment,'message'); ?>
 		<?php echo $form->textArea($comment,'message',array('rows'=>6, 'cols'=>50)); ?>
