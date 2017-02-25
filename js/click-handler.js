@@ -67,7 +67,6 @@ jQuery(document).on("click", ".fn-handler-marker-create, .fn-handler-marker-dele
     var markerLng = $('input[name=lngnew]').val();
     var placeId = $('input[name=placeId]').val();
     var markerColor = $('input[name=markerColor]').val();
-    debugger;
     $.ajax({
         type: 'POST',
         url: '/metric/addMarker',
