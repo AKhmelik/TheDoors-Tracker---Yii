@@ -187,6 +187,7 @@ echo CHtml::scriptFile(Yii::app()->request->baseUrl . "/js/click-handler.js");
         <select  id ="userSelectedId" name="userSelected"><?php echo GeoUnique::getSelectPoint(true) ?></select>
         <script type="text/javascript">
             $('input[name="daterange"]').daterangepicker({
+                    "startDate": "03/03/2017",
                     timePicker: true,
                     timePicker24Hour: true,
                     timePickerIncrement: 30,
