@@ -511,7 +511,7 @@ div.search-form
 .content-container h1{
     font-size: 23px;
 }
-.minuteselect{
+.minuteselect, .hourselect{
     width: 54px!important;
 }
 @media (max-width: 830px) {
