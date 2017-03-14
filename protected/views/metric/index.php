@@ -204,8 +204,8 @@ echo CHtml::scriptFile(Yii::app()->request->baseUrl . "/js/click-handler.js");
                     }
                 },
                 function(start, end, label) {
-                    $('input[name=startData]').val(start.format('YYYY-MM-DD h:mm:ss'));
-                    $('input[name=endDate]').val(end.format('YYYY-MM-DD h:mm:ss'));
+                    $('input[name=startData]').val(moment(start).utc.format('YYYY-MM-DD h:mm:ss'));
+                    $('input[name=endDate]').val(moment(end).utc.format('YYYY-MM-DD h:mm:ss'));
                 });
             $('#search-query-main').popover({ trigger: "hover" });
             $('#user-select').popover({ trigger: "hover" });
