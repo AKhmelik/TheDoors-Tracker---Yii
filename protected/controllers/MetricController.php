@@ -85,6 +85,7 @@ class MetricController extends Controller
                     if($user){
 
                         if(Yii::app()->request->getParam('longitude')!=0 &&  Yii::app()->request->getParam('latitude')!=0){
+                            date_default_timezone_set('UTC');
                             $geoLog = new GeoLog();
                             $geoLog->longitude =Yii::app()->request->getParam('longitude');
                             $geoLog->latitude = Yii::app()->request->getParam('latitude');

@@ -9,6 +9,7 @@ class ParserController extends Controller
 
 
         echo 'OK';
+        date_default_timezone_set('UTC');
                 $geoLog = new GeoLog();
                 $geoLog->longitude =$_POST['lon'];
                 $geoLog->latitude = $_POST['lat'];
