@@ -92,7 +92,7 @@ class MetricController extends Controller
                             $geoLog->user_id =Yii::app()->request->getParam('mid');
                             $geoLog->user_api_id =$user->id;
                             $geoLog->time = time();
-                            $geoLog->datetime_col = date('Y-m-d h:i:s', time());
+                            $geoLog->datetime_col = date('Y-m-d H:i:s', time());
                             $geoLog->insert();
 
                             GeoUnique::model()->deleteAllByAttributes(array('user_api_id'=>$user->id));
