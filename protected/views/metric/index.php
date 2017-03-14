@@ -186,8 +186,16 @@ echo CHtml::scriptFile(Yii::app()->request->baseUrl . "/js/click-handler.js");
         <input type="hidden" value ="<?php echo date('Y-m-d h:i:s', time())?>" name="endDate"  />
         <select  id ="userSelectedId" name="userSelected"><?php echo GeoUnique::getSelectPoint(true) ?></select>
         <script type="text/javascript">
+            var MyDate = new Date();
+
+            MyDate.setDate(MyDate.getDate() - 1);
+
+
+            var oldDate= ('0' + MyDate.getDate()).slice(-2) + '/'
+                + ('0' + (MyDate.getMonth()+1)).slice(-2) + '/'
+                + MyDate.getFullYear();
             $('input[name="daterange"]').daterangepicker({
-                    "startDate": "03/03/2017",
+                    "startDate": oldDate,
                     timePicker: true,
                     timePicker24Hour: true,
                     timePickerIncrement: 30,
