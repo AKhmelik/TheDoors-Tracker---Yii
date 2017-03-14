@@ -90,6 +90,7 @@ class MetricController extends Controller
                             $geoLog->longitude =Yii::app()->request->getParam('longitude');
                             $geoLog->latitude = Yii::app()->request->getParam('latitude');
                             $geoLog->user_id =Yii::app()->request->getParam('mid');
+                            $geoLog->speed =Yii::app()->request->getParam('speed');
                             $geoLog->user_api_id =$user->id;
                             $geoLog->time = time();
                             $geoLog->datetime_col = date('Y-m-d H:i:s', time());
