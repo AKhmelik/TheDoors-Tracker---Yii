@@ -28,7 +28,7 @@ jQuery(document).on("click", ".fn-handler-calculate-history", function () {
 
                     lines.push([row.latitude, row.longitude]);
                     i++;
-                    if(i>3){
+                    if(i>5){
                         i=0;
                         var date = new Date(row.time*1000);
                         var hours = date.getHours();
@@ -37,7 +37,7 @@ jQuery(document).on("click", ".fn-handler-calculate-history", function () {
 
                         // Создаем ломаную линию.
                         var polyline = new ymaps.Polyline(lines, {
-                            hintContent: "speed " + row.speed+" | "+hours+":"+minutes.substr(-2)+":"+seconds.substr(-2)
+                            hintContent: "speed " + row.speed*3.6 +" | "+hours+":"+minutes.substr(-2)+":"+seconds.substr(-2)
                         }, {
                             draggable: false,
                             strokeColor: '#65009450',

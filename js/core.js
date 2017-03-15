@@ -47,7 +47,7 @@ core.showHistory = function () {
                 $.each(value, function(index, row) {
                     lines.push([row.latitude, row.longitude]);
                     i++;
-                    if(i>1){
+                    if(i>5){
                         i=0;
 
                         var date = new Date(row.time*1000);
@@ -56,7 +56,7 @@ core.showHistory = function () {
                         var seconds = "0" + date.getSeconds();
 
                         var polylineHistory = new ymaps.Polyline(lines, {
-                            hintContent: "speed " + row.speed+" | "+hours+":"+minutes.substr(-2)+":"+seconds.substr(-2)
+                            hintContent: "speed " + row.speed*3.6 +" | "+hours+":"+minutes.substr(-2)+":"+seconds.substr(-2)
                         }, {
                             draggable: false,
                             strokeColor: '#94000059',
