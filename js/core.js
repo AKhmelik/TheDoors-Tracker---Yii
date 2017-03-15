@@ -56,7 +56,7 @@ core.showHistory = function () {
                         var seconds = "0" + date.getSeconds();
 
                         var polylineHistory = new ymaps.Polyline(lines, {
-                            hintContent: "speed " + row.speed*3.6 +" | "+hours+":"+minutes.substr(-2)+":"+seconds.substr(-2)
+                            hintContent: "speed " + Math.round(row.speed*3.6)+" | "+hours+":"+minutes.substr(-2)+":"+seconds.substr(-2)
                         }, {
                             draggable: false,
                             strokeColor: '#94000059',

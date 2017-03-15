@@ -37,7 +37,7 @@ jQuery(document).on("click", ".fn-handler-calculate-history", function () {
 
                         // Создаем ломаную линию.
                         var polyline = new ymaps.Polyline(lines, {
-                            hintContent: "speed " + row.speed*3.6 +" | "+hours+":"+minutes.substr(-2)+":"+seconds.substr(-2)
+                            hintContent: "speed " + Math.round(row.speed*3.6)+" | "+hours+":"+minutes.substr(-2)+":"+seconds.substr(-2)
                         }, {
                             draggable: false,
                             strokeColor: '#65009450',
