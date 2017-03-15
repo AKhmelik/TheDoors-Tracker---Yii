@@ -28,7 +28,7 @@ jQuery(document).on("click", ".fn-handler-calculate-history", function () {
 
                     lines.push([row.latitude, row.longitude]);
                     i++;
-                    if(i>1){
+                    if(i>2){
                         i=0;
                         var date = new Date(row.time*1000);
                         var hours = date.getHours();
