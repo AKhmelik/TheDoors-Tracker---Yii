@@ -28,7 +28,7 @@ jQuery(document).on("click", ".fn-handler-calculate-history", function () {
 
                     lines.push([row.latitude, row.longitude]);
                     i++;
-                    if(i>5){
+                    if(i>0){
                         i=0;
                         var date = new Date(row.time*1000);
                         var hours = date.getHours();
@@ -49,6 +49,7 @@ jQuery(document).on("click", ".fn-handler-calculate-history", function () {
                         myMap.geoObjects.add(polyline);
                         polylineArrHistory.push(polyline);
                          lines = [];
+                        lines.push([row.latitude, row.longitude]);
                     }
                 });
 
