@@ -300,7 +300,8 @@ class MetricController extends Controller
                     if ($previosValue + 30 < $row->time) {
                         $i++;
                     }
-                    $result[$i][] = [ 'latitude' => $row->latitude, 'longitude' => $row->longitude];
+                    $result[$i][] = [ 'latitude' => $row->latitude, 'longitude' => $row->longitude,
+                        'speed'=>$row->speed, 'time'=>$row->time];
                     $previosValue = $row->time;
                 }
             }

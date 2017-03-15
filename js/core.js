@@ -39,27 +39,42 @@ core.showHistory = function () {
             var result = JSON.parse(data);
             var hasData = false;
 
-
+            lines = [];
             $.each(result, function(index, value) {
                 hasData =true;
-                var lines = [];
+
+                var i =0;
                 $.each(value, function(index, row) {
                     lines.push([row.latitude, row.longitude]);
+                    i++;
+                    if(i>1){
+                        i=0;
+
+                        var date = new Date(row.time*1000);
+                        var hours = date.getHours();
+                        var minutes = "0" + date.getMinutes();
+                        var seconds = "0" + date.getSeconds();
+
+                        var polylineHistory = new ymaps.Polyline(lines, {
+                            hintContent: "speed " + row.speed+" | "+hours+":"+minutes.substr(-2)+":"+seconds.substr(-2)
+                        }, {
+                            draggable: false,
+                            strokeColor: '#94000059',
+                            strokeWidth: 4,
+                            // Первой цифрой задаем длину штриха. Второй цифрой задаем длину разрыва.
+                            strokeStyle: '5 0'
+                        });
+                        myMap.geoObjects.add(polylineHistory);
+                        polylineArr.push(polylineHistory);
+
+                        lines = [];
+                    }
+
                 });
 
-                // Создаем ломаную линию.
-                 var polylineHistory = new ymaps.Polyline(lines, {
-                    hintContent: "Daily History"
-                }, {
-                    draggable: false,
-                    strokeColor: '#94000059',
-                    strokeWidth: 4,
-                    // Первой цифрой задаем длину штриха. Второй цифрой задаем длину разрыва.
-                    strokeStyle: '5 0'
-                });
+
 // Добавляем линию на карту.
-                myMap.geoObjects.add(polylineHistory);
-                polylineArr.push(polylineHistory);
+
 // Устанавливаем карте границы линии.
 //                 myMap.setBounds(polylineHistory.geometry.getBounds());
             });
