@@ -182,8 +182,8 @@ echo CHtml::scriptFile(Yii::app()->request->baseUrl . "/js/click-handler.js");
     <div class="modal-body">
         <input type="text" value ="" name="daterange"  />
         <input type="hidden" value ="<?php echo $team->getSharingLink();?>" id="sharing-link" name="charing-link"  />
-        <input type="hidden" value ="<?php echo date('Y-m-d h:i:s', time()-86400)?>" name="startData"  />
-        <input type="hidden" value ="<?php echo date('Y-m-d h:i:s', time())?>" name="endDate"  />
+        <input type="hidden" value ="<?php echo date('Y-m-d H:i:s', time()-86400)?>" name="startData"  />
+        <input type="hidden" value ="<?php echo date('Y-m-d H:i:s', time())?>" name="endDate"  />
         <select  id ="userSelectedId" name="userSelected"><?php echo GeoUnique::getSelectPoint(true) ?></select>
         <script type="text/javascript">
             var MyDate = new Date();
