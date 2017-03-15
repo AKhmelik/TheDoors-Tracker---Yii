@@ -3,6 +3,7 @@ jQuery(document).on("click", ".fn-handler-calculate-history", function () {
     var startDate = $('input[name=startData]').val();
     var endDate = $('input[name=endDate]').val();
     var user = $('#userSelectedId').val();
+    polylineArrHistory=[];
 
     $.ajax({
         type: 'POST',
@@ -13,31 +14,50 @@ jQuery(document).on("click", ".fn-handler-calculate-history", function () {
             user: user
         },
         success: function (data) {
+            $.each(polylineArrHistory, function(index, value) {
+                myMap.geoObjects.remove(value);
+            });
            var result = JSON.parse(data);
             var hasData = false;
 
-
+            var i =0;
             $.each(result, function(index, value) {
                 hasData =true;
-                var lines = [];
+                 lines = [];
                 $.each(value, function(index, row) {
+
                     lines.push([row.latitude, row.longitude]);
+                    i++;
+                    if(i>1){
+                        i=0;
+                        var date = new Date(row.time*1000);
+                        var hours = date.getHours();
+                        var minutes = "0" + date.getMinutes();
+                        var seconds = "0" + date.getSeconds();
+
+                        // Создаем ломаную линию.
+                        var polyline = new ymaps.Polyline(lines, {
+                            hintContent: "speed " + row.speed+" | "+hours+":"+minutes.substr(-2)+":"+seconds.substr(-2)
+                        }, {
+                            draggable: false,
+                            strokeColor: '#65009450',
+                            strokeWidth: 4,
+                            // Первой цифрой задаем длину штриха. Второй цифрой задаем длину разрыва.
+                            strokeStyle: '5 0'
+                        });
+                        //myMap.setBounds(polyline.geometry.getBounds());
+                        myMap.geoObjects.add(polyline);
+                        polylineArrHistory.push(polyline);
+                         lines = [];
+                    }
                 });
 
-                // Создаем ломаную линию.
-                var polyline = new ymaps.Polyline(lines, {
-                    hintContent: "Ломаная линия"
-                }, {
-                    draggable: false,
-                    strokeColor: '#000000',
-                    strokeWidth: 4,
-                    // Первой цифрой задаем длину штриха. Второй цифрой задаем длину разрыва.
-                    strokeStyle: '5 0'
-                });
+
 // Добавляем линию на карту.
-                myMap.geoObjects.add(polyline);
+
 // Устанавливаем карте границы линии.
-                myMap.setBounds(polyline.geometry.getBounds());
+
+
             });
             $('#myModal').modal('hide');
             if(!hasData){

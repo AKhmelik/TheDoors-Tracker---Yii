@@ -280,8 +280,8 @@ class MetricController extends Controller
             && Yii::app()->request->getParam('user'))
         || Yii::app()->request->getParam('dailyHistory')
         ) {
-            $startDate = (Yii::app()->request->getParam('dailyHistory'))?date('Y-m-d h:i:s', time()-86400):Yii::app()->request->getParam('startDate');
-            $endDate = (Yii::app()->request->getParam('dailyHistory'))?date('Y-m-d h:i:s', time()+86400):Yii::app()->request->getParam('endDate');
+            $startDate = (Yii::app()->request->getParam('dailyHistory'))?date('Y-m-d H:i:s', time()-86400):Yii::app()->request->getParam('startDate');
+            $endDate = (Yii::app()->request->getParam('dailyHistory'))?date('Y-m-d H:i:s', time()+86400):Yii::app()->request->getParam('endDate');
             $team = Team::getTeam();
             $user = (Yii::app()->request->getParam('dailyHistory'))?$team->user_host_id:Yii::app()->request->getParam('user');
 
