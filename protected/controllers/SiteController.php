@@ -41,7 +41,13 @@ class SiteController extends Controller
 
 		}
         $this->layout = 'home';
-		// renders the view file 'protected/views/site/index.php'
+        $this->pageTitle = Yii::t('app', 'Simple GPS Tracker'); // It could be something from DB or...whatever
+        $description = Yii::t('app','simple and handy service for GPS-signals tracking from mobile devices. You can follow GPS-beacon movement on online maps. Team up in order to coordinate movement, track all routs or just selected ones, create access links to share your location. Do you play in the city quests? Do you want to be sure of your child safety? Are you walking around the city all day long? Then EQBEAT will be indispensable assistant for you!');
+        $keywords="GPS трекер, encounter, quest, квест, трекер местоположения, tracker, GPS маячек, трекер ребенка";
+
+        Yii::app()->clientScript->registerMetaTag($keywords, 'keywords');
+        Yii::app()->clientScript->registerMetaTag($description, 'description');
+        $this->pageDescription=// renders the view file 'protected/views/site/index.php'
 		// using the default layout 'protected/views/layouts/main.php'
 		$this->render($this->isDesktop()?'home':'home_mobile');
 	}

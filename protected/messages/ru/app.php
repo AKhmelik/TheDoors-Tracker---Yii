@@ -47,5 +47,6 @@ return array(
     'Create access links to share your location'=>'Создав уникальную ссылку доступа, Вы можете делиться своей геолокацией',
     'Create groups in order to track location of each member'=> 'Вы можете создавать группы, где сможете просматривать местоположение каждого
                 участника',
-    'Build routs'=>'А также строить маршруты'
+    'Build routs'=>'А также строить маршруты',
+    'Simple GPS Tracker'=>'GPS Трекер. '
 );
