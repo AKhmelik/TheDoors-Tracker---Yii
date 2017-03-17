@@ -47,7 +47,6 @@ class SiteController extends Controller
 
         Yii::app()->clientScript->registerMetaTag($keywords, 'keywords');
         Yii::app()->clientScript->registerMetaTag($description, 'description');
-        $this->pageDescription=// renders the view file 'protected/views/site/index.php'
 		// using the default layout 'protected/views/layouts/main.php'
 		$this->render($this->isDesktop()?'home':'home_mobile');
 	}
