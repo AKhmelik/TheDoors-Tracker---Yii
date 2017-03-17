@@ -164,6 +164,8 @@ echo CHtml::scriptFile(Yii::app()->request->baseUrl . "/js/click-handler.js");
 
 ?>
 <div id="map" class="col-xs-12 col-md-10"></div>
+<a id="gplay-t" href="https://play.google.com/store/apps/details?id=ru.eqbeat.tracker" target="_blank"><img src="/images/gplay.png"></a>
+
 <div class="row-fluid">
     <?php if(!Yii::app()->user->isGuest):?>
         <a class="sharelink-button btn btn-primary"  data-toggle="modal" href="#myCustomModalMessage"><i class="icon-share icon-white"></i><?= Yii::t('app', 'Share access')?></a>

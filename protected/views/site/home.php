@@ -48,6 +48,18 @@
                 </div>
             </div>
         </div>
+
+        <div id="screen2-footer">
+            <a id="gplay" href="https://play.google.com/store/apps/details?id=ru.eqbeat.tracker" target="_blank"><img src="/images/gplay.png"></a><br>
+            <button type="button" id="scroll-pic">
+                <svg class="arrow-down">
+                    <path class="a1" d="M0 0 L15 16 L30 0"></path>
+                    <path class="a2" d="M0 10 L15 26 L30 10"></path>
+                    <path class="a3" d="M0 20 L15 36 L30 20"></path>
+                </svg>
+            </button>
+        </div>
+
     </div>
     <div id="screen-2-wrapper">
         <div id="animation-screen">

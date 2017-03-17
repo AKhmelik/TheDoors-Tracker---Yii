@@ -514,6 +514,12 @@ div.search-form
 .minuteselect, .hourselect{
     width: 54px!important;
 }
+#gplay-t{
+    position: fixed;
+    right: 20px;
+    bottom: 32px;
+    width: 128px;
+}
 @media (max-width: 830px) {
     .selector-down
     {
