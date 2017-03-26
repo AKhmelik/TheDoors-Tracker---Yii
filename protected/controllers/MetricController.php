@@ -100,6 +100,8 @@ class MetricController extends Controller
 
 
                             $trackId=null;
+                            var_dump(Yii::app()->request->getParam('sessionId'));
+                            
                             if(Yii::app()->request->getParam('sessionId')){
                                 $criteria=new CDbCriteria;
                                 $criteria->compare('hash',Yii::app()->request->getParam('sessionId'));
@@ -109,7 +111,7 @@ class MetricController extends Controller
                                     $model = new GeoTrack();
                                     $model->hash =  Yii::app()->request->getParam('sessionId');
                                     $model->owner_id =$user->id;
-                                    $model->save();
+                                    $model->insert();
                                 }
                                 $trackId= $model->id;
                             }
