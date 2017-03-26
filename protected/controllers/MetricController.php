@@ -112,6 +112,7 @@ class MetricController extends Controller
                                     $model->insert();
                                 }
                                 $trackId= $model->id;
+                                $stats = $model->prepareStats();
                             }
                             date_default_timezone_set('UTC');
                             $geoLog = new GeoLog();
@@ -137,6 +138,9 @@ class MetricController extends Controller
                         }
 
                         $data = $user->getPointsData();
+                        if(isset($stats)){
+                            $data['stats'] = $stats;
+                        }
                         echo json_encode($data);
                        exit;
                     }
