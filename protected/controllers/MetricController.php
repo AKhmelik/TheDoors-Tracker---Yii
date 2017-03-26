@@ -112,8 +112,6 @@ class MetricController extends Controller
                                     $model->insert();
                                 }
                                 $trackId= $model->id;
-                                var_dump($trackId);
-                                
                             }
                             date_default_timezone_set('UTC');
                             $geoLog = new GeoLog();
