@@ -520,6 +520,31 @@ div.search-form
     bottom: 32px;
     width: 128px;
 }
+
+.route-history{
+    position: absolute;
+    right: 0;
+    top: 92px;
+    background-color: rgba(0, 0, 0, 0.53);
+    color: #96f965;
+    border-radius: 7px;
+    padding: 6px;
+}
+
+.track-time{
+    color: #009fff;
+    font-style: inherit;
+    /* color: #FFFFFF; */
+    text-decoration: underline;
+    font-weight: 700;
+    cursor: pointer;
+}
+.current-data .track-time{
+    text-decoration: none;
+    color: #dbffb9;
+    cursor: none;
+}
+
 @media (max-width: 830px) {
     .selector-down
     {

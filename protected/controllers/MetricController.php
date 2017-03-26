@@ -17,7 +17,7 @@ class MetricController extends Controller
                 'users'=>array('@'),
             ),
             array('allow',  // allow all users to perform 'list' and 'show' actions
-                'actions'=>array('index', 'setendpoint','calculateHistory', 'getcores',  'addmarker', 'getanotherpoints'),
+                'actions'=>array('index', 'setendpoint','stats','calculateHistory', 'getcores',  'addmarker', 'getanotherpoints'),
                 'expression'=>'WebUser::isSupport()',
             ),
             array('allow',  // allow all users to perform 'list' and 'show' actions
@@ -30,6 +30,11 @@ class MetricController extends Controller
 
     public function actionIndex()
     {
+        $geoTrack = [];
+        if (!Yii::app()->user->isGuest) {
+            $userId = Yii::app()->user->getId();
+            $geoTrack = GeoTrack::prepareGeoLogStat($userId);
+        }
 
        $team = Team::getTeam();
 
@@ -58,10 +63,17 @@ class MetricController extends Controller
         $geoPoints=GeoPoints::model()->findAllByAttributes(array('team_id'=>$team->id));
 
         $team = Team::getTeam();
+
+
+
         if($team){
             $this->endPointName = $team->end_point_name;
         }
-        $this->render('index', array('model' => array(), 'geoPoints'=>$geoPoints, 'team'=>$team));
+
+
+
+
+        $this->render('index', array('model' => array(), 'geoPoints'=>$geoPoints, 'team'=>$team, 'geoTrack'=>$geoTrack));
 
     }
 
@@ -85,6 +97,22 @@ class MetricController extends Controller
                     if($user){
 
                         if(Yii::app()->request->getParam('longitude')!=0 &&  Yii::app()->request->getParam('latitude')!=0){
+
+
+                            $trackId=null;
+                            if(Yii::app()->request->getParam('sessionId')){
+                                $criteria=new CDbCriteria;
+                                $criteria->compare('hash',Yii::app()->request->getParam('sessionId'));
+
+                                $model = GeoTrack::model()->find($criteria);
+                                if(!$model){
+                                    $model = new GeoTrack();
+                                    $model->hash =  Yii::app()->request->getParam('sessionId');
+                                    $model->owner_id =$user->id;
+                                    $model->save();
+                                }
+                                $trackId= $model->id;
+                            }
                             date_default_timezone_set('UTC');
                             $geoLog = new GeoLog();
                             $geoLog->longitude =Yii::app()->request->getParam('longitude');
@@ -94,6 +122,7 @@ class MetricController extends Controller
                             $geoLog->user_api_id =$user->id;
                             $geoLog->time = time();
                             $geoLog->datetime_col = date('Y-m-d H:i:s', time());
+                            $geoLog->track_id = $trackId;
                             $geoLog->insert();
 
                             GeoUnique::model()->deleteAllByAttributes(array('user_api_id'=>$user->id));
@@ -144,6 +173,16 @@ class MetricController extends Controller
             $geos['updated']='Updated '.(time()-$geolocal->time).' secs ago!';
 
 
+            $geoTrackData = [];
+            if (!Yii::app()->user->isGuest) {
+                $userId = Yii::app()->user->getId();
+                $criteria=new CDbCriteria;
+                $criteria->compare('owner_id',$userId);
+                $criteria->order='id DESC';
+
+                $model = GeoTrack::model()->find($criteria);
+                $geos['stat']=$model->prepareStats();
+            }
             echo json_encode($geos, 1);
 
         }
@@ -217,6 +256,17 @@ class MetricController extends Controller
         }
     }
 
+    public function actionStats(){
+        if (Yii::app()->request->isAjaxRequest) {
+            $hash = Yii::app()->request->getParam('hash');
+            if($hash){
+                $criteria=new CDbCriteria;
+                $criteria->compare('hash',$hash);
+                $model = GeoTrack::model()->find($criteria);
+                echo json_encode($model->prepareStats(), 1);
+            }
+        }
+    }
 
     public function actionImportpoins(){
         if($_FILES){

@@ -201,3 +201,24 @@ jQuery(document).on("click", "#submit-search", function () {
         }
     );
 });
+
+jQuery(document).on("click", ".route-history .history-data .track-time", function () {
+
+    var that = $(this);
+    var next =that.next();
+    next.toggleClass("hidden");
+    $.ajax({
+        type: 'POST',
+        url: '/metric/stats',
+        data: {"hash":$(this).data("hash")
+        },
+        success: function (data) {
+            var info = JSON.parse(data);
+            next.find( ".max-speed" ).html(info);
+            next.find( ".max-speed" ).html(info.maxSpeed);
+            next.find( ".speed-avg" ).html(info.speedAVG);
+            next.find( ".route-time" ).html(info.routeTime);
+            next.find( ".distance" ).html(info.distance);
+        }
+    });
+});

@@ -175,6 +175,33 @@ echo CHtml::scriptFile(Yii::app()->request->baseUrl . "/js/click-handler.js");
     <?php endif;?>
 </div>
 
+<div class="route-history">
+    <?php if(!Yii::app()->user->isGuest):?>
+        <?php foreach ($geoTrack as $key=> $track):?>
+              <div <?php if($key==0):?>
+                class="current-data"
+                <?php else:?>
+                  class="history-data"
+                <?php endif;?>
+              >
+                  <div class="track-time" data-hash="<?= $track['hash']?>"><?= $track['time']?></div>
+                  <div class="inner-data <?php if($key!=0):?>
+                  hidden
+                  <?php endif;?>">
+                  <span class="fll">Max Speed: </span><div class="max-speed "> </div>
+                  <div class="clearfix"> </div>
+                  <span class="fll">Speed AVG: </span><div class="speed-avg fll"> </div>
+                  <div class="clearfix"> </div>
+                  <span class="fll">Route Time: </span><div class="route-time fll"> </div>
+                  <div class="clearfix"> </div>
+                  <span class="fll">Distance: </span>
+                  <div class="distance fll"> </div>
+                  <div class="clearfix"> </div>
+                  </div>
+              </div>
+            <?php endforeach;?>
+    <?php endif;?>
+</div>
 
 <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-header">

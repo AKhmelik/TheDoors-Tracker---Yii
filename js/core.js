@@ -92,6 +92,14 @@ function getCores() {
         data: {hello: 1},
         success: function (data) {
             var info = JSON.parse(data);
+            if(typeof info.stat != "undefinded"){
+                $('.route-history .current-data .max-speed').html(info.stat.maxSpeed);
+                $('.route-history .current-data .speed-avg').html(info.stat.speedAVG);
+                $('.route-history .current-data .route-time').html(info.stat.routeTime);
+                $('.route-history .current-data .distance').html(info.stat.distance);
+            }
+
+
             myPlacemark.geometry.setCoordinates(info['start']);
             myPlacemark.properties.set("hintContent", info['updated']);
             myPlacemark.options.set('iconLayout', 'default#image');
