@@ -169,7 +169,7 @@ class GeoTrack extends CActiveRecord
 
         return ['maxSpeed'=>round($maxSpeed, 2),
             'speedAVG'=>round($speedAVG, 2),
-            'routeTime'=>$routeTime),
+            'routeTime'=>$routeTime,
         'distance'=>round($routeDistance, 2)];
     }
 
