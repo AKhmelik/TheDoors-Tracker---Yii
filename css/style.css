@@ -186,15 +186,25 @@ html,
 body , .main-wraper, #map{
     height: 100%;
 }
- #map{
+ #map {
      height: -moz-calc(100% - 40px);
      height: -webkit-calc(100% - 40px);
      height: calc(100% - 40px);
      padding-top: 40px;
 }
 
+#modalHistory
+{
+    height: -moz-calc(100% - 93px);
+    height: -webkit-calc(100% - 93px);
+    height: calc(100% - 93px);
+    width: 82%;
+    margin-left: -47%;
+}
 
-
+#modalHistory .modal-body {
+    padding: 5px;
+}
 .bs-navbar-top-example{
     position: absolute;
     z-index: 10;

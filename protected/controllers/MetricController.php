@@ -21,7 +21,7 @@ class MetricController extends Controller
                 'expression'=>'WebUser::isSupport()',
             ),
             array('allow',  // allow all users to perform 'list' and 'show' actions
-                'actions'=>array('loginbyhash', 'getdata'),
+                'actions'=>array('loginbyhash', 'getdata', 'getTrack'),
                 'users'=>array('*'),
             ),
             array('deny'),
@@ -272,6 +272,38 @@ class MetricController extends Controller
         }
     }
 
+
+    public function actionGetTrack(){
+        $result = [];
+        $hash = Yii::app()->request->getParam('hash');
+        if($hash){
+            $criteria=new CDbCriteria;
+            $criteria->compare('hash',$hash);
+            $model = GeoTrack::model()->find($criteria);
+            if($model){
+                $criteria = new CDbCriteria;
+                $criteria->condition = "track_id =:track_id";
+                $criteria->params = array(':track_id' => $model->id);
+                $data = GeoLog::model()->findAll($criteria);
+                $i = 0;
+
+                $time=0;
+                foreach ($data as $row) {
+                    $timeDelta = $row->time-$time;
+                    if($timeDelta>1){
+                        $result[$i][] = [ 'latitude' => $row->latitude, 'longitude' => $row->longitude,
+                            'speed'=>$row->speed, 'time'=>$row->time];
+                    }
+
+                    $time = $row->time;
+                }
+            }
+            echo json_encode($result, 1);
+        }
+    }
+
+
+
     public function actionImportpoins(){
         if($_FILES){
 
@@ -325,7 +357,7 @@ class MetricController extends Controller
         }
     }
 
-    public function actionCalculateHistory()
+    public function  actionCalculateHistory()
     {
         $previosValue = 0;
         $result = [];

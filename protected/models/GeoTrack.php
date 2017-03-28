@@ -143,9 +143,11 @@ class GeoTrack extends CActiveRecord
             foreach ($logs as $log) {
                 if ($i == 0) {
                     $stastTime = $log->time;
+                    $time =$log->time;
                 } else {
                     $dist = $this->getDistance($log->latitude, $log->longitude, $lat, $lng);
-                    if (!is_nan($dist)) {
+                    $deltaTime =  $log->time - $time ;
+                    if($deltaTime!=0 && !is_nan($dist)){
                         $routeDistance += $dist;
                     }
                 }
@@ -155,6 +157,7 @@ class GeoTrack extends CActiveRecord
 
                 $lng = $log->longitude;
                 $lat = $log->latitude;
+                $time =$log->time;
                 $i++;
             }
 

@@ -6,6 +6,7 @@
 <script type="text/javascript">
     var advancerMarkers = {};
     var myMap;
+    var myMapHistory;
     var myRoute;
     var needCentred = true;
     var counter = 0;
@@ -92,6 +93,30 @@
             });
 
     }
+    ymaps.ready(initHistory);
+    function initHistory() {
+
+        myMapHistory = new ymaps.Map('modalHistory', {
+            // При инициализации карты обязательно нужно указать
+            // её центр и коэффициент масштабирования.
+            center: [50.00, 36.25],
+            zoom: 11,
+            controls: [],
+            behaviors: ['default', 'scrollZoom']
+        });
+        myMapHistory.controls
+            .remove('mapTools')
+            .remove('searchControl')
+            .remove('rulerControl')
+            .remove('fullscreenControl')
+            .remove('typeSelector');
+
+        myMapHistory.controls.add(
+            new ymaps.control.ZoomControl()
+        );
+        myMapHistory.options.set('scrollZoomSpeed', 4.5);
+    }
+
 
     setInterval('getCores()', 2000);
     setInterval('core.showHistory()', 30000);
@@ -171,7 +196,7 @@ echo CHtml::scriptFile(Yii::app()->request->baseUrl . "/js/click-handler.js");
         <a class="sharelink-button btn btn-primary"  data-toggle="modal" href="#myCustomModalMessage"><i class="icon-share icon-white"></i><?= Yii::t('app', 'Share access')?></a>
     <?php endif;?>
     <?php if(!Yii::app()->user->isGuest):?>
-    <a class=" history-button btn btn-primary"  data-toggle="modal" href="#myModal"><i class="icon-calendar icon-white"></i> <?= Yii::t('app', 'History')?></a>
+    <a class=" hidden history-button btn btn-primary"  data-toggle="modal" href="#myModal"><i class="icon-calendar icon-white"></i> <?= Yii::t('app', 'History')?></a>
     <?php endif;?>
 </div>
 
@@ -179,7 +204,7 @@ echo CHtml::scriptFile(Yii::app()->request->baseUrl . "/js/click-handler.js");
     <?php if(!Yii::app()->user->isGuest):?>
         <?php foreach ($geoTrack as $key=> $track):?>
               <div <?php if($key==0):?>
-                class="current-data"
+                class="current-data history-data"
                 <?php else:?>
                   class="history-data"
                 <?php endif;?>
@@ -190,7 +215,7 @@ echo CHtml::scriptFile(Yii::app()->request->baseUrl . "/js/click-handler.js");
                   <?php endif;?>">
                   <span class="fll">Max Speed: </span><div class="max-speed "> </div>
                   <div class="clearfix"> </div>
-                  <span class="fll">Speed AVG: </span><div class="speed-avg fll"> </div>
+                  <span class="fll">Average Speed: </span><div class="speed-avg fll"> </div>
                   <div class="clearfix"> </div>
                   <span class="fll">Route Time: </span><div class="route-time fll"> </div>
                   <div class="clearfix"> </div>
@@ -246,6 +271,19 @@ echo CHtml::scriptFile(Yii::app()->request->baseUrl . "/js/click-handler.js");
         <button class="btn fn-handler-calculate-history btn-primary"><?= Yii::t('app', 'Show history')?></button>
     </div>
 </div>
+
+
+<div id="modalHistory" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h3 class="modal-title"></h3>
+    </div>
+    <div class="modal-body">
+        <div id="map-history" class="col-xs-12 col-md-10"></div>
+
+    </div>
+</div>
+
 
 <div id="myCustomModalMessage" class="modal hide fade" tabindex="-1" role="dialog" >
     <div class="modal-header">

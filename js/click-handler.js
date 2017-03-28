@@ -1,9 +1,58 @@
+polylineArrHistory=[];
+function drawHistoryPolyline(myMap, data){
+
+    var result = JSON.parse(data);
+    var hasData = false;
+
+    var i =0;
+    var t =0;
+    $.each(result, function(index, value) {
+
+        hasData =true;
+        lines = [];
+        $.each(value, function(index, row) {
+
+            lines.push([row.latitude, row.longitude]);
+            if(t == 0){
+                myMap.setCenter([row.latitude, row.longitude], 12, {
+                    checkZoomRange: true
+                });
+            }
+            i++;
+            if(i>0){
+                i=0;
+                var date = new Date(row.time*1000);
+                var hours = date.getHours();
+                var minutes = "0" + date.getMinutes();
+                var seconds = "0" + date.getSeconds();
+
+                // Создаем ломаную линию.
+                var polyline = new ymaps.Polyline(lines, {
+                    hintContent: "speed " + Math.round(row.speed*3.6)+" | "+hours+":"+minutes.substr(-2)+":"+seconds.substr(-2)
+                }, {
+                    draggable: false,
+                    strokeColor: '#65009450',
+                    strokeWidth: 4,
+                    // Первой цифрой задаем длину штриха. Второй цифрой задаем длину разрыва.
+                    strokeStyle: '5 0'
+                });
+                //myMap.setBounds(polyline.geometry.getBounds());
+                myMap.geoObjects.add(polyline);
+                polylineArrHistory.push(polyline);
+
+                lines = [];
+                lines.push([row.latitude, row.longitude]);
+            }
+        });
+        t++;
+    });
+        return hasData;
+}
 
 jQuery(document).on("click", ".fn-handler-calculate-history", function () {
     var startDate = $('input[name=startData]').val();
     var endDate = $('input[name=endDate]').val();
     var user = $('#userSelectedId').val();
-    polylineArrHistory=[];
 
     $.ajax({
         type: 'POST',
@@ -14,52 +63,10 @@ jQuery(document).on("click", ".fn-handler-calculate-history", function () {
             user: user
         },
         success: function (data) {
-            $.each(polylineArrHistory, function(index, value) {
-                myMap.geoObjects.remove(value);
-            });
-           var result = JSON.parse(data);
-            var hasData = false;
-
-            var i =0;
-            $.each(result, function(index, value) {
-                hasData =true;
-                 lines = [];
-                $.each(value, function(index, row) {
-
-                    lines.push([row.latitude, row.longitude]);
-                    i++;
-                    if(i>0){
-                        i=0;
-                        var date = new Date(row.time*1000);
-                        var hours = date.getHours();
-                        var minutes = "0" + date.getMinutes();
-                        var seconds = "0" + date.getSeconds();
-
-                        // Создаем ломаную линию.
-                        var polyline = new ymaps.Polyline(lines, {
-                            hintContent: "speed " + Math.round(row.speed*3.6)+" | "+hours+":"+minutes.substr(-2)+":"+seconds.substr(-2)
-                        }, {
-                            draggable: false,
-                            strokeColor: '#65009450',
-                            strokeWidth: 4,
-                            // Первой цифрой задаем длину штриха. Второй цифрой задаем длину разрыва.
-                            strokeStyle: '5 0'
-                        });
-                        //myMap.setBounds(polyline.geometry.getBounds());
-                        myMap.geoObjects.add(polyline);
-                        polylineArrHistory.push(polyline);
-                         lines = [];
-                        lines.push([row.latitude, row.longitude]);
-                    }
-                });
 
 
-// Добавляем линию на карту.
+           var hasData  =  drawHistoryPolyline(myMap, data);
 
-// Устанавливаем карте границы линии.
-
-
-            });
             $('#myModal').modal('hide');
             if(!hasData){
                 $('.modal-title').html('Warning');
@@ -205,14 +212,40 @@ jQuery(document).on("click", "#submit-search", function () {
 jQuery(document).on("click", ".route-history .history-data .track-time", function () {
 
     var that = $(this);
+    $(".track-time").removeClass("selected-track");
+    that.addClass("selected-track");
     var next =that.next();
     next.toggleClass("hidden");
+    // if(!next.hasClass("hidden")){
+
+        $.ajax({
+            type: 'POST',
+            url: '/metric/getTrack',
+            data: {"hash":$(this).data("hash")
+            },
+            success: function (data) {
+
+                $.each(polylineArrHistory, function(index, value) {
+                    myMapHistory.geoObjects.remove(value);
+                });
+
+
+                drawHistoryPolyline(myMapHistory, data);
+
+
+            }
+        });
+
+        $('#modalHistory').modal('show');
+    // }
     $.ajax({
         type: 'POST',
         url: '/metric/stats',
         data: {"hash":$(this).data("hash")
         },
         success: function (data) {
+
+
             var info = JSON.parse(data);
             next.find( ".max-speed" ).html(info);
             next.find( ".max-speed" ).html(info.maxSpeed);

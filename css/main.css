@@ -529,6 +529,7 @@ div.search-form
     color: #96f965;
     border-radius: 7px;
     padding: 6px;
+    z-index: 1050;
 }
 
 .track-time{
@@ -539,12 +540,10 @@ div.search-form
     font-weight: 700;
     cursor: pointer;
 }
-.current-data .track-time{
-    text-decoration: none;
-    color: #dbffb9;
-    cursor: none;
+.selected-track {
+    font-weight: bolder;
+    color: #ff0000;
 }
-
 @media (max-width: 830px) {
     .selector-down
     {
