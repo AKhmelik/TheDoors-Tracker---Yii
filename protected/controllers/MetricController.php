@@ -11,6 +11,7 @@ class MetricController extends Controller
 
     public function accessRules()
     {
+
         return array(
             array('allow', // allow authenticated users to access all actions
                 'actions'=>array('generatenewlink'),
